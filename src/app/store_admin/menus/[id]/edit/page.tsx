@@ -11,17 +11,16 @@ export default async function EditMenuPage({
 }) {
     const { id } = await params;
 
-    const [menu] = await db
-      .select({
-        id: menus.id,
-        name: menus.name,
-        description: menus.description,
-        image_url: menus.image_url,
-        price: menus.price,
-      })
-      .from(menus)
-      .where(eq(menus.id, id))
-      .limit(1);
+    const menu = await db.query.menus.findFirst({
+      where: eq(menus.id, id),
+      columns: {
+        id: true,
+        name: true,
+        description: true,
+        image_url: true,
+        price: true,
+      },
+    });
 
     if (!menu) {
         notFound();

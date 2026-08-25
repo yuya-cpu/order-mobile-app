@@ -65,15 +65,15 @@ return (
                 </td>
                 <td>
                     <div className="flex items-center gap-2">
-                        <form action={() => toggleMenuAccepted(menu.id)}>
+                        <form action={toggleMenuAccepted.bind(null, menu.id)}>
                             
                             <button
                                 type="submit"
-                                className={
+                                className={`inline-block rounded-full border px-4 py-1.5 text-sm ${
                                     menu.is_accepted
-                                        ? "inline-block rounded-full border border-zinc-400 px-4 py-1.5 text-sm text-zinc-700"
-                                        : "inline-block rounded-full border border-emerald-700 px-4 py-1.5 text-sm text-emerald-700"
-                                }
+                                      ? "border-zinc-400 text-zinc-700"
+                                      : "border-emerald-700 text-emerald-700"
+                                  }`}
                             >
                                 {menu.is_accepted ? "受付停止" : "受付再開"}
                             </button>
