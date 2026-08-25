@@ -27,12 +27,21 @@ export async function createMenu(formData: FormData) {
         image_url: imageUrl,
         shop_id: shopId,
         category_id: categoryId,
-        is_accepted: false,
+        is_accepted: true,
     });
 
     revalidatePath("/store_admin/menus");
     redirect("/store_admin/menus");
 }
+
+export async function toggleMenuAccepted(id: string) {
+    const menu = await db.select().from(menus).where(eq(menus.id, id)).limit(1);
+    await db.update(menus).set({
+        is_accepted: !menu[0].is_accepted,
+    }).where(eq(menus.id, id));
+    revalidatePath("/store_admin/menus");
+}
+
 
 export async function updateMenu(formData: FormData) {
     const id = String(formData.get("id"));

@@ -1,6 +1,7 @@
 import { db} from "../../../db";
 import { menus } from "../../../db/schema";
 import { isNull } from "drizzle-orm";
+import { toggleMenuAccepted } from "./actions";
 
 export default async function MenusPage() {
     const rows = await db.select({
@@ -9,6 +10,7 @@ export default async function MenusPage() {
         description: menus.description,
         price: menus.price,
         image_url: menus.image_url,
+        is_accepted: menus.is_accepted,
     })
     .from(menus).
     where(isNull(menus.deleted_at));
@@ -29,15 +31,31 @@ return (
         </thead>
         <tbody>
             {rows.map((menu) => (
-                <tr key={menu.id} className="border-b border-zinc-200">
+                <tr
+                    key={menu.id}
+                    className={
+                        menu.is_accepted
+                            ? "border-b border-zinc-200"
+                            : "border-b border-zinc-200 bg-zinc-100 text-zinc-400"
+                    }
+                >
                 <td className="py-2 pl-16 pr-2">
-                    <img src={menu.image_url}
+                <img src={menu.image_url}
                         alt={menu.name}
                         className="w-16 h-16 object-cover"
                     />
                 </td>
                 <td className="py-2 pl-2 pr-4">
                     <p>{menu.name}</p>
+                    <span
+                        className={
+                            menu.is_accepted
+                                ? "text-xs text-emerald-700"
+                                : "text-xs text-zinc-500"
+                        }
+                    >
+                        {menu.is_accepted ? "受付中" : "受付停止"}
+                    </span>
                 </td>
                 <td className="px-4 py-2">
                     <p>{menu.description}</p>
@@ -46,12 +64,27 @@ return (
                     <p>{menu.price}円</p>
                 </td>
                 <td>
-                    <a
-                        href={`/store_admin/menus/${menu.id}/edit`}
-                        className="inline-block rounded-full border border-[#E2584B] px-4 py-1.5 text-sm text-[#E2584B]"
-                    >
-                        編集
-                    </a>
+                    <div className="flex items-center gap-2">
+                        <form action={() => toggleMenuAccepted(menu.id)}>
+                            
+                            <button
+                                type="submit"
+                                className={
+                                    menu.is_accepted
+                                        ? "inline-block rounded-full border border-zinc-400 px-4 py-1.5 text-sm text-zinc-700"
+                                        : "inline-block rounded-full border border-emerald-700 px-4 py-1.5 text-sm text-emerald-700"
+                                }
+                            >
+                                {menu.is_accepted ? "受付停止" : "受付再開"}
+                            </button>
+                        </form>
+                        <a
+                            href={`/store_admin/menus/${menu.id}/edit`}
+                            className="inline-block rounded-full border border-[#E2584B] px-4 py-1.5 text-sm text-[#E2584B]"
+                        >
+                            編集
+                        </a>
+                    </div>
                 </td>
                 </tr>
             ))}
