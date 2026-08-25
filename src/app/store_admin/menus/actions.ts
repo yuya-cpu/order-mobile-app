@@ -35,10 +35,15 @@ export async function createMenu(formData: FormData) {
 }
 
 export async function toggleMenuAccepted(id: string) {
-    const menu = await db.select().from(menus).where(eq(menus.id, id)).limit(1);
-    await db.update(menus).set({
-        is_accepted: !menu[0].is_accepted,
-    }).where(eq(menus.id, id));
+    const menu = await db.query.menus.findFirst({
+        where: eq(menus.id, id),
+    });
+if (!menu) {
+    return;
+}
+await db.update(menus).set({
+    is_accepted: !menu.is_accepted,
+}).where(eq(menus.id, id));
     revalidatePath("/store_admin/menus");
 }
 
