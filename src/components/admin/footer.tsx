@@ -9,15 +9,21 @@ export function AdminFooter() {
    
     return (
         <footer className="flex shrink-0 items-center justify-between p-4">
-            <nav className="flex items-center gap-5">
+            <nav className="flex flex-wrap items-center gap-2">
                 {adminTabs.map((tab) => {
                     const active = isTabActive(pathname, tab.href);
                     return (
-                        <Link key={tab.href} href={tab.href} 
-                        className={`text-sm font-medium text-zinc-900 hover:text-zinc-600
-                             ${active ? "text-zinc-900" : "text-zinc-500"}`}>
-                                {tab.label}
-                             </Link>
+                        <Link
+                            key={tab.href}
+                            href={tab.href}
+                            className={
+                                active
+                                    ? "rounded-full bg-[#E2584B] px-4 py-2 text-sm font-medium text-white"
+                                    : "rounded-full bg-zinc-100 px-4 py-2 text-sm font-medium text-zinc-700"
+                            }
+                        >
+                            {tab.label}
+                        </Link>
                     );
                 })}
             </nav>
