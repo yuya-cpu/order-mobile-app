@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function GuestCountPage() {
     const options = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
@@ -15,12 +17,14 @@ export default function GuestCountPage() {
             </option>
           ))}
         </select>
+        <Link href="/order/here" className="w-full rounded-2xl bg-[#E2584B] px-6 py-4 text-xl font-semibold text-white text-center">
         <button
           type="button"
-          className="w-full rounded-2xl bg-[#E2584B] px-6 py-4 text-xl font-semibold text-white"
+          
         >
             メニューへ
         </button>
+        </Link>
       </main>
     );
   }
