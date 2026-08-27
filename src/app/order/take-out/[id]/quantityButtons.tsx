@@ -2,23 +2,23 @@
 
 export function QuantityButtons({
     price,
-    count,
+    quantity,
     onChange,
 }: {
     price: number;
-    count: number;
-    onChange: (count: number) => void;
+    quantity: number;
+    onChange: (quantity: number) => void;
 }) {
     return (
         <div className="flex flex-row gap-2">
-            <button type="button" onClick={() => onChange(Math.max(1, count - 1))}>
+            <button type="button" onClick={() => onChange(Math.max(1, quantity - 1))}>
                 -
             </button>
-            <span>{count}</span>
-            <button type="button" onClick={() => onChange(count + 1)}>
+            <span>{quantity}</span>
+            <button type="button" onClick={() => onChange(quantity + 1)}>
                 +
             </button>
-            <p>{price * count}円</p>
+            <p>{price * quantity}円</p>
         </div>
     );
 }

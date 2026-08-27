@@ -21,7 +21,7 @@ export function AddToCart(props : {
     price: number;
     image_url: string;
 }) {
-    const [count, setCount] = useState(1);
+    const [quantity, setQuantity] = useState(1);
     const router = useRouter();
 
 function add() {
@@ -30,9 +30,9 @@ function add() {
 
     const i = items.findIndex((item) => item.id === props.id);
     if (i >= 0) {
-        items[i].quantity = count;
+        items[i].quantity = quantity;
     } else {
-        items.push({ ...props, quantity: count });
+        items.push({ ...props, quantity });
 }
     localStorage.setItem(KEY, JSON.stringify(items));
     router.push("/order/take-out/cart");
@@ -42,7 +42,7 @@ return (
     <div className="w-full">
       <div className="flex w-full flex-row justify-between">
         <span>税込み価格</span>
-        <QuantityButtons price={props.price} count={count} onChange={setCount} />
+        <QuantityButtons price={props.price} quantity={quantity} onChange={setQuantity} />
       </div>
       <Link href="/order/take-out/cart" className="mt-6 w-full rounded-full bg-[#E2584B] py-2 text-white">
       <button

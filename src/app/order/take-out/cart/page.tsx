@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { QuantityButtons } from "../[id]/quantityButtons";
 
 const KEY = "cart";
 type CartItem = {
@@ -17,6 +18,26 @@ export default function CartPage() {
     const raw = localStorage.getItem(KEY);
     setItems(raw ? JSON.parse(raw) : []);
   }, []);
+
+function updateQuantity(id: string, quantity: number) {
+    setItems((currentItems) => {
+        if (!currentItems) return currentItems;
+        const newItems = currentItems.map((item) => 
+            item.id === id ? { ...item, quantity } : item 
+    );
+    localStorage.setItem(KEY, JSON.stringify(newItems));
+    return newItems;
+    });
+}
+
+function deleteItem(id: string) {
+    setItems((currentItems) => {
+        if (!currentItems) return currentItems;
+        const newItems = currentItems.filter((item) => item.id !== id);
+        localStorage.setItem(KEY, JSON.stringify(newItems));
+        return newItems;
+    });
+}
 
   if (!items) {
     return (
@@ -45,14 +66,20 @@ export default function CartPage() {
             <main className="mx-auto max-w-screen-lg px-4 py-16 pb-40">
                 <h1 className="text-2xl text-center font-bold mb-4">注文確認</h1>
                 <div className="flex flex-col gap-4">
-                    {items.map((item) => (
-                        <li key={item.id} className="flex flex-row items-center justify-between gap-4 rounded-2xl bg-[#EFEBE3] p-3">
-                            <img src={item.image_url} alt={item.name} className="w-16 h-16 object-cover rounded-xl" />
-                            <h2 className="text-lg font-bold">{item.name}</h2>
-                            <p className="text-sm text-gray-500">{item.price * item.quantity}円</p>
-                            <p className="text-sm text-gray-500">{item.quantity}個</p>
-                        </li>
-                    ))}
+                {items.map((item) => (
+  <li key={item.id} className="flex flex-row items-center justify-between gap-4 rounded-2xl bg-[#EFEBE3] p-3">
+    <img src={item.image_url} alt={item.name} className="h-16 w-16 rounded-xl object-cover" />
+    <h2 className="text-lg font-bold">{item.name}</h2>
+    <QuantityButtons
+      price={item.price}
+      quantity={item.quantity}
+      onChange={(quantity) => updateQuantity(item.id, quantity)}
+    />
+    <button type="button" onClick={() => deleteItem(item.id)}>
+  削除
+</button>
+  </li>
+))}
 
                 </div>
                 <div className="fixed bottom-0 left-0 right-0 bg-white p-4 border-t ">
