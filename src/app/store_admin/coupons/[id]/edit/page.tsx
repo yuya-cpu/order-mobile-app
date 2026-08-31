@@ -20,13 +20,6 @@ export default async function EditCouponPage({
     notFound();
   }
 
-  const type =
-    coupon.discount_percentage > 0 ? "percent" : "amount";
-  const value =
-    type === "percent"
-      ? coupon.discount_percentage
-      : coupon.discount_number;
-
   return (
     <div className="flex flex-1 items-center justify-center px-8 py-8">
       <form
@@ -35,6 +28,7 @@ export default async function EditCouponPage({
       >
         <h1 className="text-2xl font-bold">クーポンの編集</h1>
         <input type="hidden" name="id" value={coupon.id} />
+        <input type="hidden" name="type" value={coupon.type} />
 
         <label className="flex flex-col gap-2 font-medium">
           クーポン名
@@ -46,25 +40,22 @@ export default async function EditCouponPage({
           />
         </label>
 
-       
-        <input type="hidden" name="type" value={type} />
-
         <label className="flex flex-col gap-2 font-medium">
-  {type === "percent" ? "割引率" : "割引金額"}
-  <div className="flex items-center gap-3">
-    <input
-      name="value"
-      type="number"
-      required
-      min={1}
-      defaultValue={value}
-      className="min-w-0 flex-1 rounded-md border border-gray-300 p-3"
-    />
-    <span className="shrink-0 text-zinc-600">
-      {type === "percent" ? "%" : "円"}
-    </span>
-  </div>
-</label>
+          {coupon.type === "percent" ? "割引率" : "割引金額"}
+          <div className="flex items-center gap-3">
+            <input
+              name="number"
+              type="number"
+              required
+              min={1}
+              defaultValue={coupon.number}
+              className="min-w-0 flex-1 rounded-md border border-gray-300 p-3"
+            />
+            <span className="shrink-0 text-zinc-600">
+              {coupon.type === "percent" ? "%" : "円"}
+            </span>
+          </div>
+        </label>
 
         <div className="flex gap-4">
           <Link

@@ -42,7 +42,7 @@ return (
         <label className="flex flex-col gap-2 font-medium">割引率/割引金額
             <div className="flex items-center gap-3">
                 <input
-                name="value"
+                name="number"
                 type="number"
                 required
                 min={1}

@@ -69,9 +69,9 @@ const coupon = order.discount_id ? await db.query.discounts.findFirst({
               <div className="flex items-center justify-between gap-3">
                 <p className="font-medium text-[#E2584B]">{coupon.name}</p>
                 <p className="font-medium text-[#E2584B]">
-                  {coupon.discount_percentage > 0
-                    ? `${coupon.discount_percentage}% OFF`
-                    : `-${coupon.discount_number}円`}
+                  {coupon.type === "percent"
+                    ? `${coupon.number}% OFF`
+                    : `-${coupon.number}円`}
                 </p>
               </div>
             </div>
