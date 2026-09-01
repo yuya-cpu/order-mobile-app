@@ -1,4 +1,5 @@
 import { pgTable, 
+    pgEnum,
     uuid,
     varchar,
     integer,
@@ -79,10 +80,12 @@ export const users = pgTable("users", {
     deleted_at: timestamp("deleted_at"),
 })
 
+export const discountTypeEnum = pgEnum("discount_type", ["percent", "amount"]);
+
 export const discounts = pgTable("discounts", {
     id: uuid("id").primaryKey(),
     name: text("name").notNull(),
-    type: text("type").notNull(),
+    type: discountTypeEnum("type").notNull(),
     number: integer("number").notNull(),
     shop_id: uuid("shop_id").references(() => shops.id),
     created_at: timestamp("created_at").notNull().defaultNow(),
