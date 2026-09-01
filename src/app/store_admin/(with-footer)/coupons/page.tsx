@@ -1,5 +1,5 @@
-import { db } from "../../../db";
-import { discounts } from "../../../db/schema";
+import { db } from "../../../../db";
+import { discounts } from "../../../../db/schema";
 import { isNull } from "drizzle-orm";
 import Link from "next/link";
 

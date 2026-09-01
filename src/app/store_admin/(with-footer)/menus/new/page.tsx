@@ -1,6 +1,6 @@
 import { createMenu } from "../actions";
-import { db } from "../../../../db";
-import { menu_categories } from "../../../../db/schema";
+import { db } from "../../../../../db";
+import { menu_categories } from "../../../../../db/schema";
 
 const defaultCategories = [
     { id: "33333333-3333-3333-3333-333333333331", name: "メイン" },

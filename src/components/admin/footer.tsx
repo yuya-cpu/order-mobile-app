@@ -7,10 +7,6 @@ import { adminTabs, isTabActive } from "./store_admin-nav";
 export function AdminFooter() {
     const pathname = usePathname();
 
-    if (pathname === "/store_admin") {
-        return null;
-    }
-
     return (
         <footer className="flex shrink-0 items-center justify-between p-4">
             <nav className="flex flex-wrap items-center gap-2">

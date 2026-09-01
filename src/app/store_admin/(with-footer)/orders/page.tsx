@@ -1,5 +1,5 @@
-import { db } from "../../../db";
-import { orders, menus, order_menus } from "../../../db/schema";
+import { db } from "../../../../db";
+import { orders, menus, order_menus } from "../../../../db/schema";
 import { and, eq, isNull, desc } from "drizzle-orm";
 import { StatusModal } from "./status-modal";
 import Link from "next/link";

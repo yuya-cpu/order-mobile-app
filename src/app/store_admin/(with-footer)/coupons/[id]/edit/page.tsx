@@ -1,6 +1,6 @@
 import { updateCoupon } from "../../actions";
-import { db } from "../../../../../db";
-import { discounts } from "../../../../../db/schema";
+import { db } from "../../../../../../db";
+import { discounts } from "../../../../../../db/schema";
 import { eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
 import Link from "next/link";

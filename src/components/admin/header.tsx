@@ -1,11 +1,7 @@
 "use client";
-import { usePathname } from "next/navigation";
 import { authClient } from "../../app/lib/auth-client";
 
-
 export function AdminHeader() {
-    const pathname = usePathname();
-    const isLogin = pathname === "/store_admin";
     async function logout() {
         await authClient.signOut();
         window.location.href = "/store_admin";
