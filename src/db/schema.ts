@@ -1,4 +1,5 @@
 import { pgTable, 
+    pgEnum,
     uuid,
     varchar,
     integer,
@@ -72,17 +73,20 @@ export const users = pgTable("users", {
     email: text("email").unique(),
     password: text("password").notNull(),
     line_id: text("line_id").unique(),
+    is_accepted: boolean("is_accepted").notNull().default(false),
     shop_id: uuid("shop_id").references(() => shops.id),
     created_at: timestamp("created_at").notNull().defaultNow(),
     updated_at: timestamp("updated_at").notNull().defaultNow(),
     deleted_at: timestamp("deleted_at"),
 })
 
+export const discountTypeEnum = pgEnum("discount_type", ["percent", "amount"]);
+
 export const discounts = pgTable("discounts", {
     id: uuid("id").primaryKey(),
     name: text("name").notNull(),
-    discount_number: integer("discount_number").notNull(),
-    discount_percentage: integer("discount_percentage").notNull(),
+    type: discountTypeEnum("type").notNull(),
+    number: integer("number").notNull(),
     shop_id: uuid("shop_id").references(() => shops.id),
     created_at: timestamp("created_at").notNull().defaultNow(),
     updated_at: timestamp("updated_at").notNull().defaultNow(),
@@ -99,6 +103,7 @@ export const orders = pgTable("orders", {
     sum_price: integer("sum_price").notNull(),
     order_number: text("order_number").notNull(),
     tax: integer("tax").notNull(),
+    status: text("status").notNull(),
     created_at: timestamp("created_at").notNull().defaultNow(),
     updated_at: timestamp("updated_at").notNull().defaultNow(),
     deleted_at: timestamp("deleted_at"),
