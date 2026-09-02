@@ -1,5 +1,5 @@
-import { db } from "../../../../db";
-import { menus } from "../../../../db/schema";
+import { db } from "@/db";
+import { menus } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
 import { AddToCart } from "./add-to-cart";

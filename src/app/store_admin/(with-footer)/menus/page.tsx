@@ -1,5 +1,5 @@
-import { db} from "../../../../db";
-import { menus } from "../../../../db/schema";
+import { db} from "@/db";
+import { menus } from "@/db/schema";
 import { isNull } from "drizzle-orm";
 import { toggleMenuAccepted } from "./actions";
 

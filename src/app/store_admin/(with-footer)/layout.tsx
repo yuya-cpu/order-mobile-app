@@ -1,4 +1,4 @@
-import { AdminFooter } from "../../../components/admin/footer";
+import { AdminFooter } from "@/components/admin/footer";
 
 export default function AdminWithFooterLayout({
     children,
