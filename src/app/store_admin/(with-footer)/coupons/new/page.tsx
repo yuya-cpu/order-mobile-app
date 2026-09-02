@@ -1,7 +1,7 @@
 "use client"
 import { useState } from "react"
 import Link from "next/link"
-import { createCoupon } from "../../coupons/actions"
+import { createCoupon } from "../actions"
 
 export default function NewCouponPage() {
     const [type, setType] = useState<"percent" | "amount">("percent")

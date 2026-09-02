@@ -1,5 +1,5 @@
-import { db } from "../../../../db";
-import { users } from "../../../../db/schema";
+import { db } from "@/db";
+import { users } from "@/db/schema";
 import { isNull, desc } from "drizzle-orm";
 import { StatusModal } from "./status-modal";
 

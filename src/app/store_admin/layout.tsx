@@ -1,4 +1,4 @@
-import { AdminHeader } from "../../components/admin/header";
+import { AdminHeader } from "@/components/admin/header";
 
 export default function AdminLayout({ children }: LayoutProps<"/store_admin">) {
     return (

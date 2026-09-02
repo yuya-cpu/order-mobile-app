@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { updateShopStatus } from "./actions";
-import { db } from "../../../../db";
-import { shops } from "../../../../db/schema";
+import { db } from "@/db";
+import { shops } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
 const shopId = "11111111-1111-1111-1111-111111111111";
