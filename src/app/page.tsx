@@ -1,70 +1,31 @@
-"use client";
+import Link from "next/link";
 
-import { authClient } from "@/app/lib/auth-client";
-import { useState } from "react";
+export default function LanguageSelectPage() {
+  return (
+    <main className="relative flex min-h-screen flex-col bg-white px-6">
+      <Link href="#" className="absolute left-4 top-4 text-[#E2584B]">
+        &lt; 戻る
+      </Link>
 
-export default function StoreAdminPage() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [error, setError] = useState<string | null>(null);
-    const [pending, setPending] = useState(false);
+      <div className="flex flex-1 flex-col items-center justify-center">
+        <h1 className="text-3xl font-bold text-zinc-900">言語選択</h1>
+        <p className="mt-3 text-sm text-zinc-400">you can chose launguage</p>
 
-    async function onSubmit(e: React.FormEvent) {
-      e.preventDefault();
-      setError("");
-      const { error } = await authClient.signIn.email({
-        email,
-        password,
-        callbackURL: "/store_admin/home",
-      });
-      if (error) {
-        setError("メールアドレスまたはパスワードが正しくありません");
-      }
-    }
-
-    return (
-      <div className="flex flex-1 items-center justify-center px-4 py-12">
-        <form
-          onSubmit={onSubmit}
-          className="w-full max-w-lg rounded-3xl bg-white px-10 py-12 shadow-sm"
-        >
-           <label className="mt-8 block text-sm font-bold text-zinc-900">
-            メールアドレス
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email"
-              required
-              className="mt-2 w-full rounded-xl bg-[#F4F1EA] px-4 py-3 outline-none"
-            />
-          </label>
-          <label className="mt-5 block text-sm font-bold text-zinc-900">
-            パスワード
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter your password"
-              required
-              className="mt-2 w-full rounded-xl bg-[#F4F1EA] px-4 py-3 outline-none"
-            />
-          </label>
-          {error ? <p className="mt-3 text-sm text-[#E2584B]">{error}</p> : null}
-          <button
-            type="submit"
-            disabled={pending}
-            className="mt-8 w-full rounded-xl bg-[#E2584B] py-4 text-lg font-bold text-white disabled:opacity-60"
+        <div className="mt-16 flex w-full max-w-xs flex-col gap-6">
+          <Link
+            href="/sign-in"
+            className="rounded-xl border border-zinc-300 bg-white py-4 text-center text-lg text-zinc-800"
           >
-            ログイン
-          </button>
-          <button
-            type="button"
-            className="mt-6 block w-full text-center text-sm text-[#E2584B]"
+            日本語
+          </Link>
+          <Link
+            href="/sign-in"
+            className="rounded-xl border border-zinc-300 bg-white py-4 text-center text-lg text-zinc-800"
           >
-            パスワードの再発行
-          </button>
-        </form>
+            English
+          </Link>
+        </div>
       </div>
-    );
-  }
+    </main>
+  );
+}
