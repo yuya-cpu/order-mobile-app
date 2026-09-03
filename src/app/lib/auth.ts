@@ -3,6 +3,7 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { nextCookies } from "better-auth/next-js";
 import { db } from "../../db";
 import * as authSchema from "../../db/auth-schema";
+import { emailOTP } from "better-auth/plugins";
 
 export const auth = betterAuth({
   secret: process.env.BETTER_AUTH_SECRET,
@@ -29,5 +30,14 @@ export const auth = betterAuth({
       generateId: "uuid",
     },
   },
-  plugins: [nextCookies()],
+  plugins: [
+    emailOTP({
+      async sendVerificationOTP({ email, otp, type }) {
+        if (type !== "forget-password") return;
+       
+        console.log("password reset OTP", email, otp);
+      },
+    }),
+    nextCookies(),
+  ],
 });

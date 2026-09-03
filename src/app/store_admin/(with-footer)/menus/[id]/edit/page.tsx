@@ -1,7 +1,7 @@
 import { updateMenu } from "../../actions";
-import { db } from "../../../../../../db";
+import { db } from "@/db";
 import { notFound } from "next/navigation";
-import { menus } from "../../../../../../db/schema";
+import { menus } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
 export default async function EditMenuPage({

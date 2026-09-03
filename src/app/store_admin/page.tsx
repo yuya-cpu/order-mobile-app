@@ -1,7 +1,8 @@
 "use client";
 
-import { authClient } from "../lib/auth-client";
+import { authClient } from "@/app/lib/auth-client";
 import { useState } from "react";
+import Link from "next/link";
 
 export default function StoreAdminPage() {
     const [email, setEmail] = useState("");
@@ -58,12 +59,12 @@ export default function StoreAdminPage() {
           >
             ログイン
           </button>
-          <button
-            type="button"
+          <Link
+            href="/store_admin/reset-password"
             className="mt-6 block w-full text-center text-sm text-[#E2584B]"
           >
             パスワードの再発行
-          </button>
+          </Link>
         </form>
       </div>
     );
