@@ -33,9 +33,10 @@ export const auth = betterAuth({
   plugins: [
     emailOTP({
       async sendVerificationOTP({ email, otp, type }) {
-        if (type !== "forget-password") return;
-       
-        console.log("password reset OTP", email, otp);
+        if (type === "forget-password") {
+          console.log("password reset OTP", email, otp);
+          return;
+        }
       },
     }),
     nextCookies(),
