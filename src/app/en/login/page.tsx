@@ -61,14 +61,14 @@ return (
           利用規約/プライバシーポリシーに同意
         </label>
 
-        <Link
-  href="/order/order-type"
-  className={`mt-8 block w-full rounded-xl bg-[#E2584B] py-4 text-center text-sm font-bold text-white ${
-    !agreed ? "pointer-events-none opacity-50" : ""
-  }`}
->
-  login for using E-mail adress
-</Link>
+        <button
+          type="submit"
+          disabled={!agreed}
+          className="mt-8 w-full rounded-xl bg-[#E2584B] py-4 text-sm font-bold text-white disabled:opacity-50"
+        >
+          login for using E-mail adress
+        </button>
+  
 
 
         <Link
