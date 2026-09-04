@@ -72,7 +72,7 @@ return (
 
 
         <Link
-          href="/en/forgot-password"
+          href="/en/reset-password"
           className="mt-6 block text-center text-sm text-[#E2584B]"
         >
           パスワードを忘れた方はこちら
