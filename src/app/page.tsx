@@ -13,13 +13,13 @@ export default function LanguageSelectPage() {
 
         <div className="mt-16 flex w-full max-w-xs flex-col gap-6">
           <Link
-            href="/sign-in"
+            href="/login"
             className="rounded-xl border border-zinc-300 bg-white py-4 text-center text-lg text-zinc-800"
           >
             日本語
           </Link>
           <Link
-            href="/sign-in"
+            href="/en/login"
             className="rounded-xl border border-zinc-300 bg-white py-4 text-center text-lg text-zinc-800"
           >
             English
