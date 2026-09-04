@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { customerAuthClient } from "@/app/lib/customer-auth-client";
 import Link from "next/link";
-import { customerEmailExists } from "./action";
+
 
 export default function ResetPasswordPage() {
     const [step, setStep] = useState<"email" | "code" | "password" | "thanks">("email");
@@ -12,75 +12,42 @@ export default function ResetPasswordPage() {
     const [otp, setOtp] = useState("");
     const [password, setPassword] = useState("");
     const [passwordConfirm, setPasswordConfirm] = useState("");
-    const [error, setError] = useState("");
-
+    
     async function sendCode(e: React.FormEvent) {
         e.preventDefault();
-        setError("");
-        if (email !== emailConfirm) {
-          setError("メールアドレスが正しくありません");
-          return;
-        }
-        const exists = await customerEmailExists(email);
-        if (!exists) {
-          setError("メールアドレスが正しくありません");
-          return;
-        }
-        const { error } = await customerAuthClient.emailOtp.requestPasswordReset({
-          email,
-        });
-        if (error) {
-          setError("メールアドレスが正しくありません");
-          return;
-        }
+        await customerAuthClient.emailOtp.requestPasswordReset({ email });
         setStep("code");
       }
       
       async function verifyCode(e: React.FormEvent) {
         e.preventDefault();
-        setError("");
         const { error } = await customerAuthClient.emailOtp.checkVerificationOtp({
           email,
           type: "forget-password",
           otp,
         });
-        if (error) {
-          setError("6桁の数字が正しくありません");
-          return;
-        }
+        if (error) return;
         setStep("password");
       }
+      
       async function resendCode() {
-        setError("");
         await customerAuthClient.emailOtp.requestPasswordReset({ email });
       }
+      
       async function savePassword(e: React.FormEvent) {
         e.preventDefault();
-        setError("");
-        if (password !== passwordConfirm) {
-          setError("パスワードが一致しません");
-          return;
-        }
         const { error } = await customerAuthClient.emailOtp.resetPassword({
           email,
           otp,
           password,
         });
-        if (error) {
-            setError("セッションが切れました。");
-            return;
-          }
-          setStep("thanks");
-    }
+        if (error) return;
+        setStep("thanks");
+      }
 
 return (
     <main className="relative flex min-h-screen flex-col bg-[#F5F2EB] px-6">
         <div className="mx-auto flex w-full max-w-xs flex-1 flex-col justify-center">
-            {error && step !== "thanks" ? (
-              <p className="mb-6 rounded-lg border border-[#E2584B] bg-[#F8E8E6] px-4 py-3 text-sm text-[#E2584B]">
-                ！{error}
-              </p>
-            ) : null}
             {step === "email" && (
                 <form onSubmit={sendCode}>
                     <h1 className="text-center text-2xl font-bold">

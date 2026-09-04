@@ -2,6 +2,7 @@ import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 import * as schema from "./schema";
 
+
 function databaseUrl() {
   const url =
     process.env.DATABASE_URL ??
@@ -16,4 +17,7 @@ function databaseUrl() {
 }
 
 const client = postgres(databaseUrl(), { ssl: "require", prepare: false });
-export const db = drizzle(client, { schema });
+
+export const db = drizzle(client, {
+  schema: { ...schema},
+});
