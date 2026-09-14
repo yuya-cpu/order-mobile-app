@@ -1,15 +1,7 @@
 import { db } from "@/db";
 import { betterAuth } from "better-auth";
 import { nextCookies } from "better-auth/next-js";
-<<<<<<< Updated upstream
 import { emailOTP, genericOAuth } from "better-auth/plugins";
-=======
-<<<<<<< Updated upstream
-import { emailOTP } from "better-auth/plugins";
-=======
-import { emailOTP, genericOAuth, line } from "better-auth/plugins";
->>>>>>> Stashed changes
->>>>>>> Stashed changes
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import * as customerAuthSchema from "@/db/customer-auth-schema";
 
@@ -37,7 +29,6 @@ export const customerAuth = betterAuth({
                 console.log("customer OTP", type, email, otp);
         },
     }),
-<<<<<<< Updated upstream
     genericOAuth({
         config: [
             {
@@ -52,25 +43,6 @@ export const customerAuth = betterAuth({
             ],
           }),
             
-=======
-<<<<<<< Updated upstream
-=======
-    genericOAuth({
-        config: [
-            {
-                ...line({
-                    clientId: process.env.LINE_CLIENT_ID as string,
-                    clientSecret: process.env.LINE_CLIENT_SECRET as string,
-                }),
-                mapProfileToUser: (profile) => ({
-                    email: profile.email ?? `${profile.sub}@line.local`,
-                }),
-            },
-        ],
-    }),
-            
->>>>>>> Stashed changes
->>>>>>> Stashed changes
     nextCookies(),
 ],
 });
