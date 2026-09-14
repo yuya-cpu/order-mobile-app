@@ -19,14 +19,10 @@ export async function POST(request: Request) {
 
     const priceByItemId = new Map(rows.map((row) => [row.id, row.price]));
 
-    let amount = 0;
-    for (const item of items) {
-        const price = priceByItemId.get(item.id);
-        if (price === undefined) {
-            return NextResponse.json({ error: "Invalid item id" }, { status: 400 });
-        }
-        amount += price * item.quantity;
-    }
+    const amount = items.reduce(
+        (sum, item) => sum + (priceByItemId.get(item.id) ?? 0) * item.quantity,
+        0,
+      );
     const {data, error} = await createPaymentFlow({
         client: payjp,
         body: {
