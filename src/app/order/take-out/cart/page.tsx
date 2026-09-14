@@ -96,14 +96,12 @@ function deleteItem(id: string) {
                     >
                         戻る
                     </Link>
-                    <button
-                        type="button"
-                        className="flex-[7] rounded-full bg-[#E2584B] py-3 text-white"
-                    >
+                    <Link href="/order/take-out/select-payment"
+                    className="flex-[7] rounded-full bg-[#E2584B] py-3 text-white">
                         レジに進む
-                    </button>
-                </div>
-                </div>
-            </main>
-        )
-} 
+                    </Link>
+                    </div>
+                    </div>
+                </main>
+            );
+        } 
