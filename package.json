@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@better-auth/infra": "^0.4.5",
+    "@payjp/payjpv2": "^1.1.0",
+    "@payjp/payments-js": "^1.2.0",
     "better-auth": "^1.7.2",
     "dotenv": "^17.4.2",
     "drizzle-orm": "^0.45.2",
