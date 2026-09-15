@@ -17,9 +17,7 @@ export default async function MenusPage() {
     return (
         <main className="max-w py-8 max-auto px-4">
                 <div className="mb-6 grid grid-cols-3 items-center">
-  <Link href="/order/order-type" className="justify-self-start text-[#E2584B]">
-    オーダータイプを選択
-  </Link>
+
   <h1 className="text-center text-2xl font-bold">メニュー</h1>
   <span aria-hidden="true" />
 </div>

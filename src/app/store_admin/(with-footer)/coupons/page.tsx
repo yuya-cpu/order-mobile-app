@@ -7,7 +7,7 @@ const defaultCoupons = [
   {
     id: "44444444-4444-4444-4444-444444444442",
     name: "新規オープン記念10%OFF",
-    type: "percent",
+    type: "percent" as const,
     number: 10,
   },
 ];

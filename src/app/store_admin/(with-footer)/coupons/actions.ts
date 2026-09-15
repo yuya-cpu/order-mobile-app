@@ -8,12 +8,19 @@ import { eq } from "drizzle-orm";
 
 const shopId = "11111111-1111-1111-1111-111111111111";
 
+function parseDiscountType(value: string): "percent" | "amount" {
+  if (value === "percent" || value === "amount") {
+    return value;
+  }
+  throw new Error("割引タイプが不正です");
+}
+
 export async function createCoupon(formData: FormData) {
   const name = String(formData.get("name") ?? "").trim();
-  const type = String(formData.get("type") ?? "");
+  const type = parseDiscountType(String(formData.get("type") ?? ""));
   const number = Number(formData.get("number"));
 
-  if (!name || !type || !number) {
+  if (!name || !number) {
     throw new Error("名前・割引タイプ・割引値は必須です");
   }
 
@@ -32,10 +39,10 @@ export async function createCoupon(formData: FormData) {
 export async function updateCoupon(formData: FormData) {
   const id = String(formData.get("id") ?? "");
   const name = String(formData.get("name") ?? "").trim();
-  const type = String(formData.get("type") ?? "");
+  const type = parseDiscountType(String(formData.get("type") ?? ""));
   const number = Number(formData.get("number"));
 
-  if (!id || !name || !type || !number) {
+  if (!id || !name || !number) {
     throw new Error("ID・名前・割引タイプ・割引値は必須です");
   }
 

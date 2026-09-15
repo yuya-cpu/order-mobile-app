@@ -4,7 +4,10 @@ import Link from "next/link";
 import { customerAuthClient } from "@/app/lib/customer-auth-client";
 export default function LineSignupPage() {
   const [agreed, setAgreed] = useState(false);
+  const [pending, setPending] = useState(false);
   async function signupWithLine() {
+    if (pending) return;
+    setPending(true);
     await customerAuthClient.signIn.social({
       provider: "line",
       callbackURL: "/order/order-type",
@@ -31,7 +34,7 @@ export default function LineSignupPage() {
         </label>
         <button
           type="button"
-          disabled={!agreed}
+          disabled={!agreed || pending}
           onClick={signupWithLine}
           className="mt-10 w-full max-w-xs rounded-xl bg-[#06C755] py-4 text-lg font-bold text-white disabled:opacity-50"
         >

@@ -28,11 +28,6 @@ export default async function MenuDetailPage({
     }
     return (
         <main className="mx-auto max-w-screen-lg px-4 py-16 flex flex-col items-center justify-center">
-            <header className="mb-6 w-full">
-            <Link href="/order/take-out" className="left-0 text-[#E2584B]">
-                戻る
-             </Link>
-             </header>
             <img src={menu.image_url} alt={menu.name} className="w-full h-96 object-cover rounded-xl mb-8" />
             <h1 className="text-2xl font-bold mb-4">{menu.name}</h1>
             <p className="text-sm text-gray-500 mb-4">{menu.description}</p>

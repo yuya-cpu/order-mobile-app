@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function nextNumberForToday() {
   const today = new Date().toLocaleDateString("ja-JP");
@@ -11,7 +11,11 @@ function nextNumberForToday() {
 }
 
 export default function OrderCompletePage() {
-  const [orderNumber] = useState(() => nextNumberForToday());
+  const [orderNumber, setOrderNumber] = useState("");
+
+  useEffect(() => {
+    setOrderNumber(nextNumberForToday());
+  }, []);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center px-6">

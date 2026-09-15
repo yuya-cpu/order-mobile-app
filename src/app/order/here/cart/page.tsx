@@ -92,12 +92,14 @@ export default function CartPage() {
                 <div className="mt-2 flex gap-3">
                     <Link
                         href="/order/here"
-                        className="flex-[3] rounded-full border border-zinc-400 py-3 text-center"
+                        className="flex flex-[3] items-center justify-center rounded-full border border-zinc-400 py-3 text-center"
                     >
                         戻る
                     </Link>
-                    <Link href="/order/take-out/select-payment"
-                    className="flex-[7] rounded-full bg-[#E2584B] py-3 text-white">
+                    <Link
+                        href="/order/take-out/select-payment"
+                        className="flex flex-[7] items-center justify-center rounded-full bg-[#E2584B] py-3 text-center text-white"
+                    >
                         レジに進む
                     </Link>
                 </div>
