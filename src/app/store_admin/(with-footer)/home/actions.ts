@@ -17,4 +17,7 @@ export async function updateShopStatus(formData: FormData) {
     .where(eq(shops.id, id as string));
 
   revalidatePath("/store_admin/home");
+  revalidatePath("/order/order-type");
+  revalidatePath("/order/here");
+  revalidatePath("/order/take-out");
 }

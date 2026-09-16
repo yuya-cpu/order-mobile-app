@@ -67,6 +67,24 @@ export const side_menus = pgTable("side_menus", {
     list_id: uuid("list_id").references(() => list.id),
 })
 
+export const setmenu = pgTable("setmenu", {
+    id: uuid("id").primaryKey(),
+    menus_id: uuid("menus_id").notNull().unique().references(() => menus.id),
+})
+
+export const setmenu_option = pgTable("setmenu_option", {
+    id: uuid("id").primaryKey(),
+    setmenu_id: uuid("setmenu_id").notNull().references(() => setmenu.id),
+    name: text("name").notNull(),
+})
+
+export const setmenu_option_detail = pgTable("setmenu_option_detail", {
+    id: uuid("id").primaryKey(),
+    setmenu_option_id: uuid("setmenu_option_id").notNull().references(() => setmenu_option.id),
+    menus_id: uuid("menus_id").notNull().references(() => menus.id),
+    addprice: integer("addprice").notNull().default(0),
+})
+
 export const users = pgTable("users", {
     id: uuid("id").primaryKey(),
     name: text("name").notNull(),

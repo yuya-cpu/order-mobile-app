@@ -1,4 +1,4 @@
-import { updateMenu } from "../../actions";
+import { updateMenu, deleteMenu } from "../../actions";
 import { db } from "@/db";
 import { notFound } from "next/navigation";
 import { menus } from "@/db/schema";
@@ -28,11 +28,21 @@ export default async function EditMenuPage({
     return (
         <div className="flex flex-1 items-center justify-center px-4 py-8">
         <form action={updateMenu} className="mx-auto flex w-full max-w-md flex-col items-center gap-4">
-            <h1 className="text-center font-bold text-2xl">メニューの編集</h1>
+            <div className="flex w-full items-center justify-between gap-4">
+                <h1 className="font-bold text-2xl">メニューの編集</h1>
+                <button
+                    type="submit"
+                    form="delete-menu"
+                    className="rounded-full bg-[#F8E8E6] px-4 py-1.5 text-sm text-[#E2584B]"
+                >
+                    削除
+                </button>
+            </div>
             <input name="id" type="hidden" value={menu.id} />
+            <input name="current_image" type="hidden" value={menu.image_url} />
             <label className="flex w-full flex-col gap-1 font-medium">
                 画像
-                <input name="image" type="url" required className="border border-gray-300 rounded-md p-2" defaultValue={menu.image_url} />
+                <input name="image" type="file" accept="image/*" className="border border-gray-300 rounded-md p-2" />
             </label>
             <label className="flex w-full flex-col gap-1 font-medium">
                 商品名
@@ -61,6 +71,9 @@ export default async function EditMenuPage({
                     更新
                 </button>
             </div>
+        </form>
+        <form id="delete-menu" action={deleteMenu}>
+            <input name="id" type="hidden" value={menu.id} />
         </form>
         </div>
     );

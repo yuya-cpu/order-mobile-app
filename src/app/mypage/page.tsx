@@ -1,17 +1,17 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { customerAuthClient } from "@/app/lib/customer-auth-client";
-
-const coupons = [
-    { id: "1", name: "バーガー100円引き" },
-    { id: "2", name: "ポテト50円引き" },
-  ];
 
 export default function Mypage() {
     const { data: session, isPending } = customerAuthClient.useSession();
+    const [coupons, setCoupons] = useState<{ id: string; name: string }[]>([]);
+    useEffect(() => {
+      fetch("/api/coupons")
+        .then((res) => res.json())
+        .then((data) => setCoupons(Array.isArray(data) ? data : []));
+    }, []);
     if (isPending) return null;
     if (!session) {
       return (

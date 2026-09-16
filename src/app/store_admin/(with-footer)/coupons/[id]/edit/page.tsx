@@ -1,4 +1,4 @@
-import { updateCoupon } from "../../actions";
+import { updateCoupon, deleteCoupon } from "../../actions";
 import { db } from "@/db";
 import { discounts } from "@/db/schema";
 import { eq } from "drizzle-orm";
@@ -26,7 +26,16 @@ export default async function EditCouponPage({
         action={updateCoupon}
         className="mx-auto flex w-full max-w-3xl flex-col gap-6 rounded-2xl bg-white p-8"
       >
-        <h1 className="text-2xl font-bold">クーポンの編集</h1>
+        <div className="flex items-center justify-between gap-4">
+          <h1 className="text-2xl font-bold">クーポンの編集</h1>
+          <button
+            type="submit"
+            form="delete-coupon"
+            className="rounded-full bg-[#F8E8E6] px-4 py-1.5 text-sm text-[#E2584B]"
+          >
+            削除
+          </button>
+        </div>
         <input type="hidden" name="id" value={coupon.id} />
         <input type="hidden" name="type" value={coupon.type} />
 
@@ -71,6 +80,9 @@ export default async function EditCouponPage({
             更新
           </button>
         </div>
+      </form>
+      <form id="delete-coupon" action={deleteCoupon}>
+        <input type="hidden" name="id" value={coupon.id} />
       </form>
     </div>
   );

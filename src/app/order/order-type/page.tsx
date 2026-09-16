@@ -1,6 +1,15 @@
 import Link from "next/link";
+import { shopIsOpen } from "../shop-status";
 
-export default function OrderTypePage() {
+export default async function OrderTypePage() {
+    if (!(await shopIsOpen())) {
+        return (
+            <main className="flex min-h-screen items-center justify-center px-4">
+                <p className="text-center text-lg font-bold">ただいま注文を停止しています</p>
+            </main>
+        );
+    }
+
     return (
       <main className="flex min-h-screen items-center justify-center px-4">
       <div className="flex flex-row gap-4">

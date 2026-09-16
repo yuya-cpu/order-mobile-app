@@ -21,7 +21,7 @@ export default async function AdminHomePage() {
                 <h2 className="text-xl font-bold">注文一覧</h2>
                 <p className="mt-2 text-sm text-zinc-500">注文の一覧を表示します</p>
                 </Link>
-                <Link href="/store_admin/orders"
+                <Link href="/store_admin/menus"
                 className="w-full rounded-2xl px-6 py-14 bg-white">
                 <h2 className="text-xl font-bold">メニュー一覧</h2>
                 <p className="mt-2 text-sm text-zinc-500">メニュー一覧を表示します</p>
@@ -31,7 +31,7 @@ export default async function AdminHomePage() {
                 <h2 className="text-xl font-bold">クーポン一覧</h2>
                 <p className="mt-2 text-sm text-zinc-500">クーポン一覧を表示します</p>
                 </Link>
-                <Link href="/store_admin/orders"
+                <Link href="/store_admin/customer"
                 className="w-full rounded-2xl px-6 py-14 bg-white">
                 <h2 className="text-xl font-bold">顧客情報の閲覧</h2>
                 <p className="mt-2 text-sm text-zinc-500">顧客情報の一覧を表示します</p>
