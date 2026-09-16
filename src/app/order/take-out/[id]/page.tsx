@@ -1,6 +1,7 @@
 import { db } from "@/db";
 import { menus } from "@/db/schema";
 import { eq } from "drizzle-orm";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AddToCart } from "./add-to-cart";
 import { getSetOptions } from "../../get-set-options";

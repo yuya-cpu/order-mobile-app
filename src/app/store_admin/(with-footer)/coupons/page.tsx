@@ -3,7 +3,12 @@ import { discounts } from "@/db/schema";
 import { isNull } from "drizzle-orm";
 import Link from "next/link";
 
-const defaultCoupons = [
+const defaultCoupons: {
+  id: string;
+  name: string;
+  type: "percent" | "amount";
+  number: number;
+}[] = [
   {
     id: "44444444-4444-4444-4444-444444444442",
     name: "新規オープン記念10%OFF",
