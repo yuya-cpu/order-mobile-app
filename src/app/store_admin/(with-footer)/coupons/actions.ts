@@ -52,3 +52,21 @@ export async function updateCoupon(formData: FormData) {
   revalidatePath("/store_admin/coupons");
   redirect("/store_admin/coupons");
 }
+
+export async function deleteCoupon(formData: FormData) {
+  const id = String(formData.get("id") ?? "");
+  if (!id) {
+    throw new Error("IDは必須です");
+  }
+
+  await db
+    .update(discounts)
+    .set({
+      deleted_at: new Date(),
+      updated_at: new Date(),
+    })
+    .where(eq(discounts.id, id));
+
+  revalidatePath("/store_admin/coupons");
+  redirect("/store_admin/coupons");
+}

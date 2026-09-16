@@ -2,7 +2,7 @@ import { db } from "@/db";
 import { orders, order_menus, menus, discounts } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
-import Link from "next/link";
+import { cancelOrder } from "../../../orders/action";
 
 function format(date: Date, format: string) {
     return date.toLocaleString("ja-JP", {
@@ -49,9 +49,12 @@ const coupon = order.discount_id ? await db.query.discounts.findFirst({
         <div className="mx-auto grid max-w-5xl gap-6 lg:grid-cols-[1.4fr_1fr]">
             <section className="rounded-2xl bg-white p-6 shadow-sm">
                 <div className="mb-6 flex items-baseline justify-between gap-4">
-                    <h1 className="text-xl font-bold text-gray-900">注文詳細 #{order.id}</h1>
+                    <h1 className="text-xl font-bold text-gray-900">注文詳細 #{order.order_number}</h1>
                     <p className="text-sm text-zinc-500">{format(order.created_at, 'yyyy/MM/dd HH:mm')}</p>
                 </div>
+                <p className="mb-4 text-sm text-zinc-600">
+                    ステータス：{order.status === "done" ? "完了" : order.status === "cancel" ? "キャンセル" : "調理中"}
+                </p>
 
                 <ul>
                     {items.map((item) => (
@@ -95,18 +98,20 @@ const coupon = order.discount_id ? await db.query.discounts.findFirst({
           >
             領収書の再発行
           </button>
-          <button
-            type="button"
-            className="rounded-xl border border-zinc-300 bg-white px-4 py-3"
-          >
-            数量の変更
-          </button>
-          <button
-            type="button"
-            className="rounded-xl bg-[#F8E8E6] px-4 py-3 text-[#E2584B]"
-          >
-            注文のキャンセル
-          </button>
+          {order.status === "cancel" ? (
+            <p className="rounded-xl bg-zinc-100 px-4 py-3 text-center text-zinc-500">
+              キャンセル済み
+            </p>
+          ) : (
+            <form action={cancelOrder.bind(null, order.id)}>
+              <button
+                type="submit"
+                className="w-full rounded-xl bg-[#F8E8E6] px-4 py-3 text-[#E2584B]"
+              >
+                注文のキャンセル
+              </button>
+            </form>
+          )}
         </aside>
        </div>
        </main>

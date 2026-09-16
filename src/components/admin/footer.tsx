@@ -8,7 +8,7 @@ export function AdminFooter() {
     const pathname = usePathname();
 
     return (
-        <footer className="flex shrink-0 items-center justify-between p-4">
+        <footer className="fixed bottom-0 left-0 right-0 z-10 border-t bg-white p-4">
             <nav className="flex flex-wrap items-center gap-2">
                 {adminTabs.map((tab) => {
                     const active = isTabActive(pathname, tab.href);

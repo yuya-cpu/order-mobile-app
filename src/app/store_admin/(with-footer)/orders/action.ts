@@ -16,5 +16,19 @@ export async function updateOrderStatus(formData: FormData) {
             .where(eq(orders.id, id));
 
             revalidatePath("/store_admin/orders");
+            revalidatePath("/store_admin/history");
+            revalidatePath(`/store_admin/history/${id}/edit`);
+}
+
+export async function cancelOrder(id: string) {
+    if (!id) return;
+
+    await db.update(orders)
+            .set({ status: "cancel", updated_at: new Date() })
+            .where(eq(orders.id, id));
+
+            revalidatePath("/store_admin/orders");
+            revalidatePath("/store_admin/history");
+            revalidatePath(`/store_admin/history/${id}/edit`);
 }
 

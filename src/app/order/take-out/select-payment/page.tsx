@@ -3,9 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { loadPayments } from "@payjp/payments-js";
 
-const KEY = "cart";
-
-type CartItem = { id: string; quantity: number };
+type CartItem = { id: string; quantity: number; option_detail_ids?: string[] };
 
 export default function CheckoutPage() {
   const formRef = useRef<HTMLDivElement>(null);
@@ -18,7 +16,8 @@ export default function CheckoutPage() {
     let cancelled = false;
 
     async function setup() {
-      const raw = localStorage.getItem(KEY);
+      const key = sessionStorage.getItem("orderType") === "here" ? "here-cart" : "cart";
+      const raw = localStorage.getItem(key);
       const cart: CartItem[] = raw ? JSON.parse(raw) : [];
       if (cart.length === 0) {
         setError("カートが空です");
@@ -29,7 +28,12 @@ export default function CheckoutPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          items: cart.map((item) => ({ id: item.id, quantity: item.quantity })),
+          items: cart.map((item) => ({
+            id: item.id,
+            quantity: item.quantity,
+            option_detail_ids: item.option_detail_ids,
+          })),
+          discountId: sessionStorage.getItem("discountId") ?? "",
         }),
       });
       const data = await res.json();
@@ -49,6 +53,9 @@ export default function CheckoutPage() {
       const paymentForm = widgets.createForm("payment");
       paymentForm.mount(formRef.current);
 
+      if (data.paymentFlowId) {
+        sessionStorage.setItem("paymentFlowId", data.paymentFlowId);
+      }
       setAmount(data.amount);
     }
 
@@ -70,7 +77,10 @@ export default function CheckoutPage() {
     if (result.error) {
       setError(result.error.message ?? "支払いを完了できませんでした");
       setPaying(false);
+      return;
     }
+
+    window.location.href = `${window.location.origin}/order/take-out/select-payment/complete`;
   }
 
   return (
