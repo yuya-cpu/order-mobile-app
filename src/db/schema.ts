@@ -112,6 +112,7 @@ export const discounts = pgTable("discounts", {
     type: discountTypeEnum("type").notNull(),
     number: integer("number").notNull(),
     code: text("code").unique(),
+    target_menu_id: uuid("target_menu_id").references(() => menus.id),
     target_category_id: uuid("target_category_id").references(() => menu_categories.id),
     expires_at: timestamp("expires_at"),
     shop_id: uuid("shop_id").references(() => shops.id),

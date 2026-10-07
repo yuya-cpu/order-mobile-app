@@ -43,6 +43,13 @@
       "when": 1791350120028,
       "tag": "0005_coupon_code_ownership",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1791360054177,
+      "tag": "0006_coupon_target_menu",
+      "breakpoints": true
     }
   ]
 }

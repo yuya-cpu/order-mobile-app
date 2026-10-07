@@ -1,0 +1,2 @@
+ALTER TABLE "discounts" ADD COLUMN "target_menu_id" uuid;--> statement-breakpoint
+ALTER TABLE "discounts" ADD CONSTRAINT "discounts_target_menu_id_menus_id_fk" FOREIGN KEY ("target_menu_id") REFERENCES "public"."menus"("id") ON DELETE no action ON UPDATE no action;

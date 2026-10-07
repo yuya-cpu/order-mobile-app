@@ -1,6 +1,6 @@
 import { db } from "@/db";
-import { discounts } from "@/db/schema";
-import { isNull } from "drizzle-orm";
+import { discounts, menu_categories, menus } from "@/db/schema";
+import { eq, isNull } from "drizzle-orm";
 import Link from "next/link";
 
 const defaultCoupons: {
@@ -36,10 +36,15 @@ export default async function CouponsPage() {
       name: discounts.name,
       type: discounts.type,
       number: discounts.number,
+      code: discounts.code,
       created_at: discounts.created_at,
       shop_id: discounts.shop_id,
+      target_menu_name: menus.name,
+      target_category_name: menu_categories.name,
     })
     .from(discounts)
+    .leftJoin(menus, eq(menus.id, discounts.target_menu_id))
+    .leftJoin(menu_categories, eq(menu_categories.id, discounts.target_category_id))
     .where(isNull(discounts.deleted_at));
 
   if (rows.length === 0) {
@@ -62,6 +67,24 @@ export default async function CouponsPage() {
               </span>
             </div>
             <p className="text-lg font-bold">{row.name}</p>
+            <dl className="mt-3 flex flex-col gap-1 text-sm text-zinc-600">
+              <div className="flex gap-2">
+                <dt className="shrink-0">対象</dt>
+                <dd className="font-medium text-zinc-800">
+                  {row.target_menu_name ?? row.target_category_name ?? "全商品"}
+                </dd>
+              </div>
+              <div className="flex gap-2">
+                <dt className="shrink-0">コード</dt>
+                <dd className="font-medium text-zinc-800">
+                  {row.code ? (
+                    <span className="font-mono tracking-wider">{row.code}</span>
+                  ) : (
+                    "なし（公開クーポン）"
+                  )}
+                </dd>
+              </div>
+            </dl>
             <div className="mt-4 flex justify-end">
               <Link
                 href={`/store_admin/coupons/${row.id}/edit`}

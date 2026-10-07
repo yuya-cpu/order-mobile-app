@@ -1,9 +1,9 @@
-import { updateCoupon, deleteCoupon } from "../../actions";
-import { db } from "@/db";
-import { discounts } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { eq, isNull } from "drizzle-orm";
 import { notFound } from "next/navigation";
-import Link from "next/link";
+import { db } from "@/db";
+import { discounts, menu_categories, menus } from "@/db/schema";
+import { updateCoupon, deleteCoupon } from "../../actions";
+import { CouponForm } from "../../coupon-form";
 
 export default async function EditCouponPage({
   params,
@@ -12,22 +12,27 @@ export default async function EditCouponPage({
 }) {
   const { id } = await params;
 
-  const coupon = await db.query.discounts.findFirst({
-    where: eq(discounts.id, id),
-  });
+  const [coupon, menuRows, categoryRows] = await Promise.all([
+    db.query.discounts.findFirst({ where: eq(discounts.id, id) }),
+    db
+      .select({ id: menus.id, name: menus.name })
+      .from(menus)
+      .where(isNull(menus.deleted_at))
+      .orderBy(menus.name),
+    db
+      .select({ id: menu_categories.id, name: menu_categories.name })
+      .from(menu_categories)
+      .orderBy(menu_categories.name),
+  ]);
 
   if (!coupon) {
     notFound();
   }
 
   return (
-    <div className="flex flex-1 items-center justify-center px-4 py-8 sm:px-8">
-      <form
-        action={updateCoupon}
-        className="mx-auto flex w-full max-w-3xl flex-col gap-6 rounded-2xl bg-white p-5 sm:p-8"
-      >
-        <div className="flex items-center justify-between gap-4">
-          <h1 className="text-2xl font-bold">クーポンの編集</h1>
+    <div className="flex flex-1 flex-col items-center px-4 py-8 sm:px-8">
+      <div className="w-full max-w-3xl">
+        <div className="mb-4 flex justify-end">
           <button
             type="submit"
             form="delete-coupon"
@@ -36,60 +41,22 @@ export default async function EditCouponPage({
             削除
           </button>
         </div>
-        <input type="hidden" name="id" value={coupon.id} />
-        <input type="hidden" name="type" value={coupon.type} />
-
-        <label className="flex flex-col gap-2 font-medium">
-          クーポン名
-          <input
-            name="name"
-            required
-            defaultValue={coupon.name}
-            className="rounded-md border border-gray-300 p-3"
-          />
-        </label>
-
-        <label className="flex flex-col gap-2 font-medium">
-          英語名
-          <input
-            name="name_en"
-            defaultValue={coupon.name_en ?? ""}
-            className="rounded-md border border-gray-300 p-3"
-          />
-        </label>
-
-        <label className="flex flex-col gap-2 font-medium">
-          {coupon.type === "percent" ? "割引率" : "割引金額"}
-          <div className="flex items-center gap-3">
-            <input
-              name="number"
-              type="number"
-              required
-              min={1}
-              defaultValue={coupon.number}
-              className="min-w-0 flex-1 rounded-md border border-gray-300 p-3"
-            />
-            <span className="shrink-0 text-zinc-600">
-              {coupon.type === "percent" ? "%" : "円"}
-            </span>
-          </div>
-        </label>
-
-        <div className="flex gap-4">
-          <Link
-            href="/store_admin/coupons"
-            className="flex flex-1 items-center justify-center rounded-full border py-3"
-          >
-            戻る
-          </Link>
-          <button
-            type="submit"
-            className="flex-1 rounded-full bg-[#E2584B] py-3 text-white"
-          >
-            更新
-          </button>
-        </div>
-      </form>
+        <CouponForm
+          action={updateCoupon}
+          menus={menuRows}
+          categories={categoryRows}
+          coupon={{
+            id: coupon.id,
+            name: coupon.name,
+            name_en: coupon.name_en,
+            type: coupon.type,
+            number: coupon.number,
+            code: coupon.code,
+            target_menu_id: coupon.target_menu_id,
+            target_category_id: coupon.target_category_id,
+          }}
+        />
+      </div>
       <form id="delete-coupon" action={deleteCoupon}>
         <input type="hidden" name="id" value={coupon.id} />
       </form>
