@@ -94,6 +94,7 @@ export function OrderCartPage({
   const subtotal = (items ?? []).reduce((sum, item) => sum + item.price * item.quantity, 0);
   const total = applyDiscount(subtotal, selectedCoupon);
   const discount = subtotal - total;
+  const checkoutBlocked = subtotal > 0 && total <= 0;
 
   if (!items) {
     return (
@@ -206,6 +207,9 @@ export function OrderCartPage({
             {total} {dict.common.yen}
           </span>
         </div>
+        {checkoutBlocked && (
+          <p className="mt-1 text-sm text-red-600">{dict.cart.zeroTotal}</p>
+        )}
       </div>
 
       <div className={`${customerFixedBarClass} bg-white p-4 pb-[calc(1rem+env(safe-area-inset-bottom))]`}>
@@ -216,16 +220,25 @@ export function OrderCartPage({
           >
             {dict.common.back}
           </Link>
-          <Link
-            href={customerPath(lang, "/order/take-out/select-payment")}
-            onClick={() => {
-              sessionStorage.setItem("orderType", orderType);
-              sessionStorage.setItem("discountId", discountId);
-            }}
-            className="flex h-12 flex-[7] items-center justify-center rounded-xl bg-[#E2584B] text-center text-white"
-          >
-            {dict.cart.checkout}
-          </Link>
+          {checkoutBlocked ? (
+            <span
+              aria-disabled="true"
+              className="flex h-12 flex-[7] items-center justify-center rounded-xl bg-[#E2584B] text-center text-white opacity-50"
+            >
+              {dict.cart.checkout}
+            </span>
+          ) : (
+            <Link
+              href={customerPath(lang, "/order/take-out/select-payment")}
+              onClick={() => {
+                sessionStorage.setItem("orderType", orderType);
+                sessionStorage.setItem("discountId", discountId);
+              }}
+              className="flex h-12 flex-[7] items-center justify-center rounded-xl bg-[#E2584B] text-center text-white"
+            >
+              {dict.cart.checkout}
+            </Link>
+          )}
         </div>
       </div>
 

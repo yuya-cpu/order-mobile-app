@@ -78,7 +78,8 @@
     "quantity": "Qty: {{n}}",
     "subtotal": "Subtotal",
     "discount": "Coupon discount",
-    "total": "Total"
+    "total": "Total",
+    "zeroTotal": "This coupon brings the total to 0, so it cannot be used. Add an item or choose a different coupon."
   },
   "mypage": {
     "notLoggedIn": "You are not logged in",
