@@ -13,7 +13,16 @@ import { withCurrentMenuImages } from "@/app/lib/cart-menu-images";
 import { MenuPhoto } from "@/app/lib/menu-image";
 import { customerFixedBarClass } from "@/components/customer/shell";
 
-type Coupon = { id: string; name: string; name_en?: string | null; type: "percent" | "amount"; number: number };
+type Coupon = {
+  id: string;
+  name: string;
+  name_en?: string | null;
+  type: "percent" | "amount";
+  number: number;
+  target_menu_name?: string | null;
+  target_menu_name_en?: string | null;
+  target_category_name?: string | null;
+};
 
 type CartItem = {
   id: string;
@@ -41,6 +50,10 @@ export function OrderCartPage({
   const [discountId, setDiscountId] = useState("");
   const [couponOpen, setCouponOpen] = useState(false);
   const [draftDiscountId, setDraftDiscountId] = useState("");
+  const [codeInput, setCodeInput] = useState("");
+  const [redeeming, setRedeeming] = useState(false);
+  const [redeemError, setRedeemError] = useState("");
+  const [redeemDone, setRedeemDone] = useState(false);
 
   useEffect(() => {
     const raw = localStorage.getItem(storageKey);
@@ -81,7 +94,76 @@ export function OrderCartPage({
 
   function openCouponModal() {
     setDraftDiscountId(discountId);
+    setCodeInput("");
+    setRedeemError("");
+    setRedeemDone(false);
     setCouponOpen(true);
+  }
+
+  function redeemErrorMessage(code: unknown) {
+    switch (code) {
+      case "emptyCode":
+        return dict.cart.couponCodeEmpty;
+      case "notFound":
+        return dict.cart.couponCodeNotFound;
+      case "expired":
+        return dict.cart.couponCodeExpired;
+      case "alreadyOwned":
+        return dict.cart.couponCodeAlreadyOwned;
+      case "notLoggedIn":
+        return dict.cart.couponCodeNotLoggedIn;
+      default:
+        return dict.cart.couponCodeFailed;
+    }
+  }
+
+  async function redeemCode() {
+    const code = codeInput.trim();
+    setRedeemDone(false);
+    if (!code) {
+      setRedeemError(dict.cart.couponCodeEmpty);
+      return;
+    }
+
+    setRedeeming(true);
+    setRedeemError("");
+    try {
+      const res = await fetch("/api/coupons/redeem", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setRedeemError(redeemErrorMessage(data.error));
+        return;
+      }
+
+      // 引き換え直後は対象メニュー名などを含んだ一覧を取り直す。
+      const listRes = await fetch("/api/coupons");
+      const list = await listRes.json();
+      setCoupons(Array.isArray(list) ? list : []);
+      setDraftDiscountId(String(data.coupon?.id ?? ""));
+      setCodeInput("");
+      setRedeemDone(true);
+    } catch {
+      setRedeemError(dict.cart.couponCodeFailed);
+    } finally {
+      setRedeeming(false);
+    }
+  }
+
+  function couponTargetLabel(coupon: Coupon) {
+    if (coupon.target_menu_name) {
+      return dict.cart.couponTargetMenu.replace(
+        "{{name}}",
+        localizedText(String(lang), coupon.target_menu_name, coupon.target_menu_name_en),
+      );
+    }
+    if (coupon.target_category_name) {
+      return dict.cart.couponTargetCategory.replace("{{name}}", coupon.target_category_name);
+    }
+    return dict.cart.couponTargetAll;
   }
 
   function confirmCoupon() {
@@ -253,7 +335,39 @@ export function OrderCartPage({
           >
             <h2 className="text-lg font-bold">{dict.cart.selectCoupon}</h2>
             <p className="mt-1 text-sm text-zinc-500">{dict.cart.couponHelp}</p>
-            <ul className="mt-4 flex max-h-72 flex-col gap-3 overflow-y-auto">
+
+            <div className="mt-4 border-t border-zinc-200 pt-4">
+              <p className="mb-2 text-sm font-bold">{dict.cart.couponCodeLabel}</p>
+              <div className="flex items-center gap-2">
+                <input
+                  value={codeInput}
+                  onChange={(event) => {
+                    setCodeInput(event.target.value);
+                    setRedeemError("");
+                    setRedeemDone(false);
+                  }}
+                  placeholder={dict.cart.couponCodePlaceholder}
+                  autoCapitalize="characters"
+                  autoComplete="off"
+                  className="min-w-0 flex-1 rounded-xl border border-zinc-300 px-3 py-2.5 uppercase outline-none placeholder:normal-case"
+                />
+                <button
+                  type="button"
+                  onClick={redeemCode}
+                  disabled={redeeming}
+                  className="shrink-0 rounded-xl bg-[#E2584B] px-4 py-2.5 text-sm text-white disabled:opacity-50"
+                >
+                  {redeeming ? dict.cart.couponCodeAdding : dict.cart.couponCodeAdd}
+                </button>
+              </div>
+              {redeemError && <p className="mt-2 text-sm text-red-600">{redeemError}</p>}
+              {redeemDone && (
+                <p className="mt-2 text-sm text-[#E8A317]">{dict.cart.couponCodeAdded}</p>
+              )}
+            </div>
+
+            <p className="mt-4 text-sm font-bold">{dict.cart.availableCoupons}</p>
+            <ul className="mt-3 flex max-h-60 flex-col gap-3 overflow-y-auto">
               <li>
                 <button
                   type="button"
@@ -285,8 +399,11 @@ export function OrderCartPage({
                     >
                       <Ticket className="size-5 shrink-0 text-[#E2584B]" />
                       <span className="min-w-0 flex-1">
-                        <span className="block text-sm font-bold">
+                        <span className="block truncate text-sm font-bold">
                           {localizedText(String(lang), coupon.name, coupon.name_en)}
+                        </span>
+                        <span className="block truncate text-xs text-zinc-500">
+                          {couponTargetLabel(coupon)}
                         </span>
                         <span className="block text-xs text-[#E8A317]">
                           -{preview} {dict.common.yen}
