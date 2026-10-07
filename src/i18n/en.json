@@ -82,6 +82,7 @@
     "couponTargetAll": "For all items",
     "couponTargetMenu": "For {{name}}",
     "couponTargetCategory": "For the {{name}} menu",
+    "couponNoTarget": "No eligible item in your cart",
     "couponCodeEmpty": "Please enter a coupon code",
     "couponCodeNotFound": "No coupon found for this code",
     "couponCodeExpired": "This coupon has expired",

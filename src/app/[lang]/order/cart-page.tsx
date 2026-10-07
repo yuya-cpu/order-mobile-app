@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { Ticket, Trash2 } from "lucide-react";
 import { QuantityButtons } from "./quantity-buttons";
-import { applyDiscount } from "@/app/lib/apply-discount";
+import { calculateDiscount, type DiscountLine } from "@/app/lib/apply-discount";
 import { customerPath } from "@/i18n/config";
 import { useDictionary } from "@/i18n/use-dictionary";
 import { localizedText } from "@/i18n/localized";
@@ -19,8 +19,10 @@ type Coupon = {
   name_en?: string | null;
   type: "percent" | "amount";
   number: number;
+  target_menu_id?: string | null;
   target_menu_name?: string | null;
   target_menu_name_en?: string | null;
+  target_category_id?: string | null;
   target_category_name?: string | null;
 };
 
@@ -31,6 +33,7 @@ type CartItem = {
   price: number;
   quantity: number;
   image_url: string;
+  category_id?: string | null;
   choices?: { optionName: string; itemName: string }[];
 };
 
@@ -173,9 +176,13 @@ export function OrderCartPage({
 
   const selectedCoupon = coupons.find((coupon) => coupon.id === discountId) ?? null;
   const draftCoupon = coupons.find((coupon) => coupon.id === draftDiscountId) ?? null;
-  const subtotal = (items ?? []).reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const total = applyDiscount(subtotal, selectedCoupon);
-  const discount = subtotal - total;
+  const discountLines: DiscountLine[] = (items ?? []).map((item) => ({
+    menu_id: item.id,
+    category_id: item.category_id ?? null,
+    price: item.price,
+    quantity: item.quantity,
+  }));
+  const { subtotal, discount, total } = calculateDiscount(discountLines, selectedCoupon);
   const checkoutBlocked = subtotal > 0 && total <= 0;
 
   if (!items) {
@@ -387,13 +394,14 @@ export function OrderCartPage({
               </li>
               {coupons.map((coupon) => {
                 const on = draftDiscountId === coupon.id;
-                const preview = subtotal - applyDiscount(subtotal, coupon);
+                const preview = calculateDiscount(discountLines, coupon);
                 return (
                   <li key={coupon.id}>
                     <button
                       type="button"
+                      disabled={!preview.hasTarget}
                       onClick={() => setDraftDiscountId(coupon.id)}
-                      className={`flex w-full items-center gap-3 rounded-xl border px-3 py-3 text-left ${
+                      className={`flex w-full items-center gap-3 rounded-xl border px-3 py-3 text-left disabled:opacity-50 ${
                         on ? "border-[#E2584B]" : "border-zinc-200"
                       }`}
                     >
@@ -405,9 +413,15 @@ export function OrderCartPage({
                         <span className="block truncate text-xs text-zinc-500">
                           {couponTargetLabel(coupon)}
                         </span>
-                        <span className="block text-xs text-[#E8A317]">
-                          -{preview} {dict.common.yen}
-                        </span>
+                        {preview.hasTarget ? (
+                          <span className="block text-xs text-[#E8A317]">
+                            -{preview.discount} {dict.common.yen}
+                          </span>
+                        ) : (
+                          <span className="block text-xs text-zinc-400">
+                            {dict.cart.couponNoTarget}
+                          </span>
+                        )}
                       </span>
                       {on ? (
                         <span className="shrink-0 rounded-full bg-[#E2584B] px-2 py-0.5 text-xs text-white">
@@ -422,7 +436,7 @@ export function OrderCartPage({
             <div className="mt-4 flex items-center justify-between border-t border-zinc-200 pt-4">
               <span className="text-sm font-bold">{dict.cart.total}</span>
               <span className="text-xl font-bold text-[#E2584B]">
-                {applyDiscount(subtotal, draftCoupon)} {dict.common.yen}
+                {calculateDiscount(discountLines, draftCoupon).total} {dict.common.yen}
               </span>
             </div>
             <div className="mt-5 flex gap-3">

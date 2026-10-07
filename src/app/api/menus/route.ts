@@ -8,6 +8,7 @@ export async function GET() {
     .select({
       id: menus.id,
       image_url: menus.image_url,
+      category_id: menus.category_id,
     })
     .from(menus)
     .where(and(isNull(menus.deleted_at), eq(menus.is_accepted, true)));

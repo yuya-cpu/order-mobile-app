@@ -3,7 +3,7 @@ import { eq, inArray } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { db } from "@/db";
 import { menus, orders, order_menus, payments, payment_pay_jpt, shops, discounts } from "@/db/schema";
-import { applyDiscount } from "@/app/lib/apply-discount";
+import { calculateDiscount } from "@/app/lib/apply-discount";
 import { getCustomerSession } from "@/app/lib/customer-session";
 
 const shopId = "11111111-1111-1111-1111-111111111111";
@@ -59,23 +59,26 @@ export async function POST(request: Request) {
 
   const ids = items.map((item) => item.id);
   const rows = await db
-    .select({ id: menus.id, price: menus.price, is_accepted: menus.is_accepted })
+    .select({
+      id: menus.id,
+      price: menus.price,
+      is_accepted: menus.is_accepted,
+      category_id: menus.category_id,
+    })
     .from(menus)
     .where(inArray(menus.id, ids));
   if (rows.some((row) => !row.is_accepted)) {
     return NextResponse.json({ error: "注文できない商品が含まれています" }, { status: 400 });
   }
-  const priceByItemId = new Map(rows.map((row) => [row.id, row.price]));
+  const menuById = new Map(rows.map((row) => [row.id, row]));
 
-  let sumPrice = 0;
   const lines = items.map((item) => {
-    const unit = priceByItemId.get(item.id) ?? 0;
-    const linePrice = unit * item.quantity;
-    sumPrice += linePrice;
+    const menu = menuById.get(item.id);
     return {
       menu_id: item.id,
+      category_id: menu?.category_id ?? null,
+      price: menu?.price ?? 0,
       quantity: item.quantity,
-      price: linePrice,
     };
   });
 
@@ -88,7 +91,7 @@ export async function POST(request: Request) {
       .limit(1);
     coupon = row ?? null;
   }
-  sumPrice = applyDiscount(sumPrice, coupon);
+  const { total: sumPrice } = calculateDiscount(lines, coupon);
 
   if (sumPrice <= 0) {
     return NextResponse.json({ error: "金額が正しくありません" }, { status: 400 });
@@ -121,7 +124,7 @@ export async function POST(request: Request) {
       order_id: orderId,
       menu_id: line.menu_id,
       order_order_number: line.quantity,
-      order_order_price: line.price,
+      order_order_price: line.price * line.quantity,
     })),
   );
 

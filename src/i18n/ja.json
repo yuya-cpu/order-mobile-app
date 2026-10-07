@@ -82,6 +82,7 @@
     "couponTargetAll": "全商品が対象",
     "couponTargetMenu": "{{name}}が対象",
     "couponTargetCategory": "{{name}}メニューが対象",
+    "couponNoTarget": "対象商品がカートにありません",
     "couponCodeEmpty": "クーポンコードを入力してください",
     "couponCodeNotFound": "このコードのクーポンは見つかりません",
     "couponCodeExpired": "このクーポンは有効期限が切れています",

@@ -4,7 +4,7 @@ import { db } from "@/db";
 import { menus, setmenu, setmenu_option, setmenu_option_detail, shops, discounts } from "@/db/schema";
 import { createPaymentFlow } from "@payjp/payjpv2";
 import { payjp } from "@/app/lib/pay.jp";
-import { applyDiscount } from "@/app/lib/apply-discount";
+import { calculateDiscount, type DiscountLine } from "@/app/lib/apply-discount";
 import { getCustomerSession } from "@/app/lib/customer-session";
 
 type CartItem = {
@@ -35,16 +35,24 @@ export async function POST(request: Request) {
     }
 
     const ids = items.map((item) => item.id);
-    const rows = await db.select({id: menus.id, price: menus.price, is_accepted: menus.is_accepted}).from(menus).where(inArray(menus.id, ids));
+    const rows = await db
+        .select({
+            id: menus.id,
+            price: menus.price,
+            is_accepted: menus.is_accepted,
+            category_id: menus.category_id,
+        })
+        .from(menus)
+        .where(inArray(menus.id, ids));
     if (rows.some((row) => !row.is_accepted)) {
         return NextResponse.json({ error: "注文できない商品が含まれています" }, { status: 400 });
     }
 
-    const priceByItemId = new Map(rows.map((row) => [row.id, row.price]));
+    const menuById = new Map(rows.map((row) => [row.id, row]));
 
-    let amount = 0;
+    const lines: DiscountLine[] = [];
     for (const item of items) {
-        const base = priceByItemId.get(item.id) ?? 0;
+        const menu = menuById.get(item.id);
         const optionDetailIds = item.option_detail_ids ?? [];
 
         const [set] = await db
@@ -87,7 +95,12 @@ export async function POST(request: Request) {
             }
         }
 
-        amount += base * item.quantity;
+        lines.push({
+            menu_id: item.id,
+            category_id: menu?.category_id ?? null,
+            price: menu?.price ?? 0,
+            quantity: item.quantity,
+        });
     }
 
     let coupon = null;
@@ -99,7 +112,7 @@ export async function POST(request: Request) {
             .limit(1);
         coupon = row ?? null;
     }
-    amount = applyDiscount(amount, coupon);
+    const { total: amount } = calculateDiscount(lines, coupon);
 
     const {data, error} = await createPaymentFlow({
         client: payjp,
