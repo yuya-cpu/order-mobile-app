@@ -1,29 +1,24 @@
 "use server";
 
+import { requireStoreAdmin } from "@/app/lib/store-admin";
 import { db } from "@/db";
 import { revalidatePath } from "next/cache";
 import { menus, setmenu, setmenu_option, setmenu_option_detail } from "@/db/schema";
 import { redirect } from "next/navigation";
 import { eq } from "drizzle-orm";
+import { customerPath, locales } from "@/i18n/config";
+import { optionalEnglish } from "@/i18n/localized";
+import { imageUrlFromForm } from "@/app/lib/menu-image-upload";
+import { syncSetDrinkOptions } from "@/app/lib/sync-set-drinks";
 
 const shopId ="11111111-1111-1111-1111-111111111111";
 
-async function imageUrlFromForm(formData: FormData, fallback = "") {
-    const image = formData.get("image");
-    if (image instanceof File && image.size > 0) {
-        const bytes = Buffer.from(await image.arrayBuffer());
-        const type = image.type || "image/jpeg";
-        return `data:${type};base64,${bytes.toString("base64")}`;
-    }
-    const current = String(formData.get("current_image") ?? "");
-    if (current && current !== "[object File]") return current;
-    if (typeof image === "string" && image && image !== "[object File]") return image;
-    return fallback;
-}
-
 export async function createMenu(formData: FormData) {
+    await requireStoreAdmin();
     const name = String(formData.get("name"));
+    const nameEn = optionalEnglish(formData.get("name_en"));
     const description = String(formData.get("description"));
+    const descriptionEn = optionalEnglish(formData.get("description_en"));
     const imageUrl = await imageUrlFromForm(formData);
     const price = Number(formData.get("price"));
     const categoryId = String(formData.get("category_id"));
@@ -35,7 +30,9 @@ export async function createMenu(formData: FormData) {
     await db.insert(menus).values({
         id: crypto.randomUUID(),
         name,
+        name_en: nameEn,
         description,
+        description_en: descriptionEn,
         price,
         image_url: imageUrl,
         shop_id: shopId,
@@ -43,10 +40,14 @@ export async function createMenu(formData: FormData) {
         is_accepted: true,
     });
 
+    await syncSetDrinkOptions();
+
     revalidatePath("/store_admin/menus");
     revalidatePath("/store_admin/menus/new-set");
-    revalidatePath("/order/take-out");
-    revalidatePath("/order/here");
+    for (const lang of locales) {
+      revalidatePath(customerPath(lang, "/order/take-out"));
+      revalidatePath(customerPath(lang, "/order/here"));
+    }
     redirect("/store_admin/menus");
 }
 
@@ -56,8 +57,11 @@ type SetOptionInput = {
 };
 
 export async function createSetMenu(formData: FormData) {
+    await requireStoreAdmin();
     const name = String(formData.get("name"));
+    const nameEn = optionalEnglish(formData.get("name_en"));
     const description = String(formData.get("description"));
+    const descriptionEn = optionalEnglish(formData.get("description_en"));
     const imageUrl = await imageUrlFromForm(formData);
     const price = Number(formData.get("price"));
     const rawOptions = String(formData.get("options") ?? "[]");
@@ -86,7 +90,9 @@ export async function createSetMenu(formData: FormData) {
     await db.insert(menus).values({
         id: menuId,
         name,
+        name_en: nameEn,
         description,
+        description_en: descriptionEn,
         price,
         image_url: imageUrl,
         shop_id: shopId,
@@ -115,14 +121,19 @@ export async function createSetMenu(formData: FormData) {
         );
     }
 
+    await syncSetDrinkOptions();
+
     revalidatePath("/store_admin/menus");
     revalidatePath("/store_admin/menus/new-set");
-    revalidatePath("/order/take-out");
-    revalidatePath("/order/here");
+    for (const lang of locales) {
+      revalidatePath(customerPath(lang, "/order/take-out"));
+      revalidatePath(customerPath(lang, "/order/here"));
+    }
     redirect("/store_admin/menus");
 }
 
 export async function toggleMenuAccepted(id: string) {
+    await requireStoreAdmin();
     const menu = await db.query.menus.findFirst({
         where: eq(menus.id, id),
     });
@@ -131,15 +142,19 @@ if (!menu) {
 }
 await db.update(menus).set({
     is_accepted: !menu.is_accepted,
-}).where(eq(menus.id, id));
+    }).where(eq(menus.id, id));
+    await syncSetDrinkOptions();
     revalidatePath("/store_admin/menus");
 }
 
 
 export async function updateMenu(formData: FormData) {
+    await requireStoreAdmin();
     const id = String(formData.get("id"));
     const name = String(formData.get("name"));
+    const nameEn = optionalEnglish(formData.get("name_en"));
     const description = String(formData.get("description"));
+    const descriptionEn = optionalEnglish(formData.get("description_en"));
     const imageUrl = await imageUrlFromForm(formData);
     const price = Number(formData.get("price"));
 
@@ -149,16 +164,25 @@ export async function updateMenu(formData: FormData) {
 
     await db.update(menus).set({
         name,
+        name_en: nameEn,
         description,
+        description_en: descriptionEn,
         image_url: imageUrl,
         price,
     }).where(eq(menus.id, id));
 
+    await syncSetDrinkOptions();
+
     revalidatePath("/store_admin/menus");
+    for (const lang of locales) {
+      revalidatePath(customerPath(lang, "/order/take-out"));
+      revalidatePath(customerPath(lang, "/order/here"));
+    }
     redirect("/store_admin/menus");
 }
 
 export async function deleteMenu(formData: FormData) {
+    await requireStoreAdmin();
     const id = String(formData.get("id") ?? "");
     if (!id) {
         throw new Error("IDは必須です");
@@ -169,8 +193,12 @@ export async function deleteMenu(formData: FormData) {
         updated_at: new Date(),
     }).where(eq(menus.id, id));
 
+    await syncSetDrinkOptions();
+
     revalidatePath("/store_admin/menus");
-    revalidatePath("/order/take-out");
-    revalidatePath("/order/here");
+    for (const lang of locales) {
+      revalidatePath(customerPath(lang, "/order/take-out"));
+      revalidatePath(customerPath(lang, "/order/here"));
+    }
     redirect("/store_admin/menus");
 }

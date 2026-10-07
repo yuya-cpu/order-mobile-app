@@ -2,6 +2,7 @@ import { db} from "@/db";
 import { menus } from "@/db/schema";
 import { isNull } from "drizzle-orm";
 import { toggleMenuAccepted } from "./actions";
+import { MenuPhoto } from "@/app/lib/menu-image";
 
 export default async function MenusPage() {
     const rows = await db.select({
@@ -20,13 +21,18 @@ if (rows.length === 0) {
 }
 
 return (
-    <table className="w-full">
+    <main className="px-4 py-8 sm:px-8">
+        <h1 className="mb-6 text-2xl font-bold">メニュー一覧</h1>
+        <div className="overflow-x-auto rounded-2xl bg-white shadow-sm">
+    <div className="min-w-[720px]">
+    <table className="w-full text-left">
         <thead>
             <tr className="text-left">
-                <th className="py-2 pl-16 pr-2">写真</th>
+                <th className="py-2 pl-4 pr-2">写真</th>
                 <th className="py-2 pl-2 pr-4">商品名</th>
                 <th className="px-4 py-2">説明</th>
                 <th className="px-4 py-2">価格</th>
+                <th className="px-4 py-2">操作</th>
             </tr>
         </thead>
         <tbody>
@@ -39,11 +45,12 @@ return (
                             : "border-b border-zinc-200 bg-zinc-100 text-zinc-400"
                     }
                 >
-                <td className="py-2 pl-16 pr-2">
-                <img src={menu.image_url}
-                        alt={menu.name}
-                        className="w-16 h-16 object-cover"
-                    />
+                <td className="py-2 pl-4 pr-2">
+                <MenuPhoto
+                    url={menu.image_url}
+                    alt={menu.name}
+                    className="h-16 w-16 object-cover"
+                />
                 </td>
                 <td className="py-2 pl-2 pr-4">
                     <p>{menu.name}</p>
@@ -90,7 +97,9 @@ return (
             ))}
         </tbody>
     </table>
+        </div>
+        </div>
+    </main>
 );
 
 }
-    

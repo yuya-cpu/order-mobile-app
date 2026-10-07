@@ -44,14 +44,14 @@ export default async function CouponsPage() {
 
   if (rows.length === 0) {
     return (
-      <div className="px-8 py-8">
+      <div className="px-4 py-8 sm:px-8">
         <p>クーポンが見つかりません</p>
       </div>
     );
   }
 
   return (
-    <div className="px-8 py-8">
+    <div className="px-4 py-8 sm:px-8">
       <h1 className="mb-6 text-2xl font-bold">現在有効な店舗クーポン</h1>
       <ul className="flex flex-col gap-4">
         {rows.map((row) => (

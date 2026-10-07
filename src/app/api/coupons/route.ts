@@ -7,6 +7,7 @@ export async function GET() {
     const coupons = await db.select({
         id: discounts.id,
         name: discounts.name,
+        name_en: discounts.name_en,
         type: discounts.type,
         number: discounts.number,
     })

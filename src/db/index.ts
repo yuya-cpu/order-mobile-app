@@ -16,7 +16,11 @@ function databaseUrl() {
   return url;
 }
 
-const client = postgres(databaseUrl(), { ssl: "require", prepare: false });
+const client = postgres(databaseUrl(), {
+  ssl: "require",
+  prepare: false,
+  max: 1,
+});
 
 export const db = drizzle(client, {
   schema: { ...schema},

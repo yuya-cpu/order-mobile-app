@@ -3,6 +3,7 @@ import { db } from "@/db";
 import { notFound } from "next/navigation";
 import { menus } from "@/db/schema";
 import { eq } from "drizzle-orm";
+import { MenuImageInput } from "../../image-input";
 
 export default async function EditMenuPage({
   params,
@@ -16,7 +17,9 @@ export default async function EditMenuPage({
       columns: {
         id: true,
         name: true,
+        name_en: true,
         description: true,
+        description_en: true,
         image_url: true,
         price: true,
       },
@@ -42,11 +45,15 @@ export default async function EditMenuPage({
             <input name="current_image" type="hidden" value={menu.image_url} />
             <label className="flex w-full flex-col gap-1 font-medium">
                 画像
-                <input name="image" type="file" accept="image/*" className="border border-gray-300 rounded-md p-2" />
+                <MenuImageInput />
             </label>
             <label className="flex w-full flex-col gap-1 font-medium">
                 商品名
                 <input name="name" required className="border border-gray-300 rounded-md p-2" defaultValue={menu.name} />
+            </label>
+            <label className="flex w-full flex-col gap-1 font-medium">
+                英語名
+                <input name="name_en" className="border border-gray-300 rounded-md p-2" defaultValue={menu.name_en ?? ""} />
             </label>
             <label className="flex w-full flex-col gap-1 font-medium">
                 価格（税込）
@@ -55,6 +62,10 @@ export default async function EditMenuPage({
             <label className="flex w-full flex-col gap-1 font-medium">
                 説明
                 <textarea name="description" required className="border border-gray-300 rounded-md p-2" defaultValue={menu.description} />
+            </label>
+            <label className="flex w-full flex-col gap-1 font-medium">
+                英語説明
+                <textarea name="description_en" className="border border-gray-300 rounded-md p-2" defaultValue={menu.description_en ?? ""} />
             </label>
 
             <div className="flex w-full gap-3">

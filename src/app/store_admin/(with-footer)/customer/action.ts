@@ -1,11 +1,13 @@
 "use server";
 
+import { requireStoreAdmin } from "@/app/lib/store-admin";
 import { db } from "@/db";
 import { users } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
 export async function updateStatus(formData: FormData) {
+    await requireStoreAdmin();
     const id = String(formData.get("id") ?? "");
     const isAccepted = String(formData.get("is_accepted") ?? "") === "true";
 

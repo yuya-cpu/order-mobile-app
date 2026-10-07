@@ -22,13 +22,14 @@ export default async function CustomerPage() {
         .orderBy(desc(user.createdAt));
 
     return (
-        <main className="px-8 py-8">
-            <div className="mb-8 flex items-center justify-between gap-4">
+        <main className="px-4 py-8 sm:px-8">
+            <div className="mb-6 flex items-center justify-between gap-4">
                 <h1 className="text-2xl font-bold">顧客管理一覧</h1>
             </div>
 
             <div className="overflow-x-auto rounded-2xl bg-white shadow-sm">
-                <table className="w-full table-fixed text-center">
+                <div className="min-w-[720px]">
+                <table className="w-full text-center">
                     <thead>
                         <tr className="border-b border-zinc-200 bg-[#F2EBE1]">
                             <th className="px-3 py-3 text-sm font-medium text-zinc-700">顧客ID</th>
@@ -58,6 +59,7 @@ export default async function CustomerPage() {
                         )}
                     </tbody>
                 </table>
+                </div>
             </div>
         </main>
 

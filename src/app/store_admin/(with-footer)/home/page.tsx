@@ -14,35 +14,35 @@ export default async function AdminHomePage() {
     const accepting = shop?.is_accepted === true;
 
     return (
-        <main className="mx-auto flex w-full max-w-4xl flex-1 flex-col items-center justify-center px-4 py-10">
-            <div className="mb-8 grid w-full grid-cols-2 gap-6">
+        <main className="mx-auto flex w-full max-w-4xl flex-1 flex-col items-center justify-center px-4 py-8">
+            <div className="mb-6 grid w-full grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6">
                 <Link href="/store_admin/orders"
-                className="w-full rounded-2xl  px-6 py-14 bg-white">
+                className="w-full rounded-2xl bg-white px-5 py-8 sm:px-6 sm:py-14">
                 <h2 className="text-xl font-bold">注文一覧</h2>
                 <p className="mt-2 text-sm text-zinc-500">注文の一覧を表示します</p>
                 </Link>
                 <Link href="/store_admin/menus"
-                className="w-full rounded-2xl px-6 py-14 bg-white">
+                className="w-full rounded-2xl bg-white px-5 py-8 sm:px-6 sm:py-14">
                 <h2 className="text-xl font-bold">メニュー一覧</h2>
                 <p className="mt-2 text-sm text-zinc-500">メニュー一覧を表示します</p>
                 </Link>
                 <Link href="/store_admin/coupons"
-                className="w-full rounded-2xl px-6 py-14 bg-white">
+                className="w-full rounded-2xl bg-white px-5 py-8 sm:px-6 sm:py-14">
                 <h2 className="text-xl font-bold">クーポン一覧</h2>
                 <p className="mt-2 text-sm text-zinc-500">クーポン一覧を表示します</p>
                 </Link>
                 <Link href="/store_admin/customer"
-                className="w-full rounded-2xl px-6 py-14 bg-white">
+                className="w-full rounded-2xl bg-white px-5 py-8 sm:px-6 sm:py-14">
                 <h2 className="text-xl font-bold">顧客情報の閲覧</h2>
                 <p className="mt-2 text-sm text-zinc-500">顧客情報の一覧を表示します</p>
                 </Link>
                 <Link href="/store_admin/history"
-                className="w-full rounded-2xl px-6 py-14 bg-white">
+                className="w-full rounded-2xl bg-white px-5 py-8 sm:px-6 sm:py-14">
                 <h2 className="text-xl font-bold">履歴一覧</h2>
                 <p className="mt-2 text-sm text-zinc-500">履歴の一覧を表示します</p>
                 </Link>
             </div>
-            <div className="grid w-full grid-cols-2 gap-6">
+            <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6">
             <form action={updateShopStatus}>
                 <input type="hidden" name="id" value={shopId} />
                 <input type="hidden" name="is_accepted" value="false" />

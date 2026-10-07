@@ -4,7 +4,7 @@ import { db } from "@/db";
 import { menus, setmenu, setmenu_option, setmenu_option_detail, shops, discounts } from "@/db/schema";
 import { createPaymentFlow } from "@payjp/payjpv2";
 import { payjp } from "@/app/lib/pay.jp";
-import { applyDiscount } from "@/app/order/apply-discount";
+import { applyDiscount } from "@/app/lib/apply-discount";
 
 type CartItem = {
     id: string;

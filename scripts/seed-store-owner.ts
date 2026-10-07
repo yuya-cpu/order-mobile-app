@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { auth } from "../src/app/lib/auth";
 import { db } from "../src/db";
 import { user, account } from "../src/db/auth-schema";
@@ -30,7 +31,8 @@ async function main() {
     updatedAt: now,
   });
 
-  console.log("OK", EMAIL, PASSWORD);
+  console.log("OK", EMAIL);
+  process.exit(0);
 }
 
 main();

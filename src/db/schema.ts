@@ -41,8 +41,10 @@ export const menu_categories = pgTable("menu_categories", {
 export const menus = pgTable("menus", {
     id: uuid("id").primaryKey(),
     name: text("name").notNull(),
+    name_en: text("name_en"),
     price: integer("price").notNull(),
     description: text("description").notNull(),
+    description_en: text("description_en"),
     image_url: varchar("image_url").notNull(),
     is_accepted: boolean("is_accepted").notNull().default(false),
     shop_id: uuid("shop_id").references(() => shops.id),
@@ -103,6 +105,7 @@ export const discountTypeEnum = pgEnum("discount_type", ["percent", "amount"]);
 export const discounts = pgTable("discounts", {
     id: uuid("id").primaryKey(),
     name: text("name").notNull(),
+    name_en: text("name_en"),
     type: discountTypeEnum("type").notNull(),
     number: integer("number").notNull(),
     shop_id: uuid("shop_id").references(() => shops.id),

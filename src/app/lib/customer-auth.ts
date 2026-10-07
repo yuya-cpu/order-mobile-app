@@ -1,7 +1,7 @@
 import { db } from "@/db";
 import { betterAuth } from "better-auth";
 import { nextCookies } from "better-auth/next-js";
-import { emailOTP, genericOAuth } from "better-auth/plugins";
+import { emailOTP, genericOAuth, line } from "better-auth/plugins";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import * as customerAuthSchema from "@/db/customer-auth-schema";
 
@@ -9,6 +9,12 @@ export const customerAuth = betterAuth({
     secret: process.env.BETTER_AUTH_SECRET,
     baseURL: process.env.BETTER_AUTH_URL,
     basePath: "/api/customer-auth",
+    trustedOrigins: [process.env.BETTER_AUTH_URL].filter(
+        (origin): origin is string => Boolean(origin),
+    ),
+    onAPIError: {
+        errorURL: "/ja/login",
+    },
     database: drizzleAdapter(db, {
         provider: "pg",
         schema: customerAuthSchema,
@@ -32,17 +38,28 @@ export const customerAuth = betterAuth({
     genericOAuth({
         config: [
             {
-                providerId: "line",
-                clientId: process.env.LINE_CLIENT_ID as string,
-                clientSecret: process.env.LINE_CLIENT_SECRET as string,
-                authorizationUrl: "https://access.line.me/oauth2/v2.1/authorize",
-                tokenUrl: "https://api.line.me/oauth2/v2.1/token",
-                userInfoUrl: "https://api.line.me/oauth2/v2.1/userinfo",
-                scopes: ["openid", "profile"],
-              },
-            ],
-          }),
-            
+                ...line({
+                    providerId: "line",
+                    clientId: process.env.LINE_CLIENT_ID as string,
+                    clientSecret: process.env.LINE_CLIENT_SECRET as string,
+                    scopes: ["openid", "profile", ],
+                    pkce: true,
+                }),
+                mapProfileToUser(profile) {
+                    const sub = String(profile.sub ?? profile.id ?? "");
+                    const email =
+                        typeof profile.email === "string" && profile.email.length > 0
+                            ? profile.email
+                            : `line-${sub}@noreply.line.local`;
+                    const name =
+                        typeof profile.name === "string" && profile.name.length > 0
+                            ? profile.name
+                            : "LINEユーザー";
+                    return { email, name };
+                },
+            },
+        ],
+    }),
     nextCookies(),
 ],
 });

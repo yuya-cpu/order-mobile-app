@@ -1,0 +1,127 @@
+{
+  "common": {
+    "back": "戻る",
+    "mypage": "マイページ",
+    "closed": "ただいま注文を停止しています",
+    "yen": "円",
+    "loading": "読み込み中..."
+  },
+  "language": {
+    "title": "言語選択",
+    "subtitle": "you can chose launguage",
+    "ja": "日本語",
+    "en": "English"
+  },
+  "login": {
+    "title": "ログイン",
+    "agree": "利用規約/プライバシーポリシーに同意",
+    "line": "LINEでログイン",
+    "signup": "アカウントを登録する",
+    "email": "メールアドレス",
+    "password": "パスワード",
+    "submit": "ログイン",
+    "error": "メールアドレスまたはパスワードが正しくありません",
+    "forgotPassword": "パスワードの再発行"
+  },
+  "signup": {
+    "title": "LINE登録フォーム",
+    "description": "LINEアカウントを連携すると、クーポンなどのお知らせを受け取れます",
+    "line": "LINE連携",
+    "emailTitle": "メール登録",
+    "emailDescription": "メールアドレスでアカウントを作成します",
+    "email": "メールアドレス",
+    "password": "パスワード",
+    "passwordConfirm": "パスワードの確認",
+    "submit": "登録する",
+    "error": "登録に失敗しました",
+    "mismatch": "パスワードが一致しません",
+    "verifyTitle": "認証コードを入力",
+    "verifyHelp": "メールに届いた6桁のコードを入力してください",
+    "code": "認証コード",
+    "confirm": "確認",
+    "toLogin": "ログイン画面に戻る"
+  },
+  "orderType": {
+    "takeout": "テイクアウト",
+    "here": "店内飲食"
+  },
+  "guestCount": {
+    "title": "人数選択",
+    "toMenu": "メニューへ",
+    "people": "{{n}}人"
+  },
+  "menu": {
+    "title": "メニュー",
+    "all": "すべて",
+    "set": "セット",
+    "single": "単品",
+    "cart": "カートを見る"
+  },
+  "detail": {
+    "addToCart": "カートに追加",
+    "priceInTax": "税込み表示",
+    "setContents": "セット内容"
+  },
+  "cart": {
+    "title": "注文確認",
+    "empty": "カートに商品がありません",
+    "backToMenu": "メニューに戻る",
+    "checkout": "レジに進む",
+    "delete": "削除",
+    "noCoupon": "クーポンを使わない",
+    "appliedCoupon": "適応中クーポン",
+    "selectCoupon": "クーポンを選択",
+    "couponHelp": "適応中のクーポンから選択できます。",
+    "selectedBadge": "選択中",
+    "cancel": "キャンセル",
+    "confirmCoupon": "選択して閉じる",
+    "quantity": "数量: {{n}}",
+    "subtotal": "小計",
+    "discount": "クーポン割引",
+    "total": "合計"
+  },
+  "mypage": {
+    "notLoggedIn": "ログインしていません",
+    "title": "マイページ",
+    "registeredEmail": "登録中のメールアドレス",
+    "changePassword": "パスワード変更",
+    "username": "ユーザーネーム",
+    "orderHistory": "注文履歴",
+    "receipt": "領収書発行",
+    "coupons": "所持クーポン",
+    "couponBadge": "クーポン"
+  },
+  "resetPassword": {
+    "title": "パスワードの再設定",
+    "email": "メールアドレス",
+    "emailConfirm": "メールアドレスの確認",
+    "sendCode": "認証コードの送信",
+    "backToLogin": "ログイン画面に戻る",
+    "toSignup": "会員登録画面へ進む",
+    "codeTitle": "認証コードを入力",
+    "codeHelp": "メールに記載されている6桁の数字を記入し、パスワードリセットを行ってください。",
+    "code": "認証コード",
+    "confirm": "確認",
+    "resend": "認証コードを再送信",
+    "newPasswordTitle": "パスワードリセット",
+    "newPassword": "新しいパスワード",
+    "newPasswordConfirm": "新しいパスワードの確認",
+    "save": "パスワードリセット",
+    "doneTitle": "パスワードリセット完了",
+    "doneBody": "パスワードの再設定が完了しました。ログイン画面から再ログインをお願いします。"
+  },
+  "pay": {
+    "title": "お支払い",
+    "emptyCart": "カートが空です",
+    "prepareFailed": "決済の準備に失敗しました",
+    "payFailed": "支払いを完了できませんでした",
+    "pay": "支払う",
+    "paying": "処理中..."
+  },
+  "complete": {
+    "title": "ご注文が完了しました",
+    "notFound": "注文が見つかりません",
+    "saveFailed": "注文の保存に失敗しました",
+    "callNumber": "お呼び出し番号"
+  }
+}

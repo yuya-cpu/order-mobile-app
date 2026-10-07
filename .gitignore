@@ -24,6 +24,11 @@
 .DS_Store
 *.pem
 
+# local debug scripts
+/scripts/*.json
+/scripts/probe-*.mjs
+/scripts/inspect-*.ts
+
 # debug
 npm-debug.log*
 yarn-debug.log*

@@ -111,7 +111,7 @@ export default async function OrdersPage({
   const list = [...map.values()];
 
   return (
-    <main className="px-8 py-8">
+    <main className="px-4 py-8 sm:px-8">
       <div className="mb-6 flex items-center justify-between gap-4">
         <h1 className="text-2xl font-bold">注文一覧</h1>
         <Link
@@ -130,7 +130,8 @@ export default async function OrdersPage({
   </Link>
       </div>
       <div className="overflow-x-auto rounded-2xl bg-white shadow-sm">
-        <table className="w-full table-fixed text-center">
+        <div className="min-w-[720px]">
+        <table className="w-full text-center">
           <thead>
             <tr className="border-b border-zinc-200">
               <th className="px-3 py-3 text-sm font-medium">ステータス</th>
@@ -172,6 +173,7 @@ export default async function OrdersPage({
             )}
           </tbody>
         </table>
+        </div>
       </div>
     </main>
   );

@@ -21,10 +21,10 @@ export default async function EditCouponPage({
   }
 
   return (
-    <div className="flex flex-1 items-center justify-center px-8 py-8">
+    <div className="flex flex-1 items-center justify-center px-4 py-8 sm:px-8">
       <form
         action={updateCoupon}
-        className="mx-auto flex w-full max-w-3xl flex-col gap-6 rounded-2xl bg-white p-8"
+        className="mx-auto flex w-full max-w-3xl flex-col gap-6 rounded-2xl bg-white p-5 sm:p-8"
       >
         <div className="flex items-center justify-between gap-4">
           <h1 className="text-2xl font-bold">クーポンの編集</h1>
@@ -45,6 +45,15 @@ export default async function EditCouponPage({
             name="name"
             required
             defaultValue={coupon.name}
+            className="rounded-md border border-gray-300 p-3"
+          />
+        </label>
+
+        <label className="flex flex-col gap-2 font-medium">
+          英語名
+          <input
+            name="name_en"
+            defaultValue={coupon.name_en ?? ""}
             className="rounded-md border border-gray-300 p-3"
           />
         </label>

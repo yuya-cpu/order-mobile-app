@@ -2,6 +2,8 @@ import { createMenu } from "../actions";
 import { db } from "@/db";
 import { menu_categories } from "@/db/schema";
 import { connection } from "next/server";
+import { MenuSubmitButton } from "../submit-button";
+import { MenuImageInput } from "../image-input";
 
 const defaultCategories = [
     { id: "33333333-3333-3333-3333-333333333331", name: "メイン" },
@@ -40,11 +42,15 @@ export default async function NewMenuPage() {
             </div>
             <label className="flex w-full flex-col gap-1 font-medium">
                 画像
-                <input name="image" type="file" accept="image/*" required className="border border-gray-300 rounded-md p-2" />
+                <MenuImageInput required />
             </label>
             <label className="flex w-full flex-col gap-1 font-medium">
                 商品名
                 <input name="name" required className="border border-gray-300 rounded-md p-2" />
+            </label>
+            <label className="flex w-full flex-col gap-1 font-medium">
+                英語名
+                <input name="name_en" className="border border-gray-300 rounded-md p-2" />
             </label>
             <label className="flex w-full flex-col gap-1 font-medium">
                 カテゴリー
@@ -65,6 +71,10 @@ export default async function NewMenuPage() {
                 説明
                 <textarea name="description" required className="border border-gray-300 rounded-md p-2" />
             </label>
+            <label className="flex w-full flex-col gap-1 font-medium">
+                英語説明
+                <textarea name="description_en" className="border border-gray-300 rounded-md p-2" />
+            </label>
 
             <div className="flex w-full gap-3">
                 <a
@@ -73,12 +83,7 @@ export default async function NewMenuPage() {
                 >
                     一覧に戻る
                 </a>
-                <button
-                    type="submit"
-                    className="flex flex-1 items-center justify-center rounded-full bg-[#E2584B] px-4 py-2 text-sm text-white"
-                >
-                    メニュー登録
-                </button>
+                <MenuSubmitButton idleLabel="メニュー登録" />
             </div>
         </form>
         </div>

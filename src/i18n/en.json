@@ -1,0 +1,127 @@
+{
+  "common": {
+    "back": "Back",
+    "mypage": "My page",
+    "closed": "Orders are currently paused",
+    "yen": "yen",
+    "loading": "Loading..."
+  },
+  "language": {
+    "title": "Language",
+    "subtitle": "You can choose a language",
+    "ja": "日本語",
+    "en": "English"
+  },
+  "login": {
+    "title": "Log in",
+    "agree": "I agree to the terms and privacy policy",
+    "line": "Log in with LINE",
+    "signup": "Create an account",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Log in",
+    "error": "Incorrect email or password",
+    "forgotPassword": "Forgot password"
+  },
+  "signup": {
+    "title": "LINE sign-up",
+    "description": "Link your LINE account to receive coupons and other updates",
+    "line": "Link LINE",
+    "emailTitle": "Create an account",
+    "emailDescription": "Sign up with your email address",
+    "email": "Email",
+    "password": "Password",
+    "passwordConfirm": "Confirm password",
+    "submit": "Sign up",
+    "error": "Could not create the account",
+    "mismatch": "Passwords do not match",
+    "verifyTitle": "Enter verification code",
+    "verifyHelp": "Enter the 6-digit code sent to your email",
+    "code": "Verification code",
+    "confirm": "Confirm",
+    "toLogin": "Back to log in"
+  },
+  "orderType": {
+    "takeout": "Takeout",
+    "here": "Eat in"
+  },
+  "guestCount": {
+    "title": "Party size",
+    "toMenu": "Go to menu",
+    "people": "{{n}}"
+  },
+  "menu": {
+    "title": "Menu",
+    "all": "All",
+    "set": "Set",
+    "single": "Single",
+    "cart": "View cart"
+  },
+  "detail": {
+    "addToCart": "Add to cart",
+    "priceInTax": "Tax included",
+    "setContents": "Set contents"
+  },
+  "cart": {
+    "title": "Your order",
+    "empty": "Your cart is empty",
+    "backToMenu": "Back to menu",
+    "checkout": "Go to checkout",
+    "delete": "Remove",
+    "noCoupon": "Don't use a coupon",
+    "appliedCoupon": "Applied coupon",
+    "selectCoupon": "Select a coupon",
+    "couponHelp": "Choose from available coupons.",
+    "selectedBadge": "Selected",
+    "cancel": "Cancel",
+    "confirmCoupon": "Select and close",
+    "quantity": "Qty: {{n}}",
+    "subtotal": "Subtotal",
+    "discount": "Coupon discount",
+    "total": "Total"
+  },
+  "mypage": {
+    "notLoggedIn": "You are not logged in",
+    "title": "My page",
+    "registeredEmail": "Registered email",
+    "changePassword": "Change password",
+    "username": "Username",
+    "orderHistory": "Order history",
+    "receipt": "Receipt",
+    "coupons": "Your coupons",
+    "couponBadge": "Coupon"
+  },
+  "resetPassword": {
+    "title": "Reset password",
+    "email": "Email",
+    "emailConfirm": "Confirm email",
+    "sendCode": "Send verification code",
+    "backToLogin": "Back to log in",
+    "toSignup": "Go to sign up",
+    "codeTitle": "Enter verification code",
+    "codeHelp": "Enter the 6-digit code from your email to reset your password.",
+    "code": "Verification code",
+    "confirm": "Confirm",
+    "resend": "Resend code",
+    "newPasswordTitle": "Reset password",
+    "newPassword": "New password",
+    "newPasswordConfirm": "Confirm new password",
+    "save": "Reset password",
+    "doneTitle": "Password reset complete",
+    "doneBody": "Your password has been reset. Please log in again from the log-in screen."
+  },
+  "pay": {
+    "title": "Payment",
+    "emptyCart": "Your cart is empty",
+    "prepareFailed": "Could not prepare payment",
+    "payFailed": "Could not complete payment",
+    "pay": "Pay",
+    "paying": "Processing..."
+  },
+  "complete": {
+    "title": "Your order is complete",
+    "notFound": "Order not found",
+    "saveFailed": "Could not save the order",
+    "callNumber": "Pickup number"
+  }
+}

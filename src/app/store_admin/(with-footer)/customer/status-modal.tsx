@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { X } from "lucide-react";
 import { updateStatus } from "./action";
 
 export function StatusModal(props: {

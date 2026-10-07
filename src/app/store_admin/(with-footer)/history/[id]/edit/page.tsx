@@ -2,7 +2,7 @@ import { db } from "@/db";
 import { orders, order_menus, menus, discounts } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
-import { cancelOrder } from "../../../orders/action";
+import { cancelOrder, uncancelOrder } from "../../../orders/action";
 
 function format(date: Date, format: string) {
     return date.toLocaleString("ja-JP", {
@@ -45,7 +45,7 @@ const coupon = order.discount_id ? await db.query.discounts.findFirst({
 
 
     return (
-       <main className="px-8 py-8">
+       <main className="px-4 py-8 sm:px-8">
         <div className="mx-auto grid max-w-5xl gap-6 lg:grid-cols-[1.4fr_1fr]">
             <section className="rounded-2xl bg-white p-6 shadow-sm">
                 <div className="mb-6 flex items-baseline justify-between gap-4">
@@ -99,10 +99,16 @@ const coupon = order.discount_id ? await db.query.discounts.findFirst({
             領収書の再発行
           </button>
           {order.status === "cancel" ? (
-            <p className="rounded-xl bg-zinc-100 px-4 py-3 text-center text-zinc-500">
-              キャンセル済み
-            </p>
-          ) : (
+  <form action={uncancelOrder.bind(null, order.id)}>
+    <button
+      type="submit"
+      className="w-full rounded-xl border border-zinc-300 bg-white px-4 py-3"
+    >
+      キャンセルを取り消す
+    </button>
+  </form>
+) : (
+  
             <form action={cancelOrder.bind(null, order.id)}>
               <button
                 type="submit"
