@@ -6,7 +6,10 @@ import { pgTable,
     text,
     timestamp,
     boolean,
+    index,
+    uniqueIndex,
 } from "drizzle-orm/pg-core";
+import { user as customer_user } from "./customer-auth-schema";
 
 export const shops = pgTable("shops", {
     id: uuid("id").primaryKey(),
@@ -108,6 +111,9 @@ export const discounts = pgTable("discounts", {
     name_en: text("name_en"),
     type: discountTypeEnum("type").notNull(),
     number: integer("number").notNull(),
+    code: text("code").unique(),
+    target_category_id: uuid("target_category_id").references(() => menu_categories.id),
+    expires_at: timestamp("expires_at"),
     shop_id: uuid("shop_id").references(() => shops.id),
     created_at: timestamp("created_at").notNull().defaultNow(),
     updated_at: timestamp("updated_at").notNull().defaultNow(),
@@ -129,6 +135,18 @@ export const orders = pgTable("orders", {
     updated_at: timestamp("updated_at").notNull().defaultNow(),
     deleted_at: timestamp("deleted_at"),
 })
+
+export const user_discounts = pgTable("user_discounts", {
+    id: uuid("id").primaryKey(),
+    user_id: uuid("user_id").notNull().references(() => customer_user.id, { onDelete: "cascade" }),
+    discount_id: uuid("discount_id").notNull().references(() => discounts.id),
+    order_id: uuid("order_id").references(() => orders.id),
+    acquired_at: timestamp("acquired_at").notNull().defaultNow(),
+    used_at: timestamp("used_at"),
+}, (table) => [
+    uniqueIndex("user_discounts_user_discount_uidx").on(table.user_id, table.discount_id),
+    index("user_discounts_user_id_idx").on(table.user_id),
+])
 
 export const order_menus = pgTable("order_menus", {
     id: uuid("id").primaryKey(),

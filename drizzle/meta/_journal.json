@@ -36,6 +36,13 @@
       "when": 1791346905963,
       "tag": "0004_menu_coupon_english",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1791350120028,
+      "tag": "0005_coupon_code_ownership",
+      "breakpoints": true
     }
   ]
 }
