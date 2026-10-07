@@ -29,6 +29,13 @@
       "when": 1789453153938,
       "tag": "0003_setmenu",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1791346905963,
+      "tag": "0004_menu_coupon_english",
+      "breakpoints": true
     }
   ]
 }
