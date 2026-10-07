@@ -5,6 +5,7 @@ import { menus, setmenu, setmenu_option, setmenu_option_detail, shops, discounts
 import { createPaymentFlow } from "@payjp/payjpv2";
 import { payjp } from "@/app/lib/pay.jp";
 import { applyDiscount } from "@/app/lib/apply-discount";
+import { getCustomerSession } from "@/app/lib/customer-session";
 
 type CartItem = {
     id: string;
@@ -13,6 +14,11 @@ type CartItem = {
 };
 
 export async function POST(request: Request) {
+    const session = await getCustomerSession();
+    if (!session) {
+        return NextResponse.json({ error: "ログインが必要です" }, { status: 401 });
+    }
+
     const body = (await request.json()) as { items: CartItem[]; discountId?: string };
     const items = body.items?? [];
 

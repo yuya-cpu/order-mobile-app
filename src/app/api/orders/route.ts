@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { db } from "@/db";
 import { menus, orders, order_menus, payments, payment_pay_jpt, shops, discounts } from "@/db/schema";
 import { applyDiscount } from "@/app/lib/apply-discount";
+import { getCustomerSession } from "@/app/lib/customer-session";
 
 const shopId = "11111111-1111-1111-1111-111111111111";
 
@@ -13,6 +14,11 @@ type CartItem = {
 };
 
 export async function POST(request: Request) {
+  const session = await getCustomerSession();
+  if (!session) {
+    return NextResponse.json({ error: "ログインが必要です" }, { status: 401 });
+  }
+
   const body = (await request.json()) as {
     items?: CartItem[];
     paymentFlowId?: string;
