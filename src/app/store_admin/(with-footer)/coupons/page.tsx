@@ -3,33 +3,11 @@ import { discounts, menu_categories, menus } from "@/db/schema";
 import { eq, isNull } from "drizzle-orm";
 import Link from "next/link";
 
-const defaultCoupons: {
-  id: string;
-  name: string;
-  type: "percent" | "amount";
-  number: number;
-}[] = [
-  {
-    id: "44444444-4444-4444-4444-444444444442",
-    name: "新規オープン記念10%OFF",
-    type: "percent",
-    number: 10,
-  },
-];
-
 function discountLabel(type: string, number: number) {
   return type === "percent" ? `${number}% OFF` : `${number}円 OFF`;
 }
 
 export default async function CouponsPage() {
-  const existing = await db.select({ id: discounts.id }).from(discounts);
-  const missing = defaultCoupons.filter(
-    (coupon) => !existing.some((row) => row.id === coupon.id),
-  );
-  if (missing.length > 0) {
-    await db.insert(discounts).values(missing);
-  }
-
   const rows = await db
     .select({
       id: discounts.id,
