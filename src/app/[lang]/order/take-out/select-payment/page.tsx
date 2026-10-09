@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "next/navigation";
 import { loadPayments } from "@payjp/payments-js";
+import { submitCurrentOrder } from "@/app/lib/submit-current-order";
 import { customerPath } from "@/i18n/config";
 import { useDictionary } from "@/i18n/use-dictionary";
 
@@ -86,6 +87,10 @@ export default function CheckoutPage() {
       return;
     }
 
+    // カード決済など、この場で成功が分かる経路では完了ページに行く前に注文を作る。
+    // 失敗しても決済は済んでいるので完了ページへ渡し、そちらで同じ API を再試行する。
+    // 3DS / PayPay で return_url に先に飛ばされた場合も、完了ページ側が注文を作る。
+    await submitCurrentOrder();
     window.location.href = complete;
   }
 
