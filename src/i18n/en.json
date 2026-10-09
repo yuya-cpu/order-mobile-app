@@ -140,5 +140,12 @@
     "notFound": "Order not found",
     "saveFailed": "Could not save the order",
     "callNumber": "Pickup number"
+  },
+  "notFound": {
+    "pageTitle": "Page error",
+    "code": "404",
+    "title": "Page not found",
+    "description": "The page you are looking for may have been moved or deleted. Return home to browse the menu.",
+    "home": "Back to home"
   }
 }
