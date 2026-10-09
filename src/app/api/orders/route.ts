@@ -1,12 +1,15 @@
 import { NextResponse } from "next/server";
-import { eq, inArray } from "drizzle-orm";
+import { and, eq, inArray, isNull } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { db } from "@/db";
-import { menus, orders, order_menus, payments, payment_pay_jpt, shops, discounts } from "@/db/schema";
+import { menus, orders, order_menus, payments, payment_pay_jpt, shops, user_discounts } from "@/db/schema";
 import { calculateDiscount } from "@/app/lib/apply-discount";
 import { getCustomerSession } from "@/app/lib/customer-session";
+import { COUPON_UNAVAILABLE_MESSAGE, findUsableCoupon } from "@/app/lib/coupon-eligibility";
 
 const shopId = "11111111-1111-1111-1111-111111111111";
+
+class CouponUnavailableError extends Error {}
 
 type CartItem = {
   id: string;
@@ -82,15 +85,11 @@ export async function POST(request: Request) {
     };
   });
 
-  let coupon = null;
-  if (body.discountId) {
-    const [row] = await db
-      .select()
-      .from(discounts)
-      .where(eq(discounts.id, body.discountId))
-      .limit(1);
-    coupon = row ?? null;
+  const couponCheck = await findUsableCoupon(body.discountId, session.user.id);
+  if (!couponCheck.ok) {
+    return NextResponse.json({ error: couponCheck.error }, { status: 400 });
   }
+  const coupon = couponCheck.coupon;
   const { total: sumPrice } = calculateDiscount(lines, coupon);
 
   if (sumPrice <= 0) {
@@ -105,43 +104,74 @@ export async function POST(request: Request) {
   const orderNumber = String(maxNumber + 1);
   const orderId = crypto.randomUUID();
   const paymentId = crypto.randomUUID();
+  const userId = session.user.id;
 
-  await db.insert(orders).values({
-    id: orderId,
-    shop_id: shopId,
-    order_type: orderType,
-    customer_number: customerNumber,
-    sum_price: sumPrice,
-    discount_id: coupon?.id,
-    order_number: orderNumber,
-    tax: 0,
-    status: "processing",
-  });
+  try {
+    await db.transaction(async (tx) => {
+      await tx.insert(orders).values({
+        id: orderId,
+        user_id: userId,
+        shop_id: shopId,
+        order_type: orderType,
+        customer_number: customerNumber,
+        sum_price: sumPrice,
+        discount_id: coupon?.id,
+        order_number: orderNumber,
+        tax: 0,
+        status: "processing",
+      });
 
-  await db.insert(order_menus).values(
-    lines.map((line) => ({
-      id: crypto.randomUUID(),
-      order_id: orderId,
-      menu_id: line.menu_id,
-      order_order_number: line.quantity,
-      order_order_price: line.price * line.quantity,
-    })),
-  );
+      // コード付きクーポンは、注文行を作ったあとで未使用レコードを使用済みに切り替える
+      // （order_id の FK があるため注文が先）。同時に2回使われても片方しか成功しないよう
+      // used_at IS NULL を条件にし、0件ならロールバックして注文ごと取り消す。
+      if (coupon?.code) {
+        const marked = await tx
+          .update(user_discounts)
+          .set({ used_at: new Date(), order_id: orderId })
+          .where(
+            and(
+              eq(user_discounts.user_id, userId),
+              eq(user_discounts.discount_id, coupon.id),
+              isNull(user_discounts.used_at),
+            ),
+          )
+          .returning({ id: user_discounts.id });
+        if (marked.length === 0) {
+          throw new CouponUnavailableError();
+        }
+      }
 
-  if (paymentFlowId) {
-    await db.insert(payments).values({
-      id: paymentId,
-      order_id: orderId,
-      amount: sumPrice,
-      payment_method: "card",
-      type: "payjp",
+      await tx.insert(order_menus).values(
+        lines.map((line) => ({
+          id: crypto.randomUUID(),
+          order_id: orderId,
+          menu_id: line.menu_id,
+          order_order_number: line.quantity,
+          order_order_price: line.price * line.quantity,
+        })),
+      );
+
+      if (paymentFlowId) {
+        await tx.insert(payments).values({
+          id: paymentId,
+          order_id: orderId,
+          amount: sumPrice,
+          payment_method: "card",
+          type: "payjp",
+        });
+        await tx.insert(payment_pay_jpt).values({
+          id: crypto.randomUUID(),
+          payment_id: paymentId,
+          pay_jp_id: paymentFlowId,
+          payment_method: "card",
+        });
+      }
     });
-    await db.insert(payment_pay_jpt).values({
-      id: crypto.randomUUID(),
-      payment_id: paymentId,
-      pay_jp_id: paymentFlowId,
-      payment_method: "card",
-    });
+  } catch (error) {
+    if (error instanceof CouponUnavailableError) {
+      return NextResponse.json({ error: COUPON_UNAVAILABLE_MESSAGE }, { status: 400 });
+    }
+    throw error;
   }
 
   revalidatePath("/store_admin/history");

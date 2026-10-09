@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server";
 import { and, eq, inArray } from "drizzle-orm";
 import { db } from "@/db";
-import { menus, setmenu, setmenu_option, setmenu_option_detail, shops, discounts } from "@/db/schema";
+import { menus, setmenu, setmenu_option, setmenu_option_detail, shops } from "@/db/schema";
 import { createPaymentFlow } from "@payjp/payjpv2";
 import { payjp } from "@/app/lib/pay.jp";
 import { calculateDiscount, type DiscountLine } from "@/app/lib/apply-discount";
 import { getCustomerSession } from "@/app/lib/customer-session";
+import { findUsableCoupon } from "@/app/lib/coupon-eligibility";
 
 type CartItem = {
     id: string;
@@ -103,16 +104,14 @@ export async function POST(request: Request) {
         });
     }
 
-    let coupon = null;
-    if (body.discountId) {
-        const [row] = await db
-            .select()
-            .from(discounts)
-            .where(eq(discounts.id, body.discountId))
-            .limit(1);
-        coupon = row ?? null;
+    const couponCheck = await findUsableCoupon(body.discountId, session.user.id);
+    if (!couponCheck.ok) {
+        return NextResponse.json({ error: couponCheck.error }, { status: 400 });
     }
-    const { total: amount } = calculateDiscount(lines, coupon);
+    const { total: amount } = calculateDiscount(lines, couponCheck.coupon);
+    if (amount <= 0) {
+        return NextResponse.json({ error: "金額が正しくありません" }, { status: 400 });
+    }
 
     const {data, error} = await createPaymentFlow({
         client: payjp,

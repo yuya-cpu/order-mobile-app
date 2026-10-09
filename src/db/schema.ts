@@ -123,7 +123,7 @@ export const discounts = pgTable("discounts", {
 
 export const orders = pgTable("orders", {
     id: uuid("id").primaryKey(),
-    user_id: uuid("user_id").references(() => users.id),
+    user_id: uuid("user_id").references(() => customer_user.id),
     shop_id: uuid("shop_id").references(() => shops.id),
     discount_id: uuid("discount_id").references(() => discounts.id),
     order_type: text("order_type").notNull(),

@@ -3,7 +3,7 @@
 import { requireStoreAdmin } from "@/app/lib/store-admin";
 import { db } from "@/db";
 import { revalidatePath } from "next/cache";
-import { menus, setmenu, setmenu_option, setmenu_option_detail } from "@/db/schema";
+import { menu_categories, menus, setmenu, setmenu_option, setmenu_option_detail } from "@/db/schema";
 import { redirect } from "next/navigation";
 import { eq } from "drizzle-orm";
 import { customerPath, locales } from "@/i18n/config";
@@ -12,6 +12,21 @@ import { imageUrlFromForm } from "@/app/lib/menu-image-upload";
 import { syncSetDrinkOptions } from "@/app/lib/sync-set-drinks";
 
 const shopId ="11111111-1111-1111-1111-111111111111";
+
+// セット商品に自動で付けるカテゴリ。単品用の メイン/サイド/ドリンク とは別枠で、
+// クーポンの「カテゴリ対象」でセット全体を指定できるようにする。
+const SET_CATEGORY = { id: "33333333-3333-3333-3333-333333333334", name: "セット" };
+
+async function ensureSetCategoryId() {
+    const [existing] = await db
+        .select({ id: menu_categories.id })
+        .from(menu_categories)
+        .where(eq(menu_categories.name, SET_CATEGORY.name))
+        .limit(1);
+    if (existing) return existing.id;
+    await db.insert(menu_categories).values(SET_CATEGORY);
+    return SET_CATEGORY.id;
+}
 
 export async function createMenu(formData: FormData) {
     await requireStoreAdmin();
@@ -86,6 +101,7 @@ export async function createSetMenu(formData: FormData) {
 
     const menuId = crypto.randomUUID();
     const setId = crypto.randomUUID();
+    const setCategoryId = await ensureSetCategoryId();
 
     await db.insert(menus).values({
         id: menuId,
@@ -96,6 +112,7 @@ export async function createSetMenu(formData: FormData) {
         price,
         image_url: imageUrl,
         shop_id: shopId,
+        category_id: setCategoryId,
         is_accepted: true,
     });
 
