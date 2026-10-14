@@ -27,8 +27,8 @@ export default async function NewMenuPage() {
 
     return (
         <div className="flex flex-1 items-center justify-center px-4 py-8">
-        <form action={createMenu} className="mx-auto flex w-full max-w-md flex-col gap-5 rounded-2xl bg-white p-5 sm:p-8">
-            <h1 className="text-center text-2xl font-bold">新しい料理の登録</h1>
+        <form action={createMenu} className="mx-auto flex w-full max-w-md flex-col items-center gap-4">
+            <h1 className="text-center font-bold text-2xl">新しい料理の登録</h1>
             <div className="grid w-full grid-cols-2 gap-4">
                 <span className="w-full rounded-md px-4 py-3 text-center bg-[#E2584B] text-white">
                     単品
@@ -40,21 +40,21 @@ export default async function NewMenuPage() {
                     セット
                 </a>
             </div>
-            <label className="flex w-full flex-col gap-2 font-medium">
+            <label className="flex w-full flex-col gap-1 font-medium">
                 画像
                 <MenuImageInput required />
             </label>
-            <label className="flex w-full flex-col gap-2 font-medium">
+            <label className="flex w-full flex-col gap-1 font-medium">
                 商品名
-                <input name="name" required className="w-full rounded-md border border-gray-300 p-3" />
+                <input name="name" required className="border border-gray-300 rounded-md p-2" />
             </label>
-            <label className="flex w-full flex-col gap-2 font-medium">
+            <label className="flex w-full flex-col gap-1 font-medium">
                 英語名
-                <input name="name_en" className="w-full rounded-md border border-gray-300 p-3" />
+                <input name="name_en" className="border border-gray-300 rounded-md p-2" />
             </label>
-            <label className="flex w-full flex-col gap-2 font-medium">
+            <label className="flex w-full flex-col gap-1 font-medium">
                 カテゴリー
-                <select name="category_id" required className="w-full rounded-md border border-gray-300 p-3">
+                <select name="category_id" required className="border border-gray-300 rounded-md p-2">
                     <option value="">選択してください</option>
                     {categoryOptions.map((category) => (
                         <option key={category.id} value={category.id}>
@@ -63,17 +63,17 @@ export default async function NewMenuPage() {
                     ))}
                 </select>
             </label>
-            <label className="flex w-full flex-col gap-2 font-medium">
+            <label className="flex w-full flex-col gap-1 font-medium">
                 価格（税込）
-                <input name="price" required className="w-full rounded-md border border-gray-300 p-3" />
+                <input name="price" required className="border border-gray-300 rounded-md p-2" />
             </label>
-            <label className="flex w-full flex-col gap-2 font-medium">
+            <label className="flex w-full flex-col gap-1 font-medium">
                 説明
-                <textarea name="description" required className="w-full rounded-md border border-gray-300 p-3" />
+                <textarea name="description" required className="border border-gray-300 rounded-md p-2" />
             </label>
-            <label className="flex w-full flex-col gap-2 font-medium">
+            <label className="flex w-full flex-col gap-1 font-medium">
                 英語説明
-                <textarea name="description_en" className="w-full rounded-md border border-gray-300 p-3" />
+                <textarea name="description_en" className="border border-gray-300 rounded-md p-2" />
             </label>
 
             <div className="flex w-full gap-3">
