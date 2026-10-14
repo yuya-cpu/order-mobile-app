@@ -37,7 +37,8 @@ export default async function HistorydetailPage({
     })
     .from(order_menus)
     .leftJoin(menus, eq(menus.id, order_menus.menu_id))
-    .where(eq(order_menus.order_id, id));
+    .where(eq(order_menus.order_id, id))
+    .orderBy(menus.name);
 
 
 const coupon = order.discount_id ? await db.query.discounts.findFirst({

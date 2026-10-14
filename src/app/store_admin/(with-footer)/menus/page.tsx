@@ -14,8 +14,9 @@ export default async function MenusPage() {
         image_url: menus.image_url,
         is_accepted: menus.is_accepted,
     })
-    .from(menus).
-    where(isNull(menus.deleted_at));
+    .from(menus)
+    .where(isNull(menus.deleted_at))
+    .orderBy(menus.created_at);
 
 if (rows.length === 0) {
     return

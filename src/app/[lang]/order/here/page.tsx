@@ -48,7 +48,8 @@ export default async function MenusPage({
                 : filter === "single"
                     ? and(isNull(menus.deleted_at), eq(menus.is_accepted, true), isNull(setmenu.id))
                     : and(isNull(menus.deleted_at), eq(menus.is_accepted, true)),
-        );
+        )
+        .orderBy(menus.created_at);
 
     const rows = await query;
 

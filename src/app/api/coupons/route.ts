@@ -27,7 +27,8 @@ export async function GET() {
         .from(discounts)
         .leftJoin(menus, eq(menus.id, discounts.target_menu_id))
         .leftJoin(menu_categories, eq(menu_categories.id, discounts.target_category_id))
-        .where(and(isNull(discounts.deleted_at), isNull(discounts.code)));
+        .where(and(isNull(discounts.deleted_at), isNull(discounts.code)))
+        .orderBy(discounts.created_at);
 
     if (!userId) {
         return NextResponse.json(publicCoupons);
@@ -46,7 +47,8 @@ export async function GET() {
                 isNull(discounts.deleted_at),
                 or(isNull(discounts.expires_at), gt(discounts.expires_at, new Date())),
             ),
-        );
+        )
+        .orderBy(user_discounts.acquired_at);
 
     const byId = new Map(publicCoupons.map((coupon) => [coupon.id, coupon]));
     for (const coupon of ownedCoupons) {

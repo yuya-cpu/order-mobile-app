@@ -36,7 +36,8 @@ export default async function NewSetMenuPage() {
     })
     .from(menus)
     .leftJoin(menu_categories, eq(menus.category_id, menu_categories.id))
-    .where(isNull(menus.deleted_at));
+    .where(isNull(menus.deleted_at))
+    .orderBy(menus.created_at);
 
   const items = rows
     .filter((row) => !setIds.has(row.id))

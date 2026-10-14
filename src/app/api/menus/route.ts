@@ -11,6 +11,7 @@ export async function GET() {
       category_id: menus.category_id,
     })
     .from(menus)
-    .where(and(isNull(menus.deleted_at), eq(menus.is_accepted, true)));
+    .where(and(isNull(menus.deleted_at), eq(menus.is_accepted, true)))
+    .orderBy(menus.created_at);
   return NextResponse.json(rows);
 }

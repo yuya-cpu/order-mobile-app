@@ -23,7 +23,8 @@ export default async function CouponsPage() {
     .from(discounts)
     .leftJoin(menus, eq(menus.id, discounts.target_menu_id))
     .leftJoin(menu_categories, eq(menu_categories.id, discounts.target_category_id))
-    .where(isNull(discounts.deleted_at));
+    .where(isNull(discounts.deleted_at))
+    .orderBy(discounts.created_at);
 
   if (rows.length === 0) {
     return (
