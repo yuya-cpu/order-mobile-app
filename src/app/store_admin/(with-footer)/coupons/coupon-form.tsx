@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { useFormStatus } from "react-dom";
 import Link from "next/link";
 import { generateCouponCode } from "@/app/lib/coupon-code";
+import { PendingSubmitButton } from "@/components/admin/pending-submit-button";
 
 export type TargetOption = { id: string; name: string };
 
@@ -26,18 +26,6 @@ function initialScope(coupon?: CouponDefaults): TargetScope {
   return "all";
 }
 
-function SubmitButton({ label, pendingLabel }: { label: string; pendingLabel: string }) {
-  const { pending } = useFormStatus();
-  return (
-    <button
-      type="submit"
-      disabled={pending}
-      className="flex-1 rounded-full bg-[#E2584B] py-3 text-white disabled:opacity-50"
-    >
-      {pending ? pendingLabel : label}
-    </button>
-  );
-}
 
 export function CouponForm({
   action,
@@ -208,9 +196,10 @@ export function CouponForm({
         >
           戻る
         </Link>
-        <SubmitButton
-          label={coupon ? "更新" : "クーポンを作成"}
+        <PendingSubmitButton
+          idleLabel={coupon ? "更新" : "クーポンを作成"}
           pendingLabel={coupon ? "更新中..." : "作成中..."}
+          className="flex-1 rounded-full bg-[#E2584B] py-3 text-white disabled:opacity-50"
         />
       </div>
     </form>

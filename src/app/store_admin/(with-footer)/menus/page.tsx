@@ -3,6 +3,7 @@ import { menus } from "@/db/schema";
 import { isNull } from "drizzle-orm";
 import { toggleMenuAccepted } from "./actions";
 import { MenuPhoto } from "@/app/lib/menu-image";
+import { PendingSubmitButton } from "@/components/admin/pending-submit-button";
 
 export default async function MenusPage() {
     const rows = await db.select({
@@ -73,17 +74,15 @@ return (
                 <td>
                     <div className="flex items-center gap-2">
                         <form action={toggleMenuAccepted.bind(null, menu.id)}>
-                            
-                            <button
-                                type="submit"
-                                className={`inline-block rounded-full border px-4 py-1.5 text-sm ${
+                            <PendingSubmitButton
+                                idleLabel={menu.is_accepted ? "受付停止" : "受付再開"}
+                                pendingLabel="処理中..."
+                                className={`inline-block rounded-full border px-4 py-1.5 text-sm disabled:opacity-50 ${
                                     menu.is_accepted
                                       ? "border-zinc-400 text-zinc-700"
                                       : "border-emerald-700 text-emerald-700"
                                   }`}
-                            >
-                                {menu.is_accepted ? "受付停止" : "受付再開"}
-                            </button>
+                            />
                         </form>
                         <a
                             href={`/store_admin/menus/${menu.id}/edit`}

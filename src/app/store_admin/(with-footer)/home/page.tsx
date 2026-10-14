@@ -3,6 +3,7 @@ import { updateShopStatus } from "./actions";
 import { db } from "@/db";
 import { shops } from "@/db/schema";
 import { eq } from "drizzle-orm";
+import { PendingSubmitButton } from "@/components/admin/pending-submit-button";
 
 const shopId = "11111111-1111-1111-1111-111111111111";
 
@@ -46,32 +47,28 @@ export default async function AdminHomePage() {
             <form action={updateShopStatus}>
                 <input type="hidden" name="id" value={shopId} />
                 <input type="hidden" name="is_accepted" value="false" />
-                <button
-                    type="submit"
+                <PendingSubmitButton
+                    idleLabel="注文の一時停止"
                     disabled={!accepting}
                     className={
                         accepting
                             ? "w-full rounded-2xl border-2 border-zinc-300 bg-white px-6 py-3 text-zinc-400"
                             : "w-full rounded-2xl bg-[#E2584B] px-6 py-3 text-white hover:bg-[#E2584B]/80"
                     }
-                >
-                    注文の一時停止
-                </button>
+                />
             </form>
             <form action={updateShopStatus}>
                 <input type="hidden" name="id" value={shopId} />
                 <input type="hidden" name="is_accepted" value="true" />
-                <button
-                    type="submit"
+                <PendingSubmitButton
+                    idleLabel="注文受け入れ開始"
                     disabled={accepting}
                     className={
                         accepting
                             ? "w-full rounded-2xl bg-[#E2584B] px-6 py-3 text-white hover:bg-[#E2584B]/80"
                             : "w-full rounded-2xl border-2 border-zinc-300 bg-white px-6 py-3 text-zinc-400"
                     }
-                >
-                    注文受け入れ開始
-                </button>
+                />
             </form>
             </div>
         </main>

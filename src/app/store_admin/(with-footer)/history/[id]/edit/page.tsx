@@ -3,6 +3,7 @@ import { orders, order_menus, menus, discounts } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
 import { cancelOrder, uncancelOrder } from "../../../orders/action";
+import { PendingSubmitButton } from "@/components/admin/pending-submit-button";
 
 function format(date: Date, format: string) {
     return date.toLocaleString("ja-JP", {
@@ -100,22 +101,18 @@ const coupon = order.discount_id ? await db.query.discounts.findFirst({
           </button>
           {order.status === "cancel" ? (
   <form action={uncancelOrder.bind(null, order.id)}>
-    <button
-      type="submit"
-      className="w-full rounded-xl border border-zinc-300 bg-white px-4 py-3"
-    >
-      キャンセルを取り消す
-    </button>
+    <PendingSubmitButton
+      idleLabel="キャンセルを取り消す"
+      className="w-full rounded-xl border border-zinc-300 bg-white px-4 py-3 disabled:opacity-50"
+    />
   </form>
 ) : (
   
             <form action={cancelOrder.bind(null, order.id)}>
-              <button
-                type="submit"
-                className="w-full rounded-xl bg-[#F8E8E6] px-4 py-3 text-[#E2584B]"
-              >
-                注文のキャンセル
-              </button>
+              <PendingSubmitButton
+                idleLabel="注文のキャンセル"
+                className="w-full rounded-xl bg-[#F8E8E6] px-4 py-3 text-[#E2584B] disabled:opacity-50"
+              />
             </form>
           )}
         </aside>

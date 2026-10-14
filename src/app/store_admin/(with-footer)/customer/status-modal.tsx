@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { X } from "lucide-react";
 import { updateStatus } from "./action";
+import { PendingSubmitButton } from "@/components/admin/pending-submit-button";
 
 export function StatusModal(props: {
   userId: string;
@@ -101,16 +102,14 @@ export function StatusModal(props: {
                 >
                   キャンセル
                 </button>
-                <button
-                  type="submit"
+                <PendingSubmitButton
+                  idleLabel={suspending ? "停止する" : "再開する"}
                   className={
                     suspending
-                      ? "flex-1 rounded-xl bg-[#E2584B] py-3 text-white"
-                      : "flex-1 rounded-xl bg-emerald-600 py-3 text-white"
+                      ? "flex-1 rounded-xl bg-[#E2584B] py-3 text-white disabled:opacity-50"
+                      : "flex-1 rounded-xl bg-emerald-600 py-3 text-white disabled:opacity-50"
                   }
-                >
-                  {suspending ? "停止する" : "再開する"}
-                </button>
+                />
               </div>
             </form>
           </div>

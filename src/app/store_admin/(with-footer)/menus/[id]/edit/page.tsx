@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { menus } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { MenuImageInput } from "../../image-input";
+import { PendingSubmitButton } from "@/components/admin/pending-submit-button";
 
 export default async function EditMenuPage({
   params,
@@ -30,17 +31,19 @@ export default async function EditMenuPage({
     }
     return (
         <div className="flex flex-1 items-center justify-center px-4 py-8">
-        <form action={updateMenu} className="mx-auto flex w-full max-w-md flex-col items-center gap-4">
+        <div className="mx-auto flex w-full max-w-md flex-col items-center gap-4">
             <div className="flex w-full items-center justify-between gap-4">
                 <h1 className="font-bold text-2xl">メニューの編集</h1>
-                <button
-                    type="submit"
-                    form="delete-menu"
-                    className="rounded-full bg-[#F8E8E6] px-4 py-1.5 text-sm text-[#E2584B]"
-                >
-                    削除
-                </button>
+                <form action={deleteMenu}>
+                    <input name="id" type="hidden" value={menu.id} />
+                    <PendingSubmitButton
+                        idleLabel="削除"
+                        pendingLabel="削除中..."
+                        className="rounded-full bg-[#F8E8E6] px-4 py-1.5 text-sm text-[#E2584B] disabled:opacity-50"
+                    />
+                </form>
             </div>
+            <form action={updateMenu} className="flex w-full flex-col items-center gap-4">
             <input name="id" type="hidden" value={menu.id} />
             <input name="current_image" type="hidden" value={menu.image_url} />
             <label className="flex w-full flex-col gap-1 font-medium">
@@ -75,17 +78,14 @@ export default async function EditMenuPage({
                 >
                     一覧に戻る
                 </a>
-                <button
-                    type="submit"
-                    className="flex flex-1 items-center justify-center rounded-full bg-[#E2584B] px-4 py-2 text-sm text-white"
-                >
-                    更新
-                </button>
+                <PendingSubmitButton
+                    idleLabel="更新"
+                    pendingLabel="更新中..."
+                    className="flex flex-1 items-center justify-center rounded-full bg-[#E2584B] px-4 py-2 text-sm text-white disabled:opacity-50"
+                />
             </div>
-        </form>
-        <form id="delete-menu" action={deleteMenu}>
-            <input name="id" type="hidden" value={menu.id} />
-        </form>
+            </form>
+        </div>
         </div>
     );
 }

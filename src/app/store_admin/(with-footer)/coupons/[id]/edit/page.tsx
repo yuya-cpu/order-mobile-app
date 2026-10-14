@@ -4,6 +4,7 @@ import { db } from "@/db";
 import { discounts, menu_categories, menus } from "@/db/schema";
 import { updateCoupon, deleteCoupon } from "../../actions";
 import { CouponForm } from "../../coupon-form";
+import { PendingSubmitButton } from "@/components/admin/pending-submit-button";
 
 export default async function EditCouponPage({
   params,
@@ -33,13 +34,14 @@ export default async function EditCouponPage({
     <div className="flex flex-1 flex-col items-center px-4 py-8 sm:px-8">
       <div className="w-full max-w-3xl">
         <div className="mb-4 flex justify-end">
-          <button
-            type="submit"
-            form="delete-coupon"
-            className="rounded-full bg-[#F8E8E6] px-4 py-1.5 text-sm text-[#E2584B]"
-          >
-            削除
-          </button>
+          <form action={deleteCoupon}>
+            <input type="hidden" name="id" value={coupon.id} />
+            <PendingSubmitButton
+              idleLabel="削除"
+              pendingLabel="削除中..."
+              className="rounded-full bg-[#F8E8E6] px-4 py-1.5 text-sm text-[#E2584B] disabled:opacity-50"
+            />
+          </form>
         </div>
         <CouponForm
           action={updateCoupon}
@@ -57,9 +59,6 @@ export default async function EditCouponPage({
           }}
         />
       </div>
-      <form id="delete-coupon" action={deleteCoupon}>
-        <input type="hidden" name="id" value={coupon.id} />
-      </form>
     </div>
   );
 }

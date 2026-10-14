@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { updateOrderStatus } from "./action";
+import { PendingSubmitButton } from "@/components/admin/pending-submit-button";
 
 
 const StatusChange = [
@@ -57,9 +58,11 @@ return (
                 >
                     閉じる
                 </button>
-                <button type="submit" className="flex-1 rounded-2xl bg-[#E2584B] py-2 text-white">
-                    変更する
-                </button>
+                <PendingSubmitButton
+                    idleLabel="変更する"
+                    pendingLabel="変更中..."
+                    className="flex-1 rounded-2xl bg-[#E2584B] py-2 text-white disabled:opacity-50"
+                />
                 </div>
               </form>
             </div>
