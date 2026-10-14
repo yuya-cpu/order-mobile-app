@@ -49,7 +49,7 @@ export function MenuImageInput({ required = false }: { required?: boolean }) {
       accept="image/*"
       required={required}
       onChange={onChange}
-      className="border border-gray-300 rounded-md p-2"
+      className="w-full rounded-md border border-gray-300 p-3"
     />
   );
 }

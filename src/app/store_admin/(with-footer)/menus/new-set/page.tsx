@@ -51,8 +51,8 @@ export default async function NewSetMenuPage() {
   if (items.length === 0) {
     return (
       <div className="flex flex-1 items-center justify-center px-4 py-8">
-        <div className="mx-auto flex w-full max-w-md flex-col items-center gap-4">
-          <h1 className="text-center font-bold text-2xl">新しいセットの登録</h1>
+        <div className="mx-auto flex w-full max-w-md flex-col gap-5 rounded-2xl bg-white p-5 sm:p-8">
+          <h1 className="text-center text-2xl font-bold">新しいセットの登録</h1>
           <div className="grid w-full grid-cols-2 gap-4">
             <a
               href="/store_admin/menus/new"

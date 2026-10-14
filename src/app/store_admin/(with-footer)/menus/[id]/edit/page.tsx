@@ -31,9 +31,9 @@ export default async function EditMenuPage({
     }
     return (
         <div className="flex flex-1 items-center justify-center px-4 py-8">
-        <div className="mx-auto flex w-full max-w-md flex-col items-center gap-4">
+        <div className="mx-auto flex w-full max-w-md flex-col gap-5 rounded-2xl bg-white p-5 sm:p-8">
             <div className="flex w-full items-center justify-between gap-4">
-                <h1 className="font-bold text-2xl">メニューの編集</h1>
+                <h1 className="text-2xl font-bold">メニューの編集</h1>
                 <form action={deleteMenu}>
                     <input name="id" type="hidden" value={menu.id} />
                     <PendingSubmitButton
@@ -43,32 +43,32 @@ export default async function EditMenuPage({
                     />
                 </form>
             </div>
-            <form action={updateMenu} className="flex w-full flex-col items-center gap-4">
+            <form action={updateMenu} className="flex w-full flex-col gap-5">
             <input name="id" type="hidden" value={menu.id} />
             <input name="current_image" type="hidden" value={menu.image_url} />
-            <label className="flex w-full flex-col gap-1 font-medium">
+            <label className="flex w-full flex-col gap-2 font-medium">
                 画像
                 <MenuImageInput />
             </label>
-            <label className="flex w-full flex-col gap-1 font-medium">
+            <label className="flex w-full flex-col gap-2 font-medium">
                 商品名
-                <input name="name" required className="border border-gray-300 rounded-md p-2" defaultValue={menu.name} />
+                <input name="name" required className="w-full rounded-md border border-gray-300 p-3" defaultValue={menu.name} />
             </label>
-            <label className="flex w-full flex-col gap-1 font-medium">
+            <label className="flex w-full flex-col gap-2 font-medium">
                 英語名
-                <input name="name_en" className="border border-gray-300 rounded-md p-2" defaultValue={menu.name_en ?? ""} />
+                <input name="name_en" className="w-full rounded-md border border-gray-300 p-3" defaultValue={menu.name_en ?? ""} />
             </label>
-            <label className="flex w-full flex-col gap-1 font-medium">
+            <label className="flex w-full flex-col gap-2 font-medium">
                 価格（税込）
-                <input name="price" required className="border border-gray-300 rounded-md p-2" defaultValue={menu.price} />
+                <input name="price" required className="w-full rounded-md border border-gray-300 p-3" defaultValue={menu.price} />
             </label>
-            <label className="flex w-full flex-col gap-1 font-medium">
+            <label className="flex w-full flex-col gap-2 font-medium">
                 説明
-                <textarea name="description" required className="border border-gray-300 rounded-md p-2" defaultValue={menu.description} />
+                <textarea name="description" required className="w-full rounded-md border border-gray-300 p-3" defaultValue={menu.description} />
             </label>
-            <label className="flex w-full flex-col gap-1 font-medium">
+            <label className="flex w-full flex-col gap-2 font-medium">
                 英語説明
-                <textarea name="description_en" className="border border-gray-300 rounded-md p-2" defaultValue={menu.description_en ?? ""} />
+                <textarea name="description_en" className="w-full rounded-md border border-gray-300 p-3" defaultValue={menu.description_en ?? ""} />
             </label>
 
             <div className="flex w-full gap-3">

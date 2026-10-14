@@ -73,9 +73,9 @@ export function SetMenuForm({
   return (
     <form
       action={createSetMenu}
-      className="mx-auto flex w-full max-w-md flex-col items-center gap-4"
+      className="mx-auto flex w-full max-w-md flex-col gap-5 rounded-2xl bg-white p-5 sm:p-8"
     >
-      <h1 className="text-center font-bold text-2xl">新しいセットの登録</h1>
+      <h1 className="text-center text-2xl font-bold">新しいセットの登録</h1>
       <div className="grid w-full grid-cols-2 gap-4">
         <a
           href="/store_admin/menus/new"
@@ -88,46 +88,46 @@ export function SetMenuForm({
         </span>
       </div>
       <input type="hidden" name="options" value={JSON.stringify(options)} />
-      <label className="flex w-full flex-col gap-1 font-medium">
+      <label className="flex w-full flex-col gap-2 font-medium">
         画像
         <MenuImageInput required />
       </label>
-      <label className="flex w-full flex-col gap-1 font-medium">
+      <label className="flex w-full flex-col gap-2 font-medium">
         商品名
         <input
           name="name"
           required
-          className="border border-gray-300 rounded-md p-2"
+          className="w-full rounded-md border border-gray-300 p-3"
         />
       </label>
-      <label className="flex w-full flex-col gap-1 font-medium">
+      <label className="flex w-full flex-col gap-2 font-medium">
         英語名
         <input
           name="name_en"
-          className="border border-gray-300 rounded-md p-2"
+          className="w-full rounded-md border border-gray-300 p-3"
         />
       </label>
-      <label className="flex w-full flex-col gap-1 font-medium">
+      <label className="flex w-full flex-col gap-2 font-medium">
         価格（税込）
         <input
           name="price"
           required
-          className="border border-gray-300 rounded-md p-2"
+          className="w-full rounded-md border border-gray-300 p-3"
         />
       </label>
-      <label className="flex w-full flex-col gap-1 font-medium">
+      <label className="flex w-full flex-col gap-2 font-medium">
         説明
         <textarea
           name="description"
           required
-          className="border border-gray-300 rounded-md p-2"
+          className="w-full rounded-md border border-gray-300 p-3"
         />
       </label>
-      <label className="flex w-full flex-col gap-1 font-medium">
+      <label className="flex w-full flex-col gap-2 font-medium">
         英語説明
         <textarea
           name="description_en"
-          className="border border-gray-300 rounded-md p-2"
+          className="w-full rounded-md border border-gray-300 p-3"
         />
       </label>
 
@@ -138,12 +138,12 @@ export function SetMenuForm({
         const categoryItems = matched.length > 0 ? matched : items;
         return (
         <div key={index} className="flex w-full flex-col gap-2">
-          <label className="flex w-full flex-col gap-1 font-medium">
+          <label className="flex w-full flex-col gap-2 font-medium">
             カテゴリー
             <select
               value={option.category_id}
               onChange={(e) => updateCategory(index, e.target.value)}
-              className="border border-gray-300 rounded-md p-2"
+              className="w-full rounded-md border border-gray-300 p-3"
             >
               <option value="">選択してください</option>
               {categories.map((category) => (
