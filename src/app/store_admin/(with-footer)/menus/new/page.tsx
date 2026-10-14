@@ -27,7 +27,7 @@ export default async function NewMenuPage() {
 
     return (
         <div className="flex flex-1 items-center justify-center px-4 py-8">
-        <form action={createMenu} className="mx-auto flex w-full max-w-md flex-col items-center gap-4">
+        <form action={createMenu} className="mx-auto flex w-full max-w-md flex-col items-center gap-4 rounded-2xl bg-white p-6 shadow-sm">
             <h1 className="text-center font-bold text-2xl">新しい料理の登録</h1>
             <div className="grid w-full grid-cols-2 gap-4">
                 <span className="w-full rounded-md px-4 py-3 text-center bg-[#E2584B] text-white">
