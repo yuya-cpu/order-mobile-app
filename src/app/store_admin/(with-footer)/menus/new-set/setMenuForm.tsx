@@ -70,63 +70,65 @@ export function SetMenuForm({
     );
   }
 
-  const fieldClass =
-    "w-full rounded-full border border-zinc-200 bg-white px-5 py-3 outline-none placeholder:text-zinc-400";
-  const areaClass =
-    "w-full rounded-2xl border border-zinc-200 bg-white px-5 py-3 outline-none placeholder:text-zinc-400";
-  const labelClass = "flex w-full flex-col gap-2 text-sm text-zinc-800";
-
   return (
     <form
       action={createSetMenu}
-      className="flex w-full max-w-2xl flex-col gap-6"
+      className="mx-auto flex w-full max-w-2xl flex-col items-center gap-4 rounded-2xl bg-white p-6 shadow-sm"
     >
-      <h1 className="text-center text-2xl font-bold">新しいセットの登録</h1>
-      <div className="grid w-full grid-cols-2 gap-3">
+      <h1 className="text-center font-bold text-2xl">新しいセットの登録</h1>
+      <div className="grid w-full grid-cols-2 gap-4">
         <a
           href="/store_admin/menus/new"
-          className="rounded-full bg-[#F4F1EA] py-3 text-center text-zinc-700"
+          className="w-full rounded-md px-4 py-3 text-center bg-gray-200 text-gray-700"
         >
           単品
         </a>
-        <span className="rounded-full bg-[#E2584B] py-3 text-center text-white">
+        <span className="w-full rounded-md px-4 py-3 text-center bg-[#E2584B] text-white">
           セット
         </span>
       </div>
       <input type="hidden" name="options" value={JSON.stringify(options)} />
-      <MenuImageInput required />
-      <label className={labelClass}>
+      <label className="flex w-full flex-col gap-1 font-medium">
+        画像
+        <MenuImageInput required />
+      </label>
+      <label className="flex w-full flex-col gap-1 font-medium">
         商品名
         <input
           name="name"
           required
-          placeholder="例: ハンバーガーセット"
-          className={fieldClass}
+          className="border border-gray-300 rounded-md p-2"
         />
       </label>
-      <label className={labelClass}>
+      <label className="flex w-full flex-col gap-1 font-medium">
         英語名
-        <input name="name_en" placeholder="English name" className={fieldClass} />
+        <input
+          name="name_en"
+          className="border border-gray-300 rounded-md p-2"
+        />
       </label>
-      <label className={labelClass}>
+      <label className="flex w-full flex-col gap-1 font-medium">
         価格（税込）
-        <div className="flex items-center gap-3">
-          <input name="price" required placeholder="例: 500" className={fieldClass} />
-          <span className="shrink-0 text-zinc-700">円</span>
-        </div>
+        <input
+          name="price"
+          required
+          className="border border-gray-300 rounded-md p-2"
+        />
       </label>
-      <label className={labelClass}>
+      <label className="flex w-full flex-col gap-1 font-medium">
         説明
         <textarea
           name="description"
           required
-          placeholder="商品の特徴やアレルギーを入力"
-          className={areaClass}
+          className="border border-gray-300 rounded-md p-2"
         />
       </label>
-      <label className={labelClass}>
+      <label className="flex w-full flex-col gap-1 font-medium">
         英語説明
-        <textarea name="description_en" placeholder="Description" className={areaClass} />
+        <textarea
+          name="description_en"
+          className="border border-gray-300 rounded-md p-2"
+        />
       </label>
 
       {options.map((option, index) => {
@@ -136,12 +138,12 @@ export function SetMenuForm({
         const categoryItems = matched.length > 0 ? matched : items;
         return (
         <div key={index} className="flex w-full flex-col gap-2">
-          <label className={labelClass}>
+          <label className="flex w-full flex-col gap-1 font-medium">
             カテゴリー
             <select
               value={option.category_id}
               onChange={(e) => updateCategory(index, e.target.value)}
-              className={fieldClass}
+              className="border border-gray-300 rounded-md p-2"
             >
               <option value="">選択してください</option>
               {categories.map((category) => (
@@ -195,12 +197,12 @@ export function SetMenuForm({
         枠を追加
       </button>
 
-      <div className="flex w-full gap-3 pt-2">
+      <div className="flex w-full gap-3">
         <a
           href="/store_admin/menus"
-          className="flex flex-1 items-center justify-center rounded-full bg-white py-4 text-zinc-800"
+          className="flex flex-1 items-center justify-center rounded-full bg-zinc-100 px-4 py-2 text-sm text-zinc-700"
         >
-          戻る
+          一覧に戻る
         </a>
         <MenuSubmitButton idleLabel="セット登録" />
       </div>

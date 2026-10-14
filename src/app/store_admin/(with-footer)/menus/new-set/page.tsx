@@ -50,24 +50,24 @@ export default async function NewSetMenuPage() {
 
   if (items.length === 0) {
     return (
-      <div className="flex flex-1 justify-center px-6 py-10">
-        <div className="flex w-full max-w-2xl flex-col gap-6">
-          <h1 className="text-center text-2xl font-bold">新しいセットの登録</h1>
-          <div className="grid w-full grid-cols-2 gap-3">
+      <div className="flex flex-1 items-center justify-center px-4 py-8">
+        <div className="mx-auto flex w-full max-w-2xl flex-col items-center gap-4 rounded-2xl bg-white p-6 shadow-sm">
+          <h1 className="text-center font-bold text-2xl">新しいセットの登録</h1>
+          <div className="grid w-full grid-cols-2 gap-4">
             <a
               href="/store_admin/menus/new"
-              className="rounded-full bg-[#F4F1EA] py-3 text-center text-zinc-700"
+              className="w-full rounded-md px-4 py-3 text-center bg-gray-200 text-gray-700"
             >
               単品
             </a>
-            <span className="rounded-full bg-[#E2584B] py-3 text-center text-white">
+            <span className="w-full rounded-md px-4 py-3 text-center bg-[#E2584B] text-white">
               セット
             </span>
           </div>
-          <p className="text-sm text-zinc-500">先に単品メニューを登録してください</p>
+          <p className="text-sm text-gray-500">先に単品メニューを登録してください</p>
           <a
             href="/store_admin/menus/new"
-            className="flex w-full items-center justify-center rounded-full bg-[#E2584B] py-4 text-white"
+            className="flex w-full items-center justify-center rounded-full bg-[#E2584B] px-4 py-2 text-sm text-white"
           >
             メニュー登録へ
           </a>
@@ -77,7 +77,7 @@ export default async function NewSetMenuPage() {
   }
 
   return (
-    <div className="flex flex-1 justify-center px-6 py-10">
+    <div className="flex flex-1 items-center justify-center px-4 py-8">
       <SetMenuForm items={items} categories={categoryOptions} />
     </div>
   );
