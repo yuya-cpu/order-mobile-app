@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 const UUID_RE =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
@@ -28,6 +30,26 @@ export function MenuPhoto({
   className: string;
 }) {
   const src = menuImageSrc(url);
-  if (!src) return <div aria-hidden className={className} />;
-  return <img src={src} alt={alt} className={className} />;
+  const frame = `relative block overflow-hidden bg-zinc-200 ${className}`;
+  if (!src) return <span aria-hidden className={frame} />;
+
+  if (src.startsWith("data:")) {
+    return (
+      <span className={frame}>
+        <img src={src} alt={alt} className="absolute inset-0 h-full w-full object-cover" />
+      </span>
+    );
+  }
+
+  return (
+    <span className={frame}>
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        sizes="(max-width: 768px) 50vw, 256px"
+        className="object-cover"
+      />
+    </span>
+  );
 }
