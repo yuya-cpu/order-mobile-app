@@ -54,8 +54,9 @@
     "title": "Menu",
     "orderingSuffix": " — ordering",
     "all": "All",
-    "set": "Set",
-    "single": "Single",
+    "main": "Main",
+    "side": "Side",
+    "drink": "Drink",
     "cart": "View cart"
   },
   "detail": {

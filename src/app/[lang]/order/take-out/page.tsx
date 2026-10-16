@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { menus, setmenu } from "@/db/schema";
+import { menu_categories, menus } from "@/db/schema";
 import { and, eq, isNull } from "drizzle-orm";
 import Link from "next/link";
 import { shopIsOpen } from "../shop-status";
@@ -21,7 +21,9 @@ export default async function MenusPage({
     if (!isLocale(lang)) notFound();
     const dict = await getDictionary(lang);
     const kind = (await searchParams).kind;
-    const filter = kind === "set" || kind === "single" ? kind : "all";
+    const categoryNames = { main: "メイン", side: "サイド", drink: "ドリンク" } as const;
+    const filter = kind === "main" || kind === "side" || kind === "drink" ? kind : "all";
+    const categoryName = filter === "all" ? null : categoryNames[filter];
 
     if (!(await shopIsOpen())) {
         return (
@@ -41,19 +43,19 @@ export default async function MenusPage({
             is_accepted: menus.is_accepted,
         })
         .from(menus)
-        .leftJoin(setmenu, eq(setmenu.menus_id, menus.id))
+        .leftJoin(menu_categories, eq(menus.category_id, menu_categories.id))
         .where(
-            filter === "set"
-                ? and(isNull(menus.deleted_at), eq(menus.is_accepted, true), eq(setmenu.menus_id, menus.id))
-                : filter === "single"
-                    ? and(isNull(menus.deleted_at), eq(menus.is_accepted, true), isNull(setmenu.id))
-                    : and(isNull(menus.deleted_at), eq(menus.is_accepted, true)),
+            and(
+                isNull(menus.deleted_at),
+                eq(menus.is_accepted, true),
+                categoryName ? eq(menu_categories.name, categoryName) : undefined,
+            ),
         )
         .orderBy(menus.created_at);
 
     const rows = await query;
 
-    function tabClass(value: "all" | "set" | "single") {
+    function tabClass(value: "all" | "main" | "side" | "drink") {
         return filter === value
             ? "inline-flex min-w-[4.75rem] items-center justify-center rounded-full bg-black px-4 py-2 text-center text-white"
             : "inline-flex min-w-[4.75rem] items-center justify-center rounded-full bg-zinc-200 px-4 py-2 text-center text-black";
@@ -68,8 +70,9 @@ export default async function MenusPage({
                 </div>
                 <div className="mb-4 flex justify-start gap-2">
                     <Link href={customerPath(lang, "/order/take-out")} className={tabClass("all")}>{dict.menu.all}</Link>
-                    <Link href={`${customerPath(lang, "/order/take-out")}?kind=set`} className={tabClass("set")}>{dict.menu.set}</Link>
-                    <Link href={`${customerPath(lang, "/order/take-out")}?kind=single`} className={tabClass("single")}>{dict.menu.single}</Link>
+                    <Link href={`${customerPath(lang, "/order/take-out")}?kind=main`} className={tabClass("main")}>{dict.menu.main}</Link>
+                    <Link href={`${customerPath(lang, "/order/take-out")}?kind=side`} className={tabClass("side")}>{dict.menu.side}</Link>
+                    <Link href={`${customerPath(lang, "/order/take-out")}?kind=drink`} className={tabClass("drink")}>{dict.menu.drink}</Link>
                 </div>
 
                 <ul className="grid grid-cols-2 gap-4">
