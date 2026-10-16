@@ -2,8 +2,9 @@ import { db } from "@/db";
 import { orders, order_menus, menus, discounts } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
-import { cancelOrder, uncancelOrder } from "../../../orders/action";
+import { uncancelOrder } from "../../../orders/action";
 import { PendingSubmitButton } from "@/components/admin/pending-submit-button";
+import { CancelConfirmModal } from "./cancel-confirm-modal";
 
 function format(date: Date, format: string) {
     return date.toLocaleString("ja-JP", {
@@ -108,13 +109,7 @@ const coupon = order.discount_id ? await db.query.discounts.findFirst({
     />
   </form>
 ) : (
-  
-            <form action={cancelOrder.bind(null, order.id)}>
-              <PendingSubmitButton
-                idleLabel="注文のキャンセル"
-                className="w-full rounded-xl bg-[#F8E8E6] px-4 py-3 text-[#E2584B] disabled:opacity-50"
-              />
-            </form>
+            <CancelConfirmModal orderId={order.id} />
           )}
         </aside>
        </div>
