@@ -166,7 +166,16 @@ export default async function OrdersPage({
                     {order.quantity.reduce((a, b) => a + b, 0)}個
                   </td>
                   <td className="px-3 py-3">
-                    <StatusModal orderId={order.id} status={order.status} />
+                    <StatusModal
+                      orderId={order.id}
+                      status={order.status}
+                      orderNumber={order.order_number}
+                      items={order.name}
+                      orderedAt={order.created_at.toLocaleTimeString("ja-JP", {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    />
                   </td>
                 </tr>
               ))
