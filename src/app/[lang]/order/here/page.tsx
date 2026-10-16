@@ -21,9 +21,12 @@ export default async function MenusPage({
     if (!isLocale(lang)) notFound();
     const dict = await getDictionary(lang);
     const kind = (await searchParams).kind;
-    const categoryNames = { main: "メイン", side: "サイド", drink: "ドリンク" } as const;
-    const filter = kind === "main" || kind === "side" || kind === "drink" ? kind : "all";
-    const categoryName = filter === "all" ? null : categoryNames[filter];
+    const categoryNames = { set: "セット", main: "メイン", side: "サイド", drink: "ドリンク" } as const;
+    type CategoryKind = keyof typeof categoryNames;
+    const filter: CategoryKind | null =
+        kind === "set" || kind === "main" || kind === "side" || kind === "drink" ? kind : null;
+    const categoryName = filter ? categoryNames[filter] : null;
+    const basePath = customerPath(lang, "/order/here");
 
     if (!(await shopIsOpen())) {
         return (
@@ -55,7 +58,11 @@ export default async function MenusPage({
 
     const rows = await query;
 
-    function tabClass(value: "all" | "main" | "side" | "drink") {
+    function tabHref(value: CategoryKind) {
+        return filter === value ? basePath : `${basePath}?kind=${value}`;
+    }
+
+    function tabClass(value: CategoryKind) {
         return filter === value
             ? "inline-flex min-w-[4.75rem] items-center justify-center rounded-full bg-black px-4 py-2 text-center text-white"
             : "inline-flex min-w-[4.75rem] items-center justify-center rounded-full bg-zinc-200 px-4 py-2 text-center text-black";
@@ -69,10 +76,10 @@ export default async function MenusPage({
                     {dict.menu.orderingSuffix}
                 </div>
                 <div className="mb-4 flex justify-start gap-2">
-                    <Link href={customerPath(lang, "/order/here")} className={tabClass("all")}>{dict.menu.all}</Link>
-                    <Link href={`${customerPath(lang, "/order/here")}?kind=main`} className={tabClass("main")}>{dict.menu.main}</Link>
-                    <Link href={`${customerPath(lang, "/order/here")}?kind=side`} className={tabClass("side")}>{dict.menu.side}</Link>
-                    <Link href={`${customerPath(lang, "/order/here")}?kind=drink`} className={tabClass("drink")}>{dict.menu.drink}</Link>
+                    <Link href={tabHref("set")} className={tabClass("set")}>{dict.menu.set}</Link>
+                    <Link href={tabHref("main")} className={tabClass("main")}>{dict.menu.main}</Link>
+                    <Link href={tabHref("side")} className={tabClass("side")}>{dict.menu.side}</Link>
+                    <Link href={tabHref("drink")} className={tabClass("drink")}>{dict.menu.drink}</Link>
                 </div>
 
                 <ul className="grid grid-cols-2 gap-4">
