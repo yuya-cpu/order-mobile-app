@@ -42,6 +42,7 @@
     "toLogin": "Back to log in"
   },
   "orderType": {
+    "title": "Choose how you'd like to order",
     "takeout": "Takeout",
     "here": "Eat in"
   },

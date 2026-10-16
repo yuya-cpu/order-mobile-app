@@ -23,7 +23,10 @@ export default async function OrderTypePage({
 
     return (
       <main className="flex flex-1 flex-col bg-[#FBF8F3] px-6">
-        <div className="flex flex-1 items-center">
+        <div className="flex flex-1 flex-col items-center justify-center">
+          <h1 className="mb-6 text-center text-xl font-bold text-zinc-900">
+            {dict.orderType.title}
+          </h1>
           <div className="grid w-full grid-cols-2 gap-4">
             <Link
               href={customerPath(lang, "/order/take-out")}
