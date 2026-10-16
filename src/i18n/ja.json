@@ -52,8 +52,7 @@
   },
   "menu": {
     "title": "メニュー",
-    "orderingHere": "店内飲食でご注文中",
-    "orderingTakeout": "テイクアウトでご注文中",
+    "orderingSuffix": "でご注文中",
     "all": "すべて",
     "set": "セット",
     "single": "単品",

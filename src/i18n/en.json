@@ -52,8 +52,7 @@
   },
   "menu": {
     "title": "Menu",
-    "orderingHere": "Ordering for dine-in",
-    "orderingTakeout": "Ordering for takeout",
+    "orderingSuffix": " — ordering",
     "all": "All",
     "set": "Set",
     "single": "Single",
