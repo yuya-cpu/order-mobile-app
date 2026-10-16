@@ -78,7 +78,7 @@ return (
                             <PendingSubmitButton
                                 idleLabel={menu.is_accepted ? "受付停止" : "受付再開"}
                                 pendingLabel="処理中..."
-                                className={`inline-block rounded-full border px-4 py-1.5 text-sm disabled:opacity-50 ${
+                                className={`inline-block rounded-xl border px-4 py-1.5 text-sm disabled:opacity-50 ${
                                     menu.is_accepted
                                       ? "border-zinc-400 text-zinc-700"
                                       : "border-emerald-700 text-emerald-700"
@@ -87,7 +87,7 @@ return (
                         </form>
                         <a
                             href={`/store_admin/menus/${menu.id}/edit`}
-                            className="inline-block rounded-full border border-[#E2584B] px-4 py-1.5 text-sm text-[#E2584B]"
+                            className="inline-block rounded-xl border border-[#E2584B] px-4 py-1.5 text-sm text-[#E2584B]"
                         >
                             編集
                         </a>

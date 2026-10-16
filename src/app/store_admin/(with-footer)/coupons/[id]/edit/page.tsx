@@ -39,7 +39,7 @@ export default async function EditCouponPage({
             <PendingSubmitButton
               idleLabel="削除"
               pendingLabel="削除中..."
-              className="rounded-full bg-[#F8E8E6] px-4 py-1.5 text-sm text-[#E2584B] disabled:opacity-50"
+              className="rounded-xl bg-[#F8E8E6] px-4 py-1.5 text-sm text-[#E2584B] disabled:opacity-50"
             />
           </form>
         </div>

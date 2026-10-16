@@ -18,8 +18,8 @@ export function AdminFooter() {
                             href={tab.href}
                             className={
                                 active
-                                    ? "shrink-0 whitespace-nowrap rounded-full bg-[#E2584B] px-4 py-2 text-sm font-medium text-white"
-                                    : "shrink-0 whitespace-nowrap rounded-full bg-zinc-100 px-4 py-2 text-sm font-medium text-zinc-700"
+                                    ? "shrink-0 whitespace-nowrap rounded-xl bg-[#E2584B] px-4 py-2 text-sm font-medium text-white"
+                                    : "shrink-0 whitespace-nowrap rounded-xl bg-zinc-100 px-4 py-2 text-sm font-medium text-zinc-700"
                             }
                         >
                             {tab.label}

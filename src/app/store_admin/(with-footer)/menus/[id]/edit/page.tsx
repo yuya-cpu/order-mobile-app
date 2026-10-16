@@ -39,7 +39,7 @@ export default async function EditMenuPage({
                     <PendingSubmitButton
                         idleLabel="削除"
                         pendingLabel="削除中..."
-                        className="rounded-full bg-[#F8E8E6] px-4 py-1.5 text-sm text-[#E2584B] disabled:opacity-50"
+                        className="rounded-xl bg-[#F8E8E6] px-4 py-1.5 text-sm text-[#E2584B] disabled:opacity-50"
                     />
                 </form>
             </div>
@@ -74,14 +74,14 @@ export default async function EditMenuPage({
             <div className="flex w-full gap-3">
                 <a
                     href="/store_admin/menus"
-                    className="flex flex-1 items-center justify-center rounded-full bg-zinc-100 px-4 py-2 text-sm text-zinc-700"
+                    className="flex flex-1 items-center justify-center rounded-xl bg-zinc-100 px-4 py-2 text-sm text-zinc-700"
                 >
                     一覧に戻る
                 </a>
                 <PendingSubmitButton
                     idleLabel="更新"
                     pendingLabel="更新中..."
-                    className="flex flex-1 items-center justify-center rounded-full bg-[#E2584B] px-4 py-2 text-sm text-white disabled:opacity-50"
+                    className="flex flex-1 items-center justify-center rounded-xl bg-[#E2584B] px-4 py-2 text-sm text-white disabled:opacity-50"
                 />
             </div>
             </form>

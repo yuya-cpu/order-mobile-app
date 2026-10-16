@@ -122,8 +122,8 @@ export default async function OrdersPage({
     }
     className={
       onlyProcessing
-        ? "rounded-full bg-[#E2584B] px-4 py-1.5 text-sm text-white"
-        : "rounded-full border border-[#E2584B] px-4 py-1.5 text-sm text-[#E2584B]"
+        ? "rounded-xl bg-[#E2584B] px-4 py-1.5 text-sm text-white"
+        : "rounded-xl border border-[#E2584B] px-4 py-1.5 text-sm text-[#E2584B]"
     }
   >
     調理中のみ

@@ -192,7 +192,7 @@ export function SetMenuForm({
             { category_id: "", name: "", items: [] },
           ])
         }
-        className="w-full rounded-full border border-zinc-400 py-2 text-sm"
+        className="w-full rounded-xl border border-zinc-400 py-2 text-sm"
       >
         枠を追加
       </button>
@@ -200,7 +200,7 @@ export function SetMenuForm({
       <div className="flex w-full gap-3">
         <a
           href="/store_admin/menus"
-          className="flex flex-1 items-center justify-center rounded-full bg-zinc-100 px-4 py-2 text-sm text-zinc-700"
+          className="flex flex-1 items-center justify-center rounded-xl bg-zinc-100 px-4 py-2 text-sm text-zinc-700"
         >
           一覧に戻る
         </a>

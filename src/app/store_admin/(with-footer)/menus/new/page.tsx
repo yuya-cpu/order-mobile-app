@@ -79,7 +79,7 @@ export default async function NewMenuPage() {
             <div className="flex w-full gap-3">
                 <a
                     href="/store_admin/menus"
-                    className="flex flex-1 items-center justify-center rounded-full bg-zinc-100 px-4 py-2 text-sm text-zinc-700"
+                    className="flex flex-1 items-center justify-center rounded-xl bg-zinc-100 px-4 py-2 text-sm text-zinc-700"
                 >
                     一覧に戻る
                 </a>

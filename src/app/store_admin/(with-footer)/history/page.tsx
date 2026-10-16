@@ -115,7 +115,7 @@ export default async function HistoryPage() {
                   <td className="px-3 py-3">
                     <Link
                       href={`/store_admin/history/${order.id}/edit`}
-                      className="inline-block rounded-full border border-[#E2584B] px-4 py-1.5 text-sm text-[#E2584B]"
+                      className="inline-block rounded-xl border border-[#E2584B] px-4 py-1.5 text-sm text-[#E2584B]"
                     >
                       詳細
                     </Link>

@@ -49,7 +49,7 @@ export function StatusModal({
           setSelected(status);
           setOpen(true);
         }}
-        className="inline-block rounded-full border border-[#E2584B] px-4 py-1.5 text-sm text-[#E2584B]"
+        className="inline-block rounded-xl border border-[#E2584B] px-4 py-1.5 text-sm text-[#E2584B]"
       >
         ステータスの変更
       </button>
@@ -77,7 +77,7 @@ export function StatusModal({
                   return (
                     <label
                       key={opt.value}
-                      className={`flex cursor-pointer items-center gap-3 rounded-full border px-4 py-3 ${
+                      className={`flex cursor-pointer items-center gap-3 rounded-xl border px-4 py-3 ${
                         checked ? "border-[#E2584B]" : "border-zinc-200"
                       }`}
                     >
@@ -103,14 +103,14 @@ export function StatusModal({
                 <button
                   type="button"
                   onClick={() => setOpen(false)}
-                  className="flex-1 rounded-full bg-[#F4F1EA] py-3"
+                  className="flex-1 rounded-xl bg-[#F4F1EA] py-3"
                 >
                   キャンセル
                 </button>
                 <PendingSubmitButton
                   idleLabel="変更する"
                   pendingLabel="変更中..."
-                  className="flex-1 rounded-full bg-[#E2584B] py-3 text-white disabled:opacity-50"
+                  className="flex-1 rounded-xl bg-[#E2584B] py-3 text-white disabled:opacity-50"
                 />
               </div>
             </form>

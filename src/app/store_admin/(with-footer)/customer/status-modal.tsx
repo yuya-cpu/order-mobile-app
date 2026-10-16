@@ -19,7 +19,7 @@ export function StatusModal(props: {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="inline-block rounded-lg bg-[#F8E8E6] px-4 py-2 text-sm text-[#E2584B]"
+        className="inline-block rounded-xl bg-[#F8E8E6] px-4 py-2 text-sm text-[#E2584B]"
       >
         変更
       </button>

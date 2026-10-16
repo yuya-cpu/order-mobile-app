@@ -67,7 +67,7 @@ export default async function NewSetMenuPage() {
           <p className="text-sm text-gray-500">先に単品メニューを登録してください</p>
           <a
             href="/store_admin/menus/new"
-            className="flex w-full items-center justify-center rounded-full bg-[#E2584B] px-4 py-2 text-sm text-white"
+            className="flex w-full items-center justify-center rounded-xl bg-[#E2584B] px-4 py-2 text-sm text-white"
           >
             メニュー登録へ
           </a>

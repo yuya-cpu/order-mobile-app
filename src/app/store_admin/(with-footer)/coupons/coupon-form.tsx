@@ -192,14 +192,14 @@ export function CouponForm({
       <div className="flex w-full gap-4">
         <Link
           href="/store_admin/coupons"
-          className="flex flex-1 items-center justify-center rounded-full border border-zinc-300 py-3 text-center"
+          className="flex flex-1 items-center justify-center rounded-xl border border-zinc-300 py-3 text-center"
         >
           戻る
         </Link>
         <PendingSubmitButton
           idleLabel={coupon ? "更新" : "クーポンを作成"}
           pendingLabel={coupon ? "更新中..." : "作成中..."}
-          className="flex-1 rounded-full bg-[#E2584B] py-3 text-white disabled:opacity-50"
+          className="flex-1 rounded-xl bg-[#E2584B] py-3 text-white disabled:opacity-50"
         />
       </div>
     </form>

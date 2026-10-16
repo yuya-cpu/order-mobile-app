@@ -52,8 +52,8 @@ export default async function AdminHomePage() {
                     disabled={!accepting}
                     className={
                         accepting
-                            ? "w-full rounded-2xl border-2 border-zinc-300 bg-white px-6 py-3 text-zinc-400"
-                            : "w-full rounded-2xl bg-[#E2584B] px-6 py-3 text-white hover:bg-[#E2584B]/80"
+                            ? "w-full rounded-xl border-2 border-zinc-300 bg-white px-6 py-3 text-zinc-400"
+                            : "w-full rounded-xl bg-[#E2584B] px-6 py-3 text-white hover:bg-[#E2584B]/80"
                     }
                 />
             </form>
@@ -65,8 +65,8 @@ export default async function AdminHomePage() {
                     disabled={accepting}
                     className={
                         accepting
-                            ? "w-full rounded-2xl bg-[#E2584B] px-6 py-3 text-white hover:bg-[#E2584B]/80"
-                            : "w-full rounded-2xl border-2 border-zinc-300 bg-white px-6 py-3 text-zinc-400"
+                            ? "w-full rounded-xl bg-[#E2584B] px-6 py-3 text-white hover:bg-[#E2584B]/80"
+                            : "w-full rounded-xl border-2 border-zinc-300 bg-white px-6 py-3 text-zinc-400"
                     }
                 />
             </form>

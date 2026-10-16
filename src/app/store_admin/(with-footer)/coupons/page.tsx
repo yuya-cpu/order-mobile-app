@@ -67,7 +67,7 @@ export default async function CouponsPage() {
             <div className="mt-4 flex justify-end">
               <Link
                 href={`/store_admin/coupons/${row.id}/edit`}
-                className="rounded-full border border-[#E2584B] px-4 py-1.5 text-sm text-[#E2584B]"
+                className="rounded-xl border border-[#E2584B] px-4 py-1.5 text-sm text-[#E2584B]"
               >
                 編集
               </Link>
