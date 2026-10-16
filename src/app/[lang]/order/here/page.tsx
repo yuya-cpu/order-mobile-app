@@ -62,7 +62,7 @@ export default async function MenusPage({
     return (
         <main className="mx-auto w-full max-w-lg px-4 py-8 pb-28">
                 <h1 className="mb-4 text-center text-2xl font-bold">{dict.menu.title}</h1>
-                <div className="mb-4 rounded-xl bg-[#F7F3EC] px-4 py-2.5 text-sm text-zinc-700">
+                <div className="-mx-4 mb-4 bg-[#F7F3EC] px-4 py-2.5 text-sm font-bold text-zinc-700">
                     {dict.menu.orderingHere}
                 </div>
                 <div className="mb-4 flex justify-start gap-2">
