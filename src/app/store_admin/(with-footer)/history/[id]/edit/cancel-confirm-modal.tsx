@@ -25,9 +25,6 @@ export function CancelConfirmModal({ orderId }: { orderId: string }) {
               <TriangleAlert className="size-6" />
             </div>
             <h2 className="text-lg font-bold">注文をキャンセルしますか？</h2>
-            <p className="mt-3 text-sm leading-6 text-zinc-500">
-              この操作は取り消せません。キャンセルするとお客様へ通知が自動送信されます。
-            </p>
             <form
               action={cancelOrder.bind(null, orderId)}
               className="mt-8 flex gap-3"
