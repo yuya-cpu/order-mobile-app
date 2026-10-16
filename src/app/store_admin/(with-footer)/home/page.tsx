@@ -13,35 +13,38 @@ export default async function AdminHomePage() {
     });
 
     const accepting = shop?.is_accepted === true;
-    const [cooking] = accepting
-        ? await db
-            .select({ value: count() })
-            .from(orders)
-            .where(and(isNull(orders.deleted_at), eq(orders.status, "processing")))
-        : [{ value: 0 }];
+    const [cooking] = await db
+        .select({ value: count() })
+        .from(orders)
+        .where(and(isNull(orders.deleted_at), eq(orders.status, "processing")));
 
     return (
         <main className="mx-auto flex w-full max-w-4xl flex-1 flex-col items-center justify-center px-4 py-8">
-            {accepting && (
-                <div className="mb-6 flex w-full flex-col gap-4 rounded-2xl bg-white px-5 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-6">
-                    <div className="flex items-start gap-3">
-                        <span className="mt-1.5 size-2.5 shrink-0 rounded-full bg-emerald-500" aria-hidden />
-                        <div>
-                            <p className="font-bold text-zinc-900">現在店舗は「営業中」です</p>
-                            <p className="mt-1 text-sm text-zinc-500">
-                                オンライン注文をリアルタイムで受け付けています。
-                            </p>
-                        </div>
-                    </div>
-                    <Link href="/store_admin/orders?status=processing" className="sm:text-right">
-                        <p className="text-sm text-zinc-500">現在調理中</p>
-                        <p className="text-3xl font-bold text-[#E2584B]">
-                            {cooking.value}
-                            <span className="ml-0.5 text-base font-bold">件</span>
+            <div className="mb-6 flex w-full flex-col gap-4 rounded-2xl bg-white px-5 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+                <div className="flex items-start gap-3">
+                    <span
+                        className={`mt-1.5 size-2.5 shrink-0 rounded-full ${accepting ? "bg-emerald-500" : "bg-zinc-400"}`}
+                        aria-hidden
+                    />
+                    <div>
+                        <p className="font-bold text-zinc-900">
+                            {accepting ? "現在店舗は「営業中」です" : "現在店舗は「注文一時停止中」です"}
                         </p>
-                    </Link>
+                        <p className="mt-1 text-sm text-zinc-500">
+                            {accepting
+                                ? "オンライン注文をリアルタイムで受け付けています。"
+                                : "オンライン注文の受け付けを停止しています。"}
+                        </p>
+                    </div>
                 </div>
-            )}
+                <Link href="/store_admin/orders?status=processing" className="sm:text-right">
+                    <p className="text-sm text-zinc-500">現在調理中</p>
+                    <p className="text-3xl font-bold text-[#E2584B]">
+                        {cooking.value}
+                        <span className="ml-0.5 text-base font-bold">件</span>
+                    </p>
+                </Link>
+            </div>
             <div className="mb-6 grid w-full grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6">
                 <Link href="/store_admin/orders"
                 className="w-full rounded-2xl bg-white px-5 py-8 sm:px-6 sm:py-14">
