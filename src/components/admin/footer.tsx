@@ -1,8 +1,13 @@
 "use client";
 
-import Link from "next/link";
+import Link, { useLinkStatus } from "next/link";
 import { usePathname } from "next/navigation";
 import { adminTabs, isTabActive } from "./store_admin-nav";
+
+function TabLabel({ label }: { label: string }) {
+    const { pending } = useLinkStatus();
+    return <span aria-busy={pending}>{pending ? "移動中..." : label}</span>;
+}
 
 export function AdminFooter() {
     const pathname = usePathname();
@@ -22,7 +27,7 @@ export function AdminFooter() {
                                     : "shrink-0 whitespace-nowrap rounded-xl bg-zinc-100 px-4 py-2 text-sm font-medium text-zinc-700"
                             }
                         >
-                            {tab.label}
+                            <TabLabel label={tab.label} />
                         </Link>
                     );
                 })}
