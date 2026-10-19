@@ -1,7 +1,7 @@
 import { db} from "@/db";
 import { menus } from "@/db/schema";
 import { isNull } from "drizzle-orm";
-import { toggleMenuAccepted } from "./actions";
+import { toggleMenuAccepted } from "../actions";
 import { MenuPhoto } from "@/app/lib/menu-image";
 import { PendingSubmitButton } from "@/components/admin/pending-submit-button";
 
