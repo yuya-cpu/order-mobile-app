@@ -31,7 +31,7 @@ export default async function EditMenuPage({
     }
     return (
         <div className="flex flex-1 items-center justify-center px-4 py-8">
-        <div className="mx-auto flex w-full max-w-md flex-col items-center gap-4">
+        <div className="mx-auto flex w-full max-w-2xl flex-col items-center gap-4 rounded-2xl bg-white p-6 shadow-sm">
             <div className="flex w-full items-center justify-between gap-4">
                 <h1 className="font-bold text-2xl">メニューの編集</h1>
                 <form action={deleteMenu}>

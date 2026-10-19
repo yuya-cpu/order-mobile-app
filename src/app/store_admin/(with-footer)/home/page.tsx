@@ -72,7 +72,7 @@ export default async function AdminHomePage() {
                 <p className="mt-2 text-sm text-zinc-500">履歴の一覧を表示します</p>
                 </Link>
             </div>
-            <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6">
+            <div className="grid w-full grid-cols-1 gap-4 rounded-2xl bg-white p-4 sm:grid-cols-2 sm:gap-6 sm:p-5">
             <form action={updateShopStatus}>
                 <input type="hidden" name="id" value={shopId} />
                 <input type="hidden" name="is_accepted" value="false" />
@@ -81,7 +81,7 @@ export default async function AdminHomePage() {
                     disabled={!accepting}
                     className={
                         accepting
-                            ? "w-full rounded-xl border-2 border-zinc-300 bg-white px-6 py-3 text-zinc-400"
+                            ? "w-full rounded-xl border-2 border-[#E2584B] bg-white px-6 py-3 text-[#E2584B]"
                             : "w-full rounded-xl bg-[#E2584B] px-6 py-3 text-white hover:bg-[#E2584B]/80"
                     }
                 />
@@ -95,7 +95,7 @@ export default async function AdminHomePage() {
                     className={
                         accepting
                             ? "w-full rounded-xl bg-[#E2584B] px-6 py-3 text-white hover:bg-[#E2584B]/80"
-                            : "w-full rounded-xl border-2 border-zinc-300 bg-white px-6 py-3 text-zinc-400"
+                            : "w-full rounded-xl border-2 border-[#E2584B] bg-white px-6 py-3 text-[#E2584B]"
                     }
                 />
             </form>

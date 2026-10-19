@@ -1,9 +1,16 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { authClient } from "@/app/lib/auth-client";
 
+const headerButtonClass =
+  "shrink-0 whitespace-nowrap rounded-xl bg-zinc-100 px-4 py-2 text-sm font-medium text-zinc-700";
+
 export function AdminHeader() {
+  const pathname = usePathname();
+  const passwordActive = pathname === "/store_admin/password";
+
   async function logout() {
     await authClient.signOut();
     window.location.href = "/store_admin";
@@ -14,18 +21,18 @@ export function AdminHeader() {
       <div className="flex items-center gap-5">
         <div className="text-2xl font-bold text-zinc-900">Hello World</div>
       </div>
-      <div className="flex items-center gap-6">
+      <div className="flex items-center gap-2">
         <Link
           href="/store_admin/password"
-          className="text-lg text-zinc-900 hover:text-zinc-600"
+          className={
+            passwordActive
+              ? "shrink-0 whitespace-nowrap rounded-xl bg-[#E2584B] px-4 py-2 text-sm font-medium text-white"
+              : headerButtonClass
+          }
         >
           パスワード変更
         </Link>
-        <button
-          type="button"
-          className="text-lg text-zinc-900 hover:text-zinc-600"
-          onClick={logout}
-        >
+        <button type="button" className={headerButtonClass} onClick={logout}>
           ログアウト
         </button>
       </div>
