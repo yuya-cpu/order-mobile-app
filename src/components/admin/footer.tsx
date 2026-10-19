@@ -6,7 +6,22 @@ import { adminTabs, isTabActive } from "./store_admin-nav";
 
 function TabLabel({ label }: { label: string }) {
     const { pending } = useLinkStatus();
-    return <span aria-busy={pending}>{pending ? "移動中..." : label}</span>;
+    return (
+        <span className="inline-grid place-items-center" aria-busy={pending}>
+            <span
+                className={pending ? "invisible col-start-1 row-start-1" : "col-start-1 row-start-1"}
+                aria-hidden={pending}
+            >
+                {label}
+            </span>
+            <span
+                className={pending ? "col-start-1 row-start-1" : "invisible col-start-1 row-start-1"}
+                aria-hidden={!pending}
+            >
+                移動中...
+            </span>
+        </span>
+    );
 }
 
 export function AdminFooter() {
