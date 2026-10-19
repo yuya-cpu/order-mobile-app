@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import { redirect } from "next/navigation";
 import { AdminFooter } from "@/components/admin/footer";
 import { AdminHeader } from "@/components/admin/header";
@@ -17,11 +16,7 @@ export default async function AdminWithFooterLayout({
   return (
     <>
        <AdminHeader />
-    <Suspense
-      fallback={<div className="flex min-h-0 flex-1 flex-col pb-40" />}
-    >
     <div className="flex min-h-0 flex-1 flex-col pb-40">{children}</div>
-    </Suspense>
     <AdminFooter />
     </>
   );
