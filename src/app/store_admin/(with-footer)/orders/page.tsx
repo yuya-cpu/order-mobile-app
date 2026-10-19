@@ -126,7 +126,7 @@ export default async function OrdersPage({
         : "rounded-xl border border-[#E2584B] px-4 py-1.5 text-sm text-[#E2584B]"
     }
   >
-    調理中のみ
+    {onlyProcessing ? "すべて表示" : "調理中のみ"}
   </Link>
       </div>
       <div className="overflow-x-auto rounded-2xl bg-white shadow-sm">
