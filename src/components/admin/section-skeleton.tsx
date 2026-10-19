@@ -27,27 +27,37 @@ export function HomePageSkeleton() {
   );
 }
 
+function ColumnGroup({ widths }: { widths: number[] }) {
+  return (
+    <colgroup>
+      {widths.map((width, index) => (
+        <col key={index} style={{ width: `${(width / 1856) * 100}%` }} />
+      ))}
+    </colgroup>
+  );
+}
+
 function MenuSkeletonRow() {
   return (
-    <div className="flex h-[81px] items-center border-b border-zinc-200 last:border-b-0">
-      <div className="py-2 pl-4 pr-2">
-        <div className="h-16 w-16 animate-pulse rounded-md bg-zinc-200" />
-      </div>
-      <div className="flex w-40 flex-col gap-2 py-2 pl-2 pr-4">
-        <div className="h-4 w-28 animate-pulse rounded bg-zinc-200" />
-        <div className="h-3 w-12 animate-pulse rounded bg-zinc-100" />
-      </div>
-      <div className="w-56 px-4">
-        <div className="h-4 w-40 animate-pulse rounded bg-zinc-100" />
-      </div>
-      <div className="w-24 px-4">
-        <div className="h-4 w-14 animate-pulse rounded bg-zinc-200" />
-      </div>
-      <div className="flex gap-2 px-4">
-        <div className="h-8 w-20 animate-pulse rounded-xl bg-zinc-100" />
-        <div className="h-8 w-14 animate-pulse rounded-xl bg-zinc-100" />
-      </div>
-    </div>
+    <tr className="border-b border-zinc-200">
+      <td className="py-2 pl-4 pr-2">
+        <span className="block h-16 w-16 animate-pulse rounded-md bg-zinc-200" />
+      </td>
+      <td className="py-2 pl-2 pr-4">
+        <span className="block h-4 w-28 animate-pulse rounded bg-zinc-200" />
+        <span className="mt-2 block h-3 w-12 animate-pulse rounded bg-zinc-100" />
+      </td>
+      <td className="px-4 py-2">
+        <span className="block h-4 w-64 max-w-full animate-pulse rounded bg-zinc-100" />
+      </td>
+      <td className="py-2">
+        <span className="block h-4 w-14 animate-pulse rounded bg-zinc-200" />
+      </td>
+      <td className="py-2">
+        <span className="inline-block h-[34px] w-[88px] animate-pulse rounded-xl bg-zinc-100" />
+        <span className="ml-2 inline-block h-[34px] w-[62px] animate-pulse rounded-xl bg-zinc-100" />
+      </td>
+    </tr>
   );
 }
 
@@ -57,15 +67,22 @@ export function MenuListSkeleton() {
       <PageTitle width="w-40" />
       <div className="overflow-x-auto rounded-2xl bg-white shadow-sm">
         <div className="min-w-[720px]">
-          <div className="flex h-10 items-center text-sm text-zinc-400">
-            <span className="w-[88px] py-2 pl-4 pr-2">写真</span>
-            <span className="w-40 py-2 pl-2 pr-4">商品名</span>
-            <span className="w-56 px-4 py-2">説明</span>
-            <span className="w-24 px-4 py-2">価格</span>
-            <span className="px-4 py-2">操作</span>
-          </div>
-          <MenuSkeletonRow />
-          <MenuSkeletonRow />
+          <table className="w-full table-fixed text-left">
+            <ColumnGroup widths={[203, 387, 750, 147, 369]} />
+            <thead>
+              <tr>
+                <th className="py-2 pl-4 pr-2">写真</th>
+                <th className="py-2 pl-2 pr-4">商品名</th>
+                <th className="px-4 py-2">説明</th>
+                <th className="px-4 py-2">価格</th>
+                <th className="px-4 py-2">操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <MenuSkeletonRow />
+              <MenuSkeletonRow />
+            </tbody>
+          </table>
         </div>
       </div>
       <LoadingNote />
@@ -76,12 +93,18 @@ export function MenuListSkeleton() {
 function CouponSkeletonCard() {
   return (
     <div className="h-[210px] rounded-2xl bg-white p-5">
-      <div className="mb-2 h-7 w-24 animate-pulse rounded-md bg-zinc-200" />
-      <div className="h-6 w-48 animate-pulse rounded bg-zinc-200" />
-      <div className="mt-3 h-4 w-40 animate-pulse rounded bg-zinc-100" />
-      <div className="mt-1 h-4 w-36 animate-pulse rounded bg-zinc-100" />
+      <div className="mb-2 h-7 w-[84px] animate-pulse rounded-md bg-zinc-200" />
+      <div className="h-7 w-32 animate-pulse rounded bg-zinc-200" />
+      <div className="mt-3 flex gap-2">
+        <span className="h-5 w-7 animate-pulse rounded bg-zinc-100" />
+        <span className="h-5 w-24 animate-pulse rounded bg-zinc-100" />
+      </div>
+      <div className="mt-1 flex gap-2">
+        <span className="h-5 w-[42px] animate-pulse rounded bg-zinc-100" />
+        <span className="h-5 w-[107px] animate-pulse rounded bg-zinc-100" />
+      </div>
       <div className="mt-4 flex justify-end">
-        <div className="h-8 w-16 animate-pulse rounded-xl border border-zinc-200 bg-white" />
+        <span className="h-[34px] w-[62px] animate-pulse rounded-xl bg-zinc-100" />
       </div>
     </div>
   );
@@ -100,34 +123,112 @@ export function CouponListSkeleton() {
   );
 }
 
-export function OrderTableSkeleton() {
+function OrderSkeletonRow({ actionWidth }: { actionWidth: string }) {
+  return (
+    <tr className="border-b border-zinc-100">
+      <td className="px-3 py-3">
+        <span className="inline-block h-7 w-[86px] animate-pulse rounded-full bg-zinc-200" />
+      </td>
+      <td className="px-3 py-3">
+        <span className="inline-block h-4 w-12 animate-pulse rounded bg-zinc-200" />
+      </td>
+      <td className="px-3 py-3">
+        <span className="inline-block h-4 w-24 animate-pulse rounded bg-zinc-100" />
+      </td>
+      <td className="px-3 py-3">
+        <span className="inline-block h-4 w-14 animate-pulse rounded bg-zinc-100" />
+      </td>
+      <td className="px-3 py-3">
+        <span className="inline-block h-4 w-8 animate-pulse rounded bg-zinc-200" />
+      </td>
+      <td className="px-3 py-3">
+        <span className={`inline-block h-[34px] animate-pulse rounded-xl bg-zinc-100 ${actionWidth}`} />
+      </td>
+    </tr>
+  );
+}
+
+export function OrderTableSkeleton({
+  actionLabel = "操作",
+  actionWidth = "w-[146px]",
+  filter = false,
+}: {
+  actionLabel?: string;
+  actionWidth?: string;
+  filter?: boolean;
+}) {
+  return (
+    <main className="px-4 py-8 sm:px-8" aria-busy="true">
+      <div className="mb-6 flex items-center justify-between gap-4">
+        <div className="h-8 w-32 animate-pulse rounded-lg bg-zinc-300" />
+        {filter ? <div className="h-[34px] w-24 animate-pulse rounded-xl bg-zinc-200" /> : null}
+      </div>
+      <div className="overflow-x-auto rounded-2xl bg-white shadow-sm">
+        <div className="min-w-[720px]">
+          <table className="w-full table-fixed text-center">
+            <ColumnGroup widths={[203, 148, 726, 148, 223, 408]} />
+            <thead>
+              <tr className="border-b border-zinc-200">
+                <th className="px-3 py-3 text-sm font-medium">ステータス</th>
+                <th className="px-3 py-3 text-sm font-medium">注文番号</th>
+                <th className="px-3 py-3 text-sm font-medium">商品名</th>
+                <th className="px-3 py-3 text-sm font-medium">注文時間</th>
+                <th className="px-3 py-3 text-sm font-medium">個数</th>
+                <th className="px-3 py-3 text-sm font-medium">{actionLabel}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <OrderSkeletonRow actionWidth={actionWidth} />
+              <OrderSkeletonRow actionWidth={actionWidth} />
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <LoadingNote />
+    </main>
+  );
+}
+
+function CustomerSkeletonRow() {
+  return (
+    <tr className="border-b border-zinc-100">
+      <td className="px-3 py-3">
+        <span className="inline-block h-4 w-14 animate-pulse rounded bg-zinc-200" />
+      </td>
+      <td className="px-3 py-3">
+        <span className="inline-block h-4 w-16 animate-pulse rounded bg-zinc-200" />
+      </td>
+      <td className="px-3 py-3">
+        <span className="inline-block h-4 w-56 animate-pulse rounded bg-zinc-100" />
+      </td>
+      <td className="px-3 py-3">
+        <span className="inline-block h-4 w-24 animate-pulse rounded bg-zinc-200" />
+      </td>
+    </tr>
+  );
+}
+
+export function CustomerTableSkeleton() {
   return (
     <main className="px-4 py-8 sm:px-8" aria-busy="true">
       <PageTitle width="w-40" />
-      <div className="overflow-hidden rounded-2xl bg-white shadow-sm">
-        <div className="flex h-[45px] items-center border-b border-zinc-200 text-sm text-zinc-400">
-          <span className="w-[16%] px-3">ステータス</span>
-          <span className="w-[14%] px-3">注文番号</span>
-          <span className="w-[22%] px-3">商品名</span>
-          <span className="w-[14%] px-3">注文時間</span>
-          <span className="w-[12%] px-3">個数</span>
-          <span className="w-[22%] px-3">操作</span>
-        </div>
-        <div className="flex h-[59px] items-center border-b border-zinc-100">
-          <span className="w-[16%] px-3"><span className="inline-block h-6 w-16 animate-pulse rounded-full bg-zinc-200" /></span>
-          <span className="w-[14%] px-3"><span className="inline-block h-4 w-12 animate-pulse rounded bg-zinc-200" /></span>
-          <span className="w-[22%] px-3"><span className="inline-block h-4 w-24 animate-pulse rounded bg-zinc-100" /></span>
-          <span className="w-[14%] px-3"><span className="inline-block h-4 w-14 animate-pulse rounded bg-zinc-100" /></span>
-          <span className="w-[12%] px-3"><span className="inline-block h-4 w-8 animate-pulse rounded bg-zinc-200" /></span>
-          <span className="w-[22%] px-3"><span className="inline-block h-8 w-28 animate-pulse rounded-xl bg-zinc-100" /></span>
-        </div>
-        <div className="flex h-[59px] items-center">
-          <span className="w-[16%] px-3"><span className="inline-block h-6 w-16 animate-pulse rounded-full bg-zinc-200" /></span>
-          <span className="w-[14%] px-3"><span className="inline-block h-4 w-12 animate-pulse rounded bg-zinc-200" /></span>
-          <span className="w-[22%] px-3"><span className="inline-block h-4 w-24 animate-pulse rounded bg-zinc-100" /></span>
-          <span className="w-[14%] px-3"><span className="inline-block h-4 w-14 animate-pulse rounded bg-zinc-100" /></span>
-          <span className="w-[12%] px-3"><span className="inline-block h-4 w-8 animate-pulse rounded bg-zinc-200" /></span>
-          <span className="w-[22%] px-3"><span className="inline-block h-8 w-28 animate-pulse rounded-xl bg-zinc-100" /></span>
+      <div className="overflow-x-auto rounded-2xl bg-white shadow-sm">
+        <div className="min-w-[720px]">
+          <table className="w-full table-fixed text-center">
+            <ColumnGroup widths={[184, 364, 1074, 234]} />
+            <thead>
+              <tr className="border-b border-zinc-200 bg-[#F2EBE1]">
+                <th className="px-3 py-3 text-sm font-medium text-zinc-700">顧客ID</th>
+                <th className="px-3 py-3 text-sm font-medium text-zinc-700">名前</th>
+                <th className="px-3 py-3 text-sm font-medium text-zinc-700">連絡先</th>
+                <th className="px-3 py-3 text-sm font-medium text-zinc-700">登録日</th>
+              </tr>
+            </thead>
+            <tbody>
+              <CustomerSkeletonRow />
+              <CustomerSkeletonRow />
+            </tbody>
+          </table>
         </div>
       </div>
       <LoadingNote />
