@@ -19,7 +19,7 @@ export default async function AdminWithFooterLayout({
        <AdminHeader />
     <Suspense
       fallback={
-        <div className="flex min-h-0 flex-1 flex-col items-center justify-center pb-40 text-sm text-zinc-500">
+        <div className="flex min-h-0 flex-1 flex-col items-center justify-center pb-40 text-lg font-medium text-zinc-900">
           読み込み中
         </div>
       }
