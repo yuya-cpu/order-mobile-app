@@ -2,7 +2,6 @@ import { Suspense } from "react";
 import { redirect } from "next/navigation";
 import { AdminFooter } from "@/components/admin/footer";
 import { AdminHeader } from "@/components/admin/header";
-import { AdminSectionSkeleton } from "@/components/admin/section-skeleton";
 import { getStoreAdmin } from "@/app/lib/store-admin";
 
 export default async function AdminWithFooterLayout({
@@ -19,11 +18,7 @@ export default async function AdminWithFooterLayout({
     <>
        <AdminHeader />
     <Suspense
-      fallback={
-        <div className="flex min-h-0 flex-1 flex-col pb-40">
-          <AdminSectionSkeleton />
-        </div>
-      }
+      fallback={<div className="flex min-h-0 flex-1 flex-col pb-40" />}
     >
     <div className="flex min-h-0 flex-1 flex-col pb-40">{children}</div>
     </Suspense>
