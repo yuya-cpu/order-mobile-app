@@ -90,36 +90,53 @@ export function MenuListSkeleton() {
   );
 }
 
-function CouponSkeletonCard() {
+function CouponSkeletonRow() {
   return (
-    <div className="h-[210px] rounded-2xl bg-white p-5">
-      <div className="mb-2 h-7 w-[84px] animate-pulse rounded-md bg-zinc-200" />
-      <div className="h-7 w-32 animate-pulse rounded bg-zinc-200" />
-      <div className="mt-3 flex gap-2">
-        <span className="h-5 w-7 animate-pulse rounded bg-zinc-100" />
-        <span className="h-5 w-24 animate-pulse rounded bg-zinc-100" />
-      </div>
-      <div className="mt-1 flex gap-2">
-        <span className="h-5 w-[42px] animate-pulse rounded bg-zinc-100" />
-        <span className="h-5 w-[107px] animate-pulse rounded bg-zinc-100" />
-      </div>
-      <div className="mt-4 flex justify-end">
-        <span className="h-[34px] w-[62px] animate-pulse rounded-xl bg-zinc-100" />
-      </div>
-    </div>
+    <tr className="border-b border-zinc-200">
+      <td className="py-2 pl-4 pr-2">
+        <span className="block h-4 w-32 animate-pulse rounded bg-zinc-200" />
+      </td>
+      <td className="px-4 py-2">
+        <span className="block h-4 w-24 animate-pulse rounded bg-zinc-100" />
+      </td>
+      <td className="px-4 py-2">
+        <span className="inline-block h-7 w-[84px] animate-pulse rounded-md bg-zinc-200" />
+      </td>
+      <td className="px-4 py-2">
+        <span className="block h-4 w-28 animate-pulse rounded bg-zinc-100" />
+      </td>
+      <td className="px-4 py-2">
+        <span className="inline-block h-[34px] w-[62px] animate-pulse rounded-xl bg-zinc-100" />
+      </td>
+    </tr>
   );
 }
 
 export function CouponListSkeleton() {
   return (
-    <div className="px-4 py-8 sm:px-8" aria-busy="true">
+    <main className="px-4 py-8 sm:px-8" aria-busy="true">
       <PageTitle width="w-72" />
-      <div className="flex flex-col gap-4">
-        <CouponSkeletonCard />
-        <CouponSkeletonCard />
+      <div className="overflow-x-auto rounded-2xl bg-white shadow-sm">
+        <div className="min-w-[720px]">
+          <table className="w-full text-left">
+            <thead>
+              <tr>
+                <th className="py-2 pl-4 pr-2">クーポン名</th>
+                <th className="px-4 py-2">対象</th>
+                <th className="px-4 py-2">割引</th>
+                <th className="px-4 py-2">コード</th>
+                <th className="px-4 py-2">操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <CouponSkeletonRow />
+              <CouponSkeletonRow />
+            </tbody>
+          </table>
+        </div>
       </div>
       <LoadingNote />
-    </div>
+    </main>
   );
 }
 

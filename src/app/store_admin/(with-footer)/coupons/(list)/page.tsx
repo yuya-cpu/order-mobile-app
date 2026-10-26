@@ -28,53 +28,60 @@ export default async function CouponsPage() {
 
   if (rows.length === 0) {
     return (
-      <div className="px-4 py-8 sm:px-8">
+      <main className="px-4 py-8 sm:px-8">
         <p>クーポンが見つかりません</p>
-      </div>
+      </main>
     );
   }
 
   return (
-    <div className="px-4 py-8 sm:px-8">
+    <main className="px-4 py-8 sm:px-8">
       <h1 className="mb-6 text-2xl font-bold">現在有効な店舗クーポン</h1>
-      <ul className="flex flex-col gap-4">
-        {rows.map((row) => (
-          <li key={row.id} className="rounded-2xl bg-white p-5">
-            <div className="mb-2 flex items-start justify-between gap-4">
-              <span className="rounded-md bg-[#E2584B] px-3 py-1 text-sm font-medium text-white">
-                {discountLabel(row.type, row.number)}
-              </span>
-            </div>
-            <p className="text-lg font-bold">{row.name}</p>
-            <dl className="mt-3 flex flex-col gap-1 text-sm text-zinc-600">
-              <div className="flex gap-2">
-                <dt className="shrink-0">対象</dt>
-                <dd className="font-medium text-zinc-800">
-                  {row.target_menu_name ?? row.target_category_name ?? "全商品"}
-                </dd>
-              </div>
-              <div className="flex gap-2">
-                <dt className="shrink-0">コード</dt>
-                <dd className="font-medium text-zinc-800">
-                  {row.code ? (
-                    <span className="font-mono tracking-wider">{row.code}</span>
-                  ) : (
-                    "なし（公開クーポン）"
-                  )}
-                </dd>
-              </div>
-            </dl>
-            <div className="mt-4 flex justify-end">
-              <Link
-                href={`/store_admin/coupons/${row.id}/edit`}
-                className="rounded-xl border border-[#E2584B] px-4 py-1.5 text-sm text-[#E2584B]"
-              >
-                編集
-              </Link>
-            </div>
-          </li>
-        ))}
-      </ul>
-    </div>
+      <div className="overflow-x-auto rounded-2xl bg-white shadow-sm">
+        <div className="min-w-[720px]">
+          <table className="w-full text-left">
+            <thead>
+              <tr>
+                <th className="py-2 pl-4 pr-2">クーポン名</th>
+                <th className="px-4 py-2">対象</th>
+                <th className="px-4 py-2">割引</th>
+                <th className="px-4 py-2">コード</th>
+                <th className="px-4 py-2">操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((row) => (
+                <tr key={row.id} className="border-b border-zinc-200">
+                  <td className="py-2 pl-4 pr-2 font-bold">{row.name}</td>
+                  <td className="px-4 py-2">
+                    {row.target_menu_name ?? row.target_category_name ?? "全商品"}
+                  </td>
+                  <td className="px-4 py-2">
+                    <span className="rounded-md bg-[#E2584B] px-3 py-1 text-sm font-medium text-white">
+                      {discountLabel(row.type, row.number)}
+                    </span>
+                  </td>
+                  <td className="px-4 py-2">
+                    {row.code ? (
+                      <span className="font-mono tracking-wider">{row.code}</span>
+                    ) : (
+                      "なし（公開クーポン）"
+                    )}
+                  </td>
+                  <td className="px-4 py-2">
+                    <Link
+                      href={`/store_admin/coupons/${row.id}/edit`}
+                      className="inline-block rounded-xl border border-[#E2584B] px-4 py-1.5 text-sm text-[#E2584B]"
+                    >
+                      編集
+                    </Link>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
   );
 }
