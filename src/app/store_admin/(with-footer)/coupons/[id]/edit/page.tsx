@@ -32,33 +32,30 @@ export default async function EditCouponPage({
 
   return (
     <div className="flex flex-1 flex-col items-center px-4 py-8 sm:px-8">
-      <div className="w-full max-w-3xl">
-        <div className="mb-4 flex justify-end">
-          <form action={deleteCoupon}>
-            <input type="hidden" name="id" value={coupon.id} />
-            <PendingSubmitButton
-              idleLabel="削除"
-              pendingLabel="削除中..."
-              className="rounded-xl bg-[#F8E8E6] px-4 py-1.5 text-sm text-[#E2584B] disabled:opacity-50"
-            />
-          </form>
-        </div>
-        <CouponForm
-          action={updateCoupon}
-          menus={menuRows}
-          categories={categoryRows}
-          coupon={{
-            id: coupon.id,
-            name: coupon.name,
-            name_en: coupon.name_en,
-            type: coupon.type,
-            number: coupon.number,
-            code: coupon.code,
-            target_menu_id: coupon.target_menu_id,
-            target_category_id: coupon.target_category_id,
-          }}
-        />
-      </div>
+      <CouponForm
+        action={updateCoupon}
+        menus={menuRows}
+        categories={categoryRows}
+        coupon={{
+          id: coupon.id,
+          name: coupon.name,
+          name_en: coupon.name_en,
+          type: coupon.type,
+          number: coupon.number,
+          code: coupon.code,
+          target_menu_id: coupon.target_menu_id,
+          target_category_id: coupon.target_category_id,
+        }}
+      >
+        <form action={deleteCoupon}>
+          <input type="hidden" name="id" value={coupon.id} />
+          <PendingSubmitButton
+            idleLabel="削除"
+            pendingLabel="削除中..."
+            className="rounded-xl bg-[#F8E8E6] px-4 py-1.5 text-sm text-[#E2584B] disabled:opacity-50"
+          />
+        </form>
+      </CouponForm>
     </div>
   );
 }

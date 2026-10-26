@@ -78,41 +78,41 @@ export default async function HistoryPage() {
       </div>
       <div className="overflow-x-auto rounded-2xl bg-white shadow-sm">
         <div className="min-w-[720px]">
-        <table className="w-full text-center">
+        <table className="w-full text-left">
           <thead>
-            <tr className="border-b border-zinc-200">
-              <th className="px-3 py-3 text-sm font-medium">ステータス</th>
-              <th className="px-3 py-3 text-sm font-medium">注文番号</th>
-              <th className="px-3 py-3 text-sm font-medium">商品名</th>
-              <th className="px-3 py-3 text-sm font-medium">注文時間</th>
-              <th className="w-[12%] px-3 py-3 text-sm font-medium">個数</th>
-              <th className="w-[22%] px-3 py-3 text-sm font-medium">詳細</th>
+            <tr>
+              <th className="py-2 pl-4 pr-2">ステータス</th>
+              <th className="px-4 py-2">注文番号</th>
+              <th className="px-4 py-2">商品名</th>
+              <th className="px-4 py-2">注文時間</th>
+              <th className="px-4 py-2">個数</th>
+              <th className="px-4 py-2 text-right">詳細</th>
             </tr>
           </thead>
           <tbody>
             {list.length === 0 ? (
               <tr>
-                <td className="px-3 py-6 text-zinc-500" colSpan={6}>
+                <td className="px-4 py-6 text-zinc-500" colSpan={6}>
                   注文がありません
                 </td>
               </tr>
             ) : (
               list.map((order) => (
-                <tr key={order.id} className="border-b border-zinc-100">
-                  <td className="px-3 py-3">
+                <tr key={order.id} className="border-b border-zinc-200 last:border-b-0">
+                  <td className="py-2 pl-4 pr-2">
                     <span
                       className={`inline-block rounded-full px-2 py-1 text-sm text-white ${statusColor(order.status)}`}
                     >
                       {OrderStatus(order.status)}
                     </span>
                   </td>
-                  <td className="px-3 py-3"># {order.order_number}</td>
-                  <td className="px-3 py-3">{order.name.join(", ")}</td>
-                  <td className="px-3 py-3">{elapsedLabel(order.created_at)}</td>
-                  <td className="px-3 py-3">
+                  <td className="px-4 py-2"># {order.order_number}</td>
+                  <td className="px-4 py-2">{order.name.join(", ")}</td>
+                  <td className="px-4 py-2">{elapsedLabel(order.created_at)}</td>
+                  <td className="px-4 py-2">
                     {order.quantity.reduce((a, b) => a + b, 0)}個
                   </td>
-                  <td className="px-3 py-3">
+                  <td className="px-4 py-2 text-right">
                     <Link
                       href={`/store_admin/history/${order.id}/edit`}
                       className="inline-block rounded-xl border border-[#E2584B] px-4 py-1.5 text-sm text-[#E2584B]"

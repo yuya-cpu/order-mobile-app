@@ -46,13 +46,13 @@ export default async function CouponsPage() {
                 <th className="px-4 py-2">対象</th>
                 <th className="px-4 py-2">割引</th>
                 <th className="px-4 py-2">コード</th>
-                <th className="px-4 py-2">操作</th>
+                <th className="px-4 py-2 text-right">操作</th>
               </tr>
             </thead>
             <tbody>
               {rows.map((row) => (
-                <tr key={row.id} className="border-b border-zinc-200">
-                  <td className="py-2 pl-4 pr-2 font-bold">{row.name}</td>
+                <tr key={row.id} className="border-b border-zinc-200 last:border-b-0">
+                  <td className="py-2 pl-4 pr-2">{row.name}</td>
                   <td className="px-4 py-2">
                     {row.target_menu_name ?? row.target_category_name ?? "全商品"}
                   </td>
@@ -68,7 +68,7 @@ export default async function CouponsPage() {
                       "なし（公開クーポン）"
                     )}
                   </td>
-                  <td className="px-4 py-2">
+                  <td className="px-4 py-2 text-right">
                     <Link
                       href={`/store_admin/coupons/${row.id}/edit`}
                       className="inline-block rounded-xl border border-[#E2584B] px-4 py-1.5 text-sm text-[#E2584B]"

@@ -29,31 +29,31 @@ export default async function CustomerPage() {
 
             <div className="overflow-x-auto rounded-2xl bg-white shadow-sm">
                 <div className="min-w-[720px]">
-                <table className="w-full text-center">
+                <table className="w-full text-left">
                     <thead>
-                        <tr className="border-b border-zinc-200 bg-[#F2EBE1]">
-                            <th className="px-3 py-3 text-sm font-medium text-zinc-700">顧客ID</th>
-                            <th className="px-3 py-3 text-sm font-medium text-zinc-700">名前</th>
-                            <th className="px-3 py-3 text-sm font-medium text-zinc-700">連絡先</th>
-                            <th className="px-3 py-3 text-sm font-medium text-zinc-700">登録日</th>
+                        <tr>
+                            <th className="py-2 pl-4 pr-2">顧客ID</th>
+                            <th className="px-4 py-2">名前</th>
+                            <th className="px-4 py-2">連絡先</th>
+                            <th className="px-4 py-2">登録日</th>
                         </tr>
                     </thead>
                     <tbody>
                         {list.length === 0 ? (
                             <tr>
-                                <td className="px-3 py-6 text-zinc-500" colSpan={4}>
+                                <td className="px-4 py-6 text-zinc-500" colSpan={4}>
                                     データがありません
                                 </td>
                             </tr>
                         ) : (
                             list.map((row) => (
-                                <tr key={row.id} className="border-b border-zinc-100">
-                                    <td className="px-3 py-3">
+                                <tr key={row.id} className="border-b border-zinc-200 last:border-b-0">
+                                    <td className="py-2 pl-4 pr-2">
                                         C-{row.id.slice(0, 4).toUpperCase()}
                                     </td>
-                                    <td className="px-3 py-3">{row.name}</td>
-                                    <td className="px-3 py-3">{row.email}</td>
-                                    <td className="px-3 py-3">{formatDate(row.createdAt)}</td>
+                                    <td className="px-4 py-2">{row.name}</td>
+                                    <td className="px-4 py-2">{row.email}</td>
+                                    <td className="px-4 py-2">{formatDate(row.createdAt)}</td>
                                 </tr>
                             ))
                         )}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import Link from "next/link";
 import { generateCouponCode } from "@/app/lib/coupon-code";
 import { PendingSubmitButton } from "@/components/admin/pending-submit-button";
@@ -32,11 +32,13 @@ export function CouponForm({
   menus,
   categories,
   coupon,
+  children,
 }: {
   action: (formData: FormData) => void | Promise<void>;
   menus: TargetOption[];
   categories: TargetOption[];
   coupon?: CouponDefaults;
+  children?: ReactNode;
 }) {
   const [type, setType] = useState<"percent" | "amount">(coupon?.type ?? "percent");
   const [scope, setScope] = useState<TargetScope>(() => initialScope(coupon));
@@ -49,15 +51,20 @@ export function CouponForm({
   ];
 
   return (
-    <form
-      action={action}
-      className="mx-auto flex w-full max-w-3xl flex-col gap-6 rounded-2xl bg-white p-5 sm:p-8"
-    >
+    <div className="mx-auto flex w-full max-w-3xl flex-col gap-6 rounded-2xl bg-white p-5 shadow-sm sm:p-8">
+      {children ? (
+        <div className="grid grid-cols-[1fr_auto_1fr] items-center">
+          <span />
+          <h1 className="text-center text-2xl font-bold">クーポンの編集</h1>
+          <div className="justify-self-end">{children}</div>
+        </div>
+      ) : (
+        <h1 className="text-center text-2xl font-bold">
+          {coupon ? "クーポンの編集" : "新規クーポン情報の入力"}
+        </h1>
+      )}
+      <form action={action} className="flex flex-col gap-6">
       {coupon && <input type="hidden" name="id" value={coupon.id} />}
-
-      <h1 className="text-center text-2xl font-bold">
-        {coupon ? "クーポンの編集" : "新規クーポン情報の入力"}
-      </h1>
 
       <label className="flex flex-col gap-2 font-medium">
         クーポン名
@@ -66,7 +73,7 @@ export function CouponForm({
           required
           placeholder="クーポン名"
           defaultValue={coupon?.name}
-          className="rounded-md border border-gray-300 p-3"
+          className="rounded-md border border-gray-300 p-2"
         />
       </label>
 
@@ -76,7 +83,7 @@ export function CouponForm({
           name="name_en"
           placeholder="English name"
           defaultValue={coupon?.name_en ?? ""}
-          className="rounded-md border border-gray-300 p-3"
+          className="rounded-md border border-gray-300 p-2"
         />
       </label>
 
@@ -111,7 +118,7 @@ export function CouponForm({
             min={1}
             placeholder={type === "percent" ? "例: 10" : "例: 100"}
             defaultValue={coupon?.number}
-            className="min-w-0 flex-1 rounded-md border border-gray-300 p-3"
+            className="min-w-0 flex-1 rounded-md border border-gray-300 p-2"
           />
           <span className="shrink-0 text-zinc-600">{type === "percent" ? "%" : "円"}</span>
         </div>
@@ -138,7 +145,7 @@ export function CouponForm({
             name="target_menu_id"
             required
             defaultValue={coupon?.target_menu_id ?? ""}
-            className="mt-3 w-full rounded-md border border-gray-300 p-3"
+            className="mt-3 w-full rounded-md border border-gray-300 p-2"
           >
             <option value="">メニューを選択</option>
             {menus.map((menu) => (
@@ -154,7 +161,7 @@ export function CouponForm({
             name="target_category_id"
             required
             defaultValue={coupon?.target_category_id ?? ""}
-            className="mt-3 w-full rounded-md border border-gray-300 p-3"
+            className="mt-3 w-full rounded-md border border-gray-300 p-2"
           >
             <option value="">カテゴリを選択</option>
             {categories.map((category) => (
@@ -174,12 +181,12 @@ export function CouponForm({
             value={code}
             onChange={(event) => setCode(event.target.value)}
             placeholder="空欄なら誰でも使える公開クーポン"
-            className="min-w-0 flex-1 rounded-md border border-gray-300 p-3"
+            className="min-w-0 flex-1 rounded-md border border-gray-300 p-2"
           />
           <button
             type="button"
             onClick={() => setCode(generateCouponCode())}
-            className="shrink-0 rounded-md border border-gray-300 px-4 py-3"
+            className="shrink-0 rounded-md border border-gray-300 px-4 py-2"
           >
             再生成
           </button>
@@ -189,19 +196,20 @@ export function CouponForm({
         </p>
       </div>
 
-      <div className="flex w-full gap-4">
+      <div className="flex w-full gap-3">
         <Link
           href="/store_admin/coupons"
-          className="flex flex-1 items-center justify-center rounded-xl border border-zinc-300 py-3 text-center"
+          className="flex flex-1 items-center justify-center rounded-xl bg-zinc-100 px-4 py-2 text-center text-sm text-zinc-700"
         >
-          戻る
+          一覧に戻る
         </Link>
         <PendingSubmitButton
           idleLabel={coupon ? "更新" : "クーポンを作成"}
           pendingLabel={coupon ? "更新中..." : "作成中..."}
-          className="flex-1 rounded-xl bg-[#E2584B] py-3 text-white disabled:opacity-50"
+          className="flex flex-1 items-center justify-center rounded-xl bg-[#E2584B] px-4 py-2 text-sm text-white disabled:opacity-50"
         />
       </div>
     </form>
+    </div>
   );
 }

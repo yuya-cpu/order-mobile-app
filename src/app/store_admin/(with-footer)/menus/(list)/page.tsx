@@ -34,7 +34,7 @@ return (
                 <th className="py-2 pl-2 pr-4">商品名</th>
                 <th className="px-4 py-2">説明</th>
                 <th className="px-4 py-2">価格</th>
-                <th className="px-4 py-2">操作</th>
+                <th className="px-4 py-2 text-right">操作</th>
             </tr>
         </thead>
         <tbody>
@@ -43,8 +43,8 @@ return (
                     key={menu.id}
                     className={
                         menu.is_accepted
-                            ? "border-b border-zinc-200"
-                            : "border-b border-zinc-200 bg-zinc-100 text-zinc-400"
+                            ? "border-b border-zinc-200 last:border-b-0"
+                            : "border-b border-zinc-200 bg-zinc-100 text-zinc-400 last:border-b-0"
                     }
                 >
                 <td className="py-2 pl-4 pr-2">
@@ -72,8 +72,8 @@ return (
                 <td>
                     <p>{menu.price}円</p>
                 </td>
-                <td>
-                    <div className="flex items-center gap-2">
+                <td className="px-4 py-2 text-right">
+                    <div className="flex items-center justify-end gap-2">
                         <form action={toggleMenuAccepted.bind(null, menu.id)}>
                             <PendingSubmitButton
                                 idleLabel={menu.is_accepted ? "受付停止" : "受付再開"}
