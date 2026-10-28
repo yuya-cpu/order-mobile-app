@@ -1,9 +1,8 @@
-import Link from "next/link";
-import { ChevronLeft } from "lucide-react";
 import { notFound } from "next/navigation";
 import { getCustomerSession } from "@/app/lib/customer-session";
 import { listCustomerOrders } from "@/app/lib/customer-orders";
-import { customerPath, isLocale } from "@/i18n/config";
+import { CustomerBackButton } from "@/components/customer/back-button";
+import { isLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/get-dictionary";
 import { localizedText } from "@/i18n/localized";
 
@@ -29,13 +28,7 @@ export default async function OrderHistoryDetailPage({
   if (!session) {
     return (
       <main className="relative flex min-h-screen items-center justify-center bg-[#FBF8F3] px-6">
-        <Link
-          href={customerPath(lang, "/mypage")}
-          className="absolute left-4 top-4 inline-flex items-center gap-0.5 text-sm text-[#E2584B]"
-        >
-          <ChevronLeft className="size-4" />
-          {dict.common.back}
-        </Link>
+        <CustomerBackButton fallback="/mypage" />
         <p className="text-center text-sm text-zinc-500">{dict.mypage.notLoggedIn}</p>
       </main>
     );
@@ -55,13 +48,7 @@ export default async function OrderHistoryDetailPage({
 
   return (
     <main className="relative flex min-h-screen flex-col bg-[#FBF8F3] px-6 pb-10">
-      <Link
-        href={customerPath(lang, "/mypage/history")}
-        className="absolute left-4 top-4 inline-flex items-center gap-0.5 text-sm text-[#E2584B]"
-      >
-        <ChevronLeft className="size-4" />
-        {dict.common.back}
-      </Link>
+      <CustomerBackButton fallback="/mypage/history" />
       <div className="mx-auto mt-20 w-full max-w-xs">
         <h1 className="text-center text-3xl font-bold text-zinc-900">#{order.orderNumber}</h1>
         <p className="mt-3 text-center text-sm text-zinc-400">
