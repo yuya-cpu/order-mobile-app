@@ -94,22 +94,44 @@ export default function CheckoutPage() {
     window.location.href = complete;
   }
 
+  const waiting = amount == null && !error;
+
   return (
-    <main className="mx-auto w-full max-w-md px-4 py-8">
-      <h1 className="text-center text-2xl font-bold">{dict.pay.title}</h1>
-      {amount != null && (
-        <p className="mt-4 text-center font-bold text-[#E2584B]">{amount} {dict.common.yen}</p>
+    <main className="mx-auto w-full max-w-md px-4 py-8" aria-busy={waiting}>
+      {waiting ? (
+        <div className="mx-auto h-8 w-40 animate-pulse rounded-lg bg-zinc-200" />
+      ) : (
+        <h1 className="text-center text-2xl font-bold">{dict.pay.title}</h1>
       )}
-      <div ref={formRef} className="mt-8 w-full min-w-0 overflow-x-auto" />
-      {error && <p className="mt-4 text-sm text-red-600">{error}</p>}
-      <button
-        type="button"
-        onClick={pay}
-        disabled={paying || amount == null}
-        className="mt-8 w-full rounded-xl bg-[#E2584B] py-3 text-white disabled:opacity-50"
-      >
-        {paying ? dict.pay.paying : dict.pay.pay}
-      </button>
+      {waiting ? (
+        <div className="mx-auto mt-4 h-6 w-24 animate-pulse rounded bg-zinc-200" />
+      ) : amount != null ? (
+        <p className="mt-4 text-center font-bold text-[#E2584B]">
+          {amount} {dict.common.yen}
+        </p>
+      ) : null}
+      <div
+        ref={formRef}
+        className={
+          waiting
+            ? "mt-8 h-36 w-full animate-pulse rounded-xl bg-[#F4F1EA]"
+            : "mt-8 w-full min-w-0 overflow-x-auto"
+        }
+      />
+      {error ? <p className="mt-4 text-sm text-red-600">{error}</p> : null}
+      {waiting ? (
+        <div className="mt-8 h-12 animate-pulse rounded-xl bg-zinc-200" />
+      ) : (
+        <button
+          type="button"
+          onClick={pay}
+          disabled={paying || amount == null}
+          className="mt-8 w-full rounded-xl bg-[#E2584B] py-3 text-white disabled:opacity-50"
+        >
+          {paying ? dict.pay.paying : dict.pay.pay}
+        </button>
+      )}
+      {waiting ? <span className="sr-only">読み込み中</span> : null}
     </main>
   );
 }

@@ -111,6 +111,17 @@
     "coupons": "所持クーポン",
     "couponBadge": "クーポン"
   },
+  "history": {
+    "title": "注文履歴",
+    "empty": "まだ注文はありません",
+    "statusProcessing": "調理中",
+    "statusDone": "完了",
+    "statusCancel": "キャンセル",
+    "quantity": "{{n}}個",
+    "unknownItem": "メニュー",
+    "coupon": "クーポン",
+    "total": "合計"
+  },
   "resetPassword": {
     "title": "パスワードの再設定",
     "email": "メールアドレス",

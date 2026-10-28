@@ -8,6 +8,7 @@ import { customerAuthClient } from "@/app/lib/customer-auth-client";
 import { customerPath } from "@/i18n/config";
 import { useDictionary } from "@/i18n/use-dictionary";
 import { localizedText } from "@/i18n/localized";
+import { MypageSkeleton } from "@/components/customer/section-skeleton";
 
 export default function Mypage() {
     const { lang } = useParams<{ lang: string }>();
@@ -28,7 +29,7 @@ export default function Mypage() {
         .then((res) => res.json())
         .then((data) => setCoupons(Array.isArray(data) ? data : []));
     }, []);
-    if (isPending) return null;
+    if (isPending) return <MypageSkeleton />;
     if (!session) {
       return (
         <main className="relative flex min-h-screen items-center justify-center bg-[#FBF8F3] px-6">
@@ -77,13 +78,13 @@ return (
           </section>
         )}
          <div className="mt-8 flex flex-col gap-3">
-          <button
-            type="button"
+          <Link
+            href={customerPath(lang, "/mypage/history")}
             className="flex items-center justify-between rounded-xl bg-[#F4F1EA] px-5 py-4 text-sm font-medium text-zinc-800"
           >
             {dict.mypage.orderHistory}
             <ChevronRight className="size-4 text-zinc-400" />
-          </button>
+          </Link>
           <button
             type="button"
             className="flex items-center justify-between rounded-xl bg-[#F4F1EA] px-5 py-4 text-sm font-medium text-zinc-800"

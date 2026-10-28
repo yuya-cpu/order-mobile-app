@@ -111,6 +111,17 @@
     "coupons": "Your coupons",
     "couponBadge": "Coupon"
   },
+  "history": {
+    "title": "Order history",
+    "empty": "You have no orders yet",
+    "statusProcessing": "Preparing",
+    "statusDone": "Completed",
+    "statusCancel": "Canceled",
+    "quantity": "×{{n}}",
+    "unknownItem": "Item",
+    "coupon": "Coupon",
+    "total": "Total"
+  },
   "resetPassword": {
     "title": "Reset password",
     "email": "Email",

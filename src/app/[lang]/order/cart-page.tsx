@@ -12,6 +12,7 @@ import { localizedText } from "@/i18n/localized";
 import { withCurrentMenuImages } from "@/app/lib/cart-menu-images";
 import { MenuPhoto } from "@/app/lib/menu-image";
 import { customerFixedBarClass } from "@/components/customer/shell";
+import { CartSkeleton } from "@/components/customer/section-skeleton";
 
 type Coupon = {
   id: string;
@@ -186,11 +187,7 @@ export function OrderCartPage({
   const checkoutBlocked = subtotal > 0 && total <= 0;
 
   if (!items) {
-    return (
-      <main className="px-4 py-16">
-        <div>{dict.common.loading}</div>
-      </main>
-    );
+    return <CartSkeleton />;
   }
 
   if (items.length === 0) {

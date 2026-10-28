@@ -1,11 +1,11 @@
 import { db } from "@/db";
 import { menu_categories, menus } from "@/db/schema";
 import { and, eq, isNull } from "drizzle-orm";
-import { shopIsOpen } from "../shop-status";
+import { shopIsOpen } from "../../shop-status";
 import { customerPath, isLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/get-dictionary";
 import { notFound } from "next/navigation";
-import { MenuBrowse } from "../menu-browse";
+import { MenuBrowse } from "../../menu-browse";
 
 export default async function MenusPage({
     params,

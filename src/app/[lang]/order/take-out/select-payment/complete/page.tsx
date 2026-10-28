@@ -3,6 +3,7 @@
 import { useEffect, useLayoutEffect, useState } from "react";
 import { submitCurrentOrder } from "@/app/lib/submit-current-order";
 import { useDictionary } from "@/i18n/use-dictionary";
+import { CompleteSkeleton } from "@/components/customer/section-skeleton";
 
 export default function OrderCompletePage() {
   const dict = useDictionary();
@@ -31,6 +32,10 @@ export default function OrderCompletePage() {
 
     saveOrder();
   }, [dict.complete.notFound]);
+
+  if (!orderNumber && !error) {
+    return <CompleteSkeleton />;
+  }
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center px-6">
