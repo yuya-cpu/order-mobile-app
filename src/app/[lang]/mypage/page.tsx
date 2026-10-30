@@ -85,13 +85,6 @@ return (
             {dict.mypage.orderHistory}
             <ChevronRight className="size-4 text-zinc-400" />
           </Link>
-          <button
-            type="button"
-            className="flex items-center justify-between rounded-xl bg-[#F4F1EA] px-5 py-4 text-sm font-medium text-zinc-800"
-          >
-            {dict.mypage.receipt}
-            <ChevronRight className="size-4 text-zinc-400" />
-          </button>
           </div>
 
           <hr className="my-8 border-zinc-200" />

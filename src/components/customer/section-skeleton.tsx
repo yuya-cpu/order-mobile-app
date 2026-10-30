@@ -152,7 +152,6 @@ export function MypageSkeleton() {
         <div className="mx-auto mt-10 h-4 w-24 animate-pulse rounded bg-zinc-200" />
         <div className="mx-auto mt-2 h-6 w-48 animate-pulse rounded bg-zinc-200" />
         <div className="mt-8 h-14 animate-pulse rounded-xl bg-[#F4F1EA]" />
-        <div className="mt-3 h-14 animate-pulse rounded-xl bg-[#F4F1EA]" />
         <div className="my-8 h-px bg-zinc-200" />
         <div className="h-4 w-24 animate-pulse rounded bg-zinc-200" />
         <div className="mt-4 h-14 animate-pulse border border-zinc-200 bg-white" />
@@ -234,7 +233,10 @@ export function HistoryDetailSkeleton() {
           <div className="h-4 w-28 animate-pulse rounded bg-zinc-200" />
           <div className="ml-auto mt-3 h-5 w-16 animate-pulse rounded bg-zinc-200" />
         </div>
-        <div className="mt-6 h-8 w-full animate-pulse rounded bg-zinc-100" />
+        <div className="mt-6 flex items-center justify-between">
+          <div className="h-9 w-24 animate-pulse rounded-xl bg-zinc-200" />
+          <div className="h-8 w-24 animate-pulse rounded bg-zinc-200" />
+        </div>
       </div>
       <LoadingNote />
     </main>

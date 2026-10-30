@@ -91,12 +91,20 @@ export default async function OrderHistoryDetailPage({
           </div>
         ) : null}
 
-        <div className="mt-6 flex items-center justify-between border-t border-zinc-200 pt-4">
-          <span className="text-sm font-bold text-zinc-800">{dict.history.total}</span>
-          <span className="text-2xl font-bold text-[#E2584B]">
-            {order.sumPrice.toLocaleString(money)}
-            {dict.common.yen}
-          </span>
+        <div className="mt-6 flex items-center justify-between gap-3 border-t border-zinc-200 pt-4">
+          <button
+            type="button"
+            className="shrink-0 rounded-xl border border-zinc-300 bg-white px-3 py-2 text-sm font-medium text-zinc-800"
+          >
+            {dict.mypage.receipt}
+          </button>
+          <div className="flex items-baseline gap-2">
+            <span className="text-sm font-bold text-zinc-800">{dict.history.total}</span>
+            <span className="text-2xl font-bold text-[#E2584B]">
+              {order.sumPrice.toLocaleString(money)}
+              {dict.common.yen}
+            </span>
+          </div>
         </div>
       </div>
     </main>
