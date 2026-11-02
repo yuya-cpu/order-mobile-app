@@ -1,21 +1,52 @@
 import Link from "next/link";
-import { ChevronRight } from "lucide-react";
+import { Upload } from "lucide-react";
 import { notFound } from "next/navigation";
 import { getCustomerSession } from "@/app/lib/customer-session";
-import { listCustomerOrders } from "@/app/lib/customer-orders";
+import { listCustomerOrders, type CustomerOrder } from "@/app/lib/customer-orders";
 import { CustomerBackButton } from "@/components/customer/back-button";
 import { customerPath, isLocale } from "@/i18n/config";
-import { getDictionary } from "@/i18n/get-dictionary";
+import { getDictionary, type Dictionary } from "@/i18n/get-dictionary";
 import { localizedText } from "@/i18n/localized";
 
-function formatWhen(date: Date, lang: string) {
-  return new Intl.DateTimeFormat(lang === "en" ? "en-US" : "ja-JP", {
+function formatDate(date: Date, lang: string) {
+  const parts = new Intl.DateTimeFormat(lang === "en" ? "en-US" : "ja-JP", {
+    timeZone: "Asia/Tokyo",
     year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-  }).format(date);
+    month: "numeric",
+    day: "numeric",
+  }).formatToParts(date);
+  const value = (type: string) => parts.find((part) => part.type === type)?.value ?? "";
+  if (lang === "en") {
+    return new Intl.DateTimeFormat("en-US", {
+      timeZone: "Asia/Tokyo",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    }).format(date);
+  }
+  return `${value("year")}年${Number(value("month"))}月${Number(value("day"))}日`;
+}
+
+function statusLabel(status: string, dict: Dictionary) {
+  if (status === "done") return dict.history.statusDone;
+  if (status === "cancel") return dict.history.statusCancel;
+  return dict.history.statusProcessing;
+}
+
+function statusClass(status: string) {
+  if (status === "done") return "bg-[#E7F6EC] text-[#3CAA6A]";
+  if (status === "cancel") return "bg-zinc-100 text-zinc-500";
+  return "bg-[#FDECDC] text-[#E39A4B]";
+}
+
+function itemSummary(order: CustomerOrder, lang: string, dict: Dictionary) {
+  const separator = lang === "en" ? ", " : "、";
+  return order.items
+    .map((item) => {
+      const name = localizedText(lang, item.name, item.nameEn) || dict.history.unknownItem;
+      return `${name} x${item.quantity}`;
+    })
+    .join(separator);
 }
 
 export default async function OrderHistoryPage({
@@ -40,62 +71,49 @@ export default async function OrderHistoryPage({
   const history = await listCustomerOrders(session.user.id);
 
   return (
-    <main className="relative flex min-h-screen flex-col bg-[#FBF8F3] px-6 pb-10">
+    <main className="relative min-h-screen bg-[#FBF8F3] px-4 pb-10 pt-14">
       <CustomerBackButton fallback="/mypage" />
-      <div className="mx-auto mt-20 w-full max-w-xs">
-        <h1 className="text-center text-3xl font-bold text-zinc-900">{dict.history.title}</h1>
-        {history.length === 0 ? (
-          <p className="mt-10 text-center text-sm text-zinc-500">{dict.history.empty}</p>
-        ) : (
-          <ul className="mt-8 flex flex-col gap-3">
-            {history.map((order) => {
-              const status =
-                order.status === "done"
-                  ? dict.history.statusDone
-                  : order.status === "cancel"
-                    ? dict.history.statusCancel
-                    : dict.history.statusProcessing;
-              const place =
-                order.orderType === "here" ? dict.orderType.here : dict.orderType.takeout;
-              return (
-                <li key={order.id}>
-                  <Link
-                    href={customerPath(lang, `/mypage/history/${order.id}`)}
-                    className="block rounded-xl bg-white px-4 py-4"
+      <h1 className="text-2xl font-bold text-zinc-900">{dict.history.title}</h1>
+      {history.length === 0 ? (
+        <p className="mt-10 text-center text-sm text-zinc-500">{dict.history.empty}</p>
+      ) : (
+        <ul className="mt-5 flex flex-col gap-4">
+          {history.map((order) => {
+            const money = order.sumPrice.toLocaleString(lang === "en" ? "en-US" : "ja-JP");
+            return (
+              <li key={order.id} className="rounded-2xl border border-zinc-200 bg-white px-4 py-4">
+                <Link href={customerPath(lang, `/mypage/history/${order.id}`)} className="block">
+                  <div className="flex items-center justify-between gap-3">
+                    <p className="font-bold text-zinc-900">{formatDate(order.createdAt, lang)}</p>
+                    <span className={`shrink-0 rounded-md px-2.5 py-1 text-xs font-medium ${statusClass(order.status)}`}>
+                      {statusLabel(order.status, dict)}
+                    </span>
+                  </div>
+                  <p className="mt-2 text-sm text-zinc-400">
+                    {dict.history.callNumber}: {order.orderNumber}
+                  </p>
+                  <hr className="my-3 border-zinc-200" />
+                  <p className="text-sm leading-6 text-zinc-800">{itemSummary(order, lang, dict)}</p>
+                </Link>
+                <hr className="my-3 border-zinc-200" />
+                <div className="flex items-center justify-between gap-3">
+                  <p className="font-bold text-zinc-900">
+                    {dict.history.total} {money}
+                    {dict.common.yen}
+                  </p>
+                  <button
+                    type="button"
+                    className="inline-flex shrink-0 items-center gap-1 rounded-xl border border-[#F3D0C6] bg-white px-3 py-2 text-sm font-medium text-[#E2584B]"
                   >
-                    <div className="flex items-start justify-between gap-3">
-                      <p className="font-bold text-zinc-900">#{order.orderNumber}</p>
-                      <span className="flex items-center gap-1 text-xs text-zinc-500">
-                        {status}
-                        <ChevronRight className="size-4 text-zinc-400" />
-                      </span>
-                    </div>
-                    <p className="mt-1 text-xs text-zinc-400">
-                      {formatWhen(order.createdAt, lang)} / {place}
-                    </p>
-                    <ul className="mt-3 flex flex-col gap-1">
-                      {order.items.map((item) => (
-                        <li key={item.id} className="flex justify-between gap-3 text-sm text-zinc-700">
-                          <span className="min-w-0 truncate">
-                            {localizedText(lang, item.name, item.nameEn) || dict.history.unknownItem}
-                          </span>
-                          <span className="shrink-0">
-                            {dict.history.quantity.replace("{{n}}", String(item.quantity))}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                    <p className="mt-3 text-right font-bold text-[#E2584B]">
-                      {order.sumPrice.toLocaleString(lang === "en" ? "en-US" : "ja-JP")}
-                      {dict.common.yen}
-                    </p>
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        )}
-      </div>
+                    <Upload className="size-4" />
+                    {dict.history.receipt}
+                  </button>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      )}
     </main>
   );
 }

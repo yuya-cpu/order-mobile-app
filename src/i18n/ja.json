@@ -120,7 +120,9 @@
     "quantity": "{{n}}個",
     "unknownItem": "メニュー",
     "coupon": "クーポン",
-    "total": "合計"
+    "total": "合計",
+    "callNumber": "呼び出し番号",
+    "receipt": "領収書"
   },
   "resetPassword": {
     "title": "パスワードの再設定",

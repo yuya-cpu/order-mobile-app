@@ -194,24 +194,26 @@ export function SignupSkeleton() {
 
 export function HistoryListSkeleton() {
   return (
-    <main className="relative flex min-h-screen flex-col bg-[#FBF8F3] px-6 pb-10" aria-busy="true">
+    <main className="relative min-h-screen bg-[#FBF8F3] px-4 pb-10 pt-14" aria-busy="true">
       <div className="absolute left-4 top-4 h-4 w-16 animate-pulse rounded bg-zinc-200" />
-      <div className="mx-auto mt-20 w-full max-w-xs">
-        <div className="mx-auto h-9 w-32 animate-pulse rounded-lg bg-zinc-200" />
-        <div className="mt-8 flex flex-col gap-3">
-          {Array.from({ length: 2 }, (_, index) => (
-            <div key={index} className="rounded-xl bg-white px-4 py-4">
-              <div className="flex items-center justify-between">
-                <div className="h-4 w-16 animate-pulse rounded bg-zinc-200" />
-                <div className="h-4 w-14 animate-pulse rounded bg-zinc-100" />
-              </div>
-              <div className="mt-2 h-3 w-40 animate-pulse rounded bg-zinc-100" />
-              <div className="mt-3 h-4 w-32 animate-pulse rounded bg-zinc-100" />
-              <div className="mt-2 h-4 w-24 animate-pulse rounded bg-zinc-100" />
-              <div className="ml-auto mt-3 h-5 w-16 animate-pulse rounded bg-zinc-200" />
+      <div className="h-8 w-32 animate-pulse rounded-lg bg-zinc-200" />
+      <div className="mt-5 flex flex-col gap-4">
+        {Array.from({ length: 2 }, (_, index) => (
+          <div key={index} className="rounded-2xl border border-zinc-200 bg-white px-4 py-4">
+            <div className="flex items-center justify-between">
+              <div className="h-5 w-36 animate-pulse rounded bg-zinc-200" />
+              <div className="h-6 w-14 animate-pulse rounded-md bg-zinc-100" />
             </div>
-          ))}
-        </div>
+            <div className="mt-2 h-4 w-28 animate-pulse rounded bg-zinc-100" />
+            <div className="my-3 h-px bg-zinc-200" />
+            <div className="h-4 w-full animate-pulse rounded bg-zinc-100" />
+            <div className="my-3 h-px bg-zinc-200" />
+            <div className="flex items-center justify-between">
+              <div className="h-5 w-24 animate-pulse rounded bg-zinc-200" />
+              <div className="h-9 w-20 animate-pulse rounded-xl bg-zinc-100" />
+            </div>
+          </div>
+        ))}
       </div>
       <LoadingNote />
     </main>
