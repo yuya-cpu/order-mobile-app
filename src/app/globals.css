@@ -12,6 +12,11 @@
   --font-mono: var(--font-geist-mono);
 }
 
+html {
+  /* スケルトンが実画面に替わるとき、スクロールバーの有無で横位置がずれないようにする */
+  overflow-y: scroll;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);

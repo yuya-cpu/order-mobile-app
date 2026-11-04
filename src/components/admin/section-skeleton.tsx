@@ -12,16 +12,28 @@ export function HomePageSkeleton() {
       className="mx-auto flex w-full max-w-4xl flex-1 flex-col items-center justify-center px-4 py-8"
       aria-busy="true"
     >
-      <div className="mb-6 h-[96px] w-full animate-pulse rounded-2xl bg-white" />
+      <div className="mb-6 flex w-full flex-col gap-4 rounded-2xl bg-white px-5 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+        <div>
+          <div className="h-6 w-64 max-w-full animate-pulse rounded bg-zinc-200" />
+          <div className="mt-1 h-5 w-72 max-w-full animate-pulse rounded bg-zinc-100" />
+        </div>
+        <div>
+          <div className="h-5 w-20 animate-pulse rounded bg-zinc-100" />
+          <div className="mt-0 h-9 w-16 animate-pulse rounded bg-zinc-200" />
+        </div>
+      </div>
       <div className="mb-6 grid w-full grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6">
         {Array.from({ length: 5 }, (_, index) => (
-          <div
-            key={index}
-            className="h-28 w-full animate-pulse rounded-2xl bg-white sm:h-[168px]"
-          />
+          <div key={index} className="w-full rounded-2xl bg-white px-5 py-8 sm:px-6 sm:py-14">
+            <div className="h-7 w-32 animate-pulse rounded bg-zinc-200" />
+            <div className="mt-2 h-5 w-48 max-w-full animate-pulse rounded bg-zinc-100" />
+          </div>
         ))}
       </div>
-      <div className="h-[92px] w-full animate-pulse rounded-2xl bg-white" />
+      <div className="grid w-full grid-cols-1 gap-4 rounded-2xl bg-white p-4 sm:grid-cols-2 sm:gap-6 sm:p-5">
+        <div className="h-[52px] animate-pulse rounded-xl bg-zinc-100" />
+        <div className="h-[52px] animate-pulse rounded-xl bg-zinc-100" />
+      </div>
       <LoadingNote />
     </main>
   );
@@ -54,8 +66,12 @@ function MenuSkeletonRow() {
         <span className="block h-4 w-14 animate-pulse rounded bg-zinc-200" />
       </td>
       <td className="px-4 py-2 text-right">
-        <span className="inline-block h-[34px] w-[88px] animate-pulse rounded-xl bg-zinc-100" />
-        <span className="ml-2 inline-block h-[34px] w-[62px] animate-pulse rounded-xl bg-zinc-100" />
+        <span className="inline-block animate-pulse rounded-xl border border-zinc-200 px-4 py-1.5 text-sm text-transparent">
+          受付停止
+        </span>
+        <span className="ml-2 inline-block animate-pulse rounded-xl border border-zinc-200 px-4 py-1.5 text-sm text-transparent">
+          編集
+        </span>
       </td>
     </tr>
   );
@@ -106,7 +122,9 @@ function CouponSkeletonRow() {
         <span className="block h-4 w-28 animate-pulse rounded bg-zinc-100" />
       </td>
       <td className="px-4 py-2 text-right">
-        <span className="inline-block h-[34px] w-[62px] animate-pulse rounded-xl bg-zinc-100" />
+        <span className="inline-block animate-pulse rounded-xl border border-zinc-200 px-4 py-1.5 text-sm text-transparent">
+          編集
+        </span>
       </td>
     </tr>
   );
@@ -140,7 +158,7 @@ export function CouponListSkeleton() {
   );
 }
 
-function OrderSkeletonRow({ actionWidth }: { actionWidth: string }) {
+function OrderSkeletonRow({ actionText }: { actionText: string }) {
   return (
     <tr className="border-b border-zinc-200 last:border-b-0">
       <td className="py-2 pl-4 pr-2">
@@ -159,7 +177,9 @@ function OrderSkeletonRow({ actionWidth }: { actionWidth: string }) {
         <span className="inline-block h-4 w-8 animate-pulse rounded bg-zinc-200" />
       </td>
       <td className="px-4 py-2 text-right">
-        <span className={`inline-block h-[34px] animate-pulse rounded-xl bg-zinc-100 ${actionWidth}`} />
+        <span className="inline-block animate-pulse rounded-xl border border-zinc-200 px-4 py-1.5 text-sm text-transparent">
+          {actionText}
+        </span>
       </td>
     </tr>
   );
@@ -167,18 +187,22 @@ function OrderSkeletonRow({ actionWidth }: { actionWidth: string }) {
 
 export function OrderTableSkeleton({
   actionLabel = "操作",
-  actionWidth = "w-[146px]",
+  actionText = "ステータスの変更",
   filter = false,
 }: {
   actionLabel?: string;
-  actionWidth?: string;
+  actionText?: string;
   filter?: boolean;
 }) {
   return (
     <main className="px-4 py-8 sm:px-8" aria-busy="true">
       <div className="mb-6 flex items-center justify-between gap-4">
         <div className="h-8 w-32 animate-pulse rounded-lg bg-zinc-300" />
-        {filter ? <div className="h-[34px] w-24 animate-pulse rounded-xl bg-zinc-200" /> : null}
+        {filter ? (
+          <div className="animate-pulse rounded-xl border border-zinc-200 px-4 py-1.5 text-sm text-transparent">
+            調理中のみ
+          </div>
+        ) : null}
       </div>
       <div className="overflow-x-auto rounded-2xl bg-white shadow-sm">
         <div className="min-w-[720px]">
@@ -194,8 +218,8 @@ export function OrderTableSkeleton({
               </tr>
             </thead>
             <tbody>
-              <OrderSkeletonRow actionWidth={actionWidth} />
-              <OrderSkeletonRow actionWidth={actionWidth} />
+              <OrderSkeletonRow actionText={actionText} />
+              <OrderSkeletonRow actionText={actionText} />
             </tbody>
           </table>
         </div>
@@ -251,19 +275,25 @@ export function CustomerTableSkeleton() {
   );
 }
 
-export function MenuFormSkeleton() {
+export function MenuFormSkeleton({ height = 841 }: { height?: number }) {
   return (
     <div className="flex flex-1 items-center justify-center px-4 py-8" aria-busy="true">
-      <div className="h-[841px] w-full max-w-2xl animate-pulse rounded-2xl bg-white shadow-sm" />
+      <div
+        className="w-full max-w-2xl animate-pulse rounded-2xl bg-white shadow-sm"
+        style={{ height }}
+      />
       <LoadingNote />
     </div>
   );
 }
 
-export function CouponFormSkeleton() {
+export function CouponFormSkeleton({ centered = true }: { centered?: boolean }) {
   return (
-    <div className="flex flex-1 items-center justify-center px-4 py-8 sm:px-8" aria-busy="true">
-      <div className="h-[826px] w-full max-w-3xl animate-pulse rounded-2xl bg-white" />
+    <div
+      className={`flex flex-1 px-4 py-8 sm:px-8 ${centered ? "items-center justify-center" : "flex-col items-center"}`}
+      aria-busy="true"
+    >
+      <div className="h-[777px] w-full max-w-3xl animate-pulse rounded-2xl bg-white" />
       <LoadingNote />
     </div>
   );

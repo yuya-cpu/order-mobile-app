@@ -27,7 +27,14 @@ return (
         <h1 className="mb-6 text-2xl font-bold">メニュー一覧</h1>
         <div className="overflow-x-auto rounded-2xl bg-white shadow-sm">
     <div className="min-w-[720px]">
-    <table className="w-full text-left">
+    <table className="w-full table-fixed text-left">
+        <colgroup>
+            <col style={{ width: `${(203 / 1856) * 100}%` }} />
+            <col style={{ width: `${(387 / 1856) * 100}%` }} />
+            <col style={{ width: `${(750 / 1856) * 100}%` }} />
+            <col style={{ width: `${(147 / 1856) * 100}%` }} />
+            <col style={{ width: `${(369 / 1856) * 100}%` }} />
+        </colgroup>
         <thead>
             <tr className="text-left">
                 <th className="py-2 pl-4 pr-2">写真</th>
