@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { ChevronDown } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { customerPath } from "@/i18n/config";
 import { useDictionary } from "@/i18n/use-dictionary";
@@ -21,18 +22,24 @@ export default function GuestCountPage() {
     return (
       <main className="mx-auto flex min-h-screen w-full max-w-md flex-col items-center justify-center gap-10 px-4">
         <h1 className="text-center text-3xl font-bold">{dict.guestCount.title}</h1>
-        <select
-          name="guest_count"
-          value={count}
-          onChange={(e) => setCount(e.target.value)}
-          className="h-20 w-full rounded-2xl border border-zinc-300 px-4 text-center text-2xl font-bold"
-        >
-          {options.map((n) => (
-            <option key={n} value={n}>
-              {dict.guestCount.people.replace("{{n}}", String(n))}
-            </option>
-          ))}
-        </select>
+        <div className="relative w-full">
+          <select
+            name="guest_count"
+            value={count}
+            onChange={(e) => setCount(e.target.value)}
+            className="h-20 w-full appearance-none rounded-2xl border border-zinc-300 bg-white px-4 text-center text-2xl font-bold"
+          >
+            {options.map((n) => (
+              <option key={n} value={n}>
+                {dict.guestCount.people.replace("{{n}}", String(n))}
+              </option>
+            ))}
+          </select>
+          <ChevronDown
+            aria-hidden
+            className="pointer-events-none absolute right-6 top-1/2 size-5 -translate-y-1/2 text-zinc-500"
+          />
+        </div>
         <button
           type="button"
           onClick={go}
